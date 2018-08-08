@@ -45,7 +45,7 @@ module Pulitzer
 		def self.media_tag_cloud( args = {} )
 			args[:limit] ||= 7
 			media_relation = self.limit(nil)
-			return SwellMedia::Media.unscoped.limit(args[:limit]).tags_cloud{ merge(media_relation) }.to_a
+			return Pulitzer::Media.unscoped.limit( args[:limit] ).tags_cloud{ merge( media_relation ) }.to_a
 		end
 
 
@@ -102,9 +102,9 @@ module Pulitzer
 
 		def page_meta
 			if self.title.present?
-				title = "#{self.title} | #{SwellMedia.app_name}"
+				title = "#{self.title} | #{Pulitzer.app_name}"
 			else
-				title = SwellMedia.app_name
+				title = Pulitzer.app_name
 			end
 
 			return {

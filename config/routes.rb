@@ -1,7 +1,5 @@
 Pulitzer::Engine.routes.draw do
-	root to: 'static#home' # set media to HP if null id
-
-	#resources :admin, only: :index
+	root to: 'root#index' # homepage
 
 
 	resources :articles, path: Pulitzer.article_path
