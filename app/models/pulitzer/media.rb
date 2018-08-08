@@ -1,7 +1,6 @@
 module Pulitzer
 
 	class Media < ApplicationRecord
-		self.table_name = 'media'
 
 		include Pulitzer::Concerns::URLConcern
 		include Pulitzer::Concerns::AvatarAsset

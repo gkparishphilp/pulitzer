@@ -1,13 +1,10 @@
 
-require 'acts-as-taggable-array-on'
+
 require 'awesome_nested_set'
-require 'devise'
-require 'friendly_id'
 require 'haml'
 require 'jquery-rails'
 require 'jquery-ui-rails'
 require 'kaminari'
-require 'pundit'
 require 'route_downcaser'
 
 module Pulitzer

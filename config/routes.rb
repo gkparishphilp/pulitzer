@@ -23,15 +23,15 @@ Pulitzer::Engine.routes.draw do
 
 	resources :category_admin
 
-	resources :contacts do
-		get :thanks, on: :collection
-	end
+	# resources :contacts do
+	# 	get :thanks, on: :collection
+	# end
 
-	resources :contact_admin
+	# resources :contact_admin
 
-	resources :optins, only: [:create] do
-		get :thank_you, on: :member, path: 'thank-you'
-	end
+	# resources :optins, only: [:create] do
+	# 	get :thank_you, on: :member, path: 'thank-you'
+	# end
 
 	resources :page_admin do
 		put :clone, on: :member
@@ -39,7 +39,7 @@ Pulitzer::Engine.routes.draw do
 		delete :empty_trash, on: :collection
 	end
 
-	resources :user_admin
+	# resources :user_admin
 
 	# quick catch-all route for static pages
 	# set root route to field any media
