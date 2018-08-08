@@ -35,11 +35,7 @@ module Pulitzer
 
 		mattr_accessor :froala_editor_key
 
-		mattr_accessor :registered_user_class
-
 		mattr_accessor :reserved_words
-
-		mattr_accessor :root_controller_parent_class
 
 		mattr_accessor :site_map_url
 
@@ -47,7 +43,6 @@ module Pulitzer
 
 		self.app_description = 'A Very Swell App indeed'
 		self.app_host = ENV['APP_DOMAIN'] || 'localhost:3000'
-		self.app_logo = 'https://media.licdn.com/media/p/1/000/27f/2a3/36f3707.jpg'
 		self.app_name = 'SwellApp'
 		self.app_time_zone = "Pacific Time (US & Canada)"
 
@@ -56,17 +51,12 @@ module Pulitzer
 
 		self.asset_host = ENV['ASSET_HOST']
 
-		self.contact_email_to 	= false
-		self.contact_email_from = false
-
 		self.default_layouts = {}
 		self.default_protocol = 'http'
 		self.default_page_meta = {}
-		self.default_user_status = 'pending'
 
 		self.froala_editor_key = nil
 
-		self.registered_user_class = '::User'
 
 		self.reserved_words = [ 'about', 'aboutus', 'account', 'admin', 'adm1n', 'administer', 'administor', 'administrater', 'administrator', 'anonymous', 'api', 'app', 'apps', 'auth', 'auther', 'author', 'blog', 'blogger', 'cache', 'changelog', 'ceo', 'config', 'contact', 'contact_us', 'contributer', 'contributor', 'cpanel', 'create', 'delete', 'directer', 'director', 'download', 'dowloads', 'edit', 'editer', 'editor', 'email', 'emailus', 'faq', 'favorites', 'feed', 'feeds', 'follow', 'followers', 'following', 'get', 'guest', 'help', 'home', 'hot', 'how_it_works', 'how-ti-works', 'howitworks', 'info', 'invitation', 'invitations', 'invite', 'jobs', 'list', 'lists', 'loggedin', 'loggedout', 'login', 'logout', 'member', 'members', 'moderater', 'moderator', 'mysql', 'new', 'news', 'nobody', 'oauth', 'openid', 'open_id', 'operater', 'operator', 'oracle', 'organizations', 'owner', 'popular', 'porn', 'postmaster', 'president', 'promo', 'promos', 'promotions', 'privacy', 'put', 'registar', 'register', 'registrar', 'remove', 'replies', 'retailer', 'retailers', 'root', 'rss', 'save', 'search', 'security', 'sessions', 'settings', 'signout', 'signup', 'sitemap', 'ssl', 'staff', 'status', 'stories', 'subscribe', 'support', 'terms', 'test', 'tester', 'tour', 'top', 'trending', 'unfollow', 'unsubscribe', 'update', 'url', 'user', 'users', 'vicepresident', 'viagra', 'webmaster', 'widget', 'widgets', 'wiki', 'wishlist', 'xfn', 'xmpp', 'xxx' ]
 

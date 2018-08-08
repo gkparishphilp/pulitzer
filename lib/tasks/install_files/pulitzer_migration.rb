@@ -27,8 +27,8 @@ class PulitzerMigration < ActiveRecord::Migration[5.1]
 			t.integer		:status, 						default: 1
 			t.integer		:availability, 					default: 1	# anyone, logged_in, just_me
 
-			t.string 		:tags, array: true, default: '{}'
-			t.hstore		:properties, default: {}
+			t.text 			:tags, array: true, 			default: []
+			t.hstore		:properties, 					default: {}
 			t.timestamps
 		end
 
@@ -46,34 +46,17 @@ class PulitzerMigration < ActiveRecord::Migration[5.1]
 			t.text				:description
 			t.string			:avatar
 			t.string			:cover_image
-			t.integer			:status, 						default: 1
-			t.integer			:availability, 					default: 1 	# anyone, logged_in, just_me
+			t.integer			:status, 					default: 1
+			t.integer			:availability, 				default: 1 	# anyone, logged_in, just_me
 			t.integer 			:seq
 			t.string 			:slug
-			t.hstore			:properties, default: {}
+			t.hstore			:properties,				default: {}
 			t.timestamps
 		end
 		add_index :pulitzer_categories, :type
 		add_index :pulitzer_categories, :lft
 		add_index :pulitzer_categories, :rgt
 		add_index :pulitzer_categories, :slug, unique: true
-
-
-		create_table :pulitzer_contacts do |t|
-			t.references 	:user
-			t.string		:email
-			t.string		:name
-			t.string		:subject
-			t.text			:message
-			t.string		:type
-			t.string		:ip
-			t.string		:sub_type
-			t.string		:http_referrer
-			t.integer		:status, 							default: 1
-			t.hstore		:properties, default: {}
-			t.timestamps
-		end
-		add_index :pulitzer_contacts, [ :email, :type ]
 
 
 		create_table :pulitzer_media do |t|
@@ -90,6 +73,7 @@ class PulitzerMigration < ActiveRecord::Migration[5.1]
 			t.integer		:rgt
 
 			t.string		:type 					# video, product, page, article, etc...
+			t.string 		:media_type 			# text, html, audio, image, video
 			t.string		:sub_type				# video, tv, dvd
 
 			t.string		:title
@@ -98,8 +82,9 @@ class PulitzerMigration < ActiveRecord::Migration[5.1]
 			t.string		:cover_image
 			t.string		:avatar_caption
 			t.string		:layout
-			t.string		:template				# for future
+			t.string		:template
 			t.text			:description
+			t.text			:meta_description
 			t.text			:content
 			t.string		:slug
 			t.string		:redirect_url
@@ -109,6 +94,7 @@ class PulitzerMigration < ActiveRecord::Migration[5.1]
 			t.boolean		:show_title,					default: true
 			t.datetime		:modified_at 								# because updated_at is inadequate when caching stats, etc.
 			t.text			:keywords, 	array: true, 		default: []
+			t.text 			:tags, array: true, 			default: []
 
 			t.string		:duration
 			t.integer		:cached_char_count, 			default: 0
@@ -118,7 +104,7 @@ class PulitzerMigration < ActiveRecord::Migration[5.1]
 			t.integer		:availability, 					default: 1	# anyone, logged_in, just_me
 			t.datetime		:publish_at
 			t.hstore		:properties, default: {}
-			t.string 		:tags, array: true, default: '{}'
+			
 
 			t.timestamps
 		end
@@ -133,8 +119,8 @@ class PulitzerMigration < ActiveRecord::Migration[5.1]
 		create_table :pulitzer_media_versions do |t|
 			t.references 		:media
 			t.references		:user
-			t.integer			:status, 						default: 1
-			t.json				:versioned_attributes, default: '{}'
+			t.integer			:status, 					default: 1
+			t.json				:versioned_attributes, 		default: {}
 
 			t.timestamps
 		end
