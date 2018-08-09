@@ -1,0 +1,1 @@
+json.array! @articles, partial: 'swell_media/articles/article', as: :article

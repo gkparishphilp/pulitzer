@@ -1,0 +1,14 @@
+- if ( img = result.try(:avatar_url) ).present?
+	%a{ href: result.url }
+		%img.webfeedsFeaturedVisual{ src: img.gsub(/^\/\//, 'http://') }
+
+= raw result.content
+
+%p
+	%a{ href: result.url }
+		continue reading
+
+- unless args[:upsell] == false
+	%p
+		%a{ href: swell_media.root_url() } Visit #{SwellMedia.app_name}
+		to see more great content.

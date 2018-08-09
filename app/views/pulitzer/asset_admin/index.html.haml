@@ -1,0 +1,90 @@
+
+-# TODO
+
+.container-fluid
+	.row
+		.col-xs-10
+			%ul.breadcrumb
+				%li
+					= link_to 'Admin', main_app.admin_index_path
+				%li
+					%strong
+						Asset Admin
+						= "(#{pluralize @assets.total_count, 'Asset'})"
+
+		.col-xs-2
+			%a.btn.btn-success{ data: { toggle: :modal, target: '#new_asset' } }
+				%i.fa.fa-plus-square
+				New
+	.row
+		.col-xs-6
+			= raw paginate @assets
+		.col-xs-6
+			= form_tag asset_admin_index_path, method: :get, class: 'pull-right form-inline' do
+				= select_tag :status, options_from_collection_for_select( SwellMedia::Asset.statuses, :first, :first, params[:status] ), { prompt: "-- All --", class: 'form-control' }
+				= text_field_tag :q, params[:q], class: 'form-control'
+				= submit_tag 'Search', class: 'btn btn-primary'
+				= link_to 'Clear', asset_admin_index_path, class: 'btn btn-default btn-xs'
+
+	.row
+		.col-xs-12
+			%table.table
+				%thead
+					%th
+					%th
+						Title
+						%a{ href: asset_admin_index_path( sort_by: 'title', sort_dir: 'asc' ) }
+							%i.fa.fa-arrow-up
+						%a{ href: asset_admin_index_path( sort_by: 'title', sort_dir: 'desc' ) }
+							%i.fa.fa-arrow-down
+					%th
+						Created
+						%a{ href: asset_admin_index_path( sort_by: 'publish_at', sort_dir: 'asc' ) }
+							%i.fa.fa-arrow-up
+						%a{ href: asset_admin_index_path( sort_by: 'publish_at', sort_dir: 'desc' ) }
+							%i.fa.fa-arrow-down
+
+					%th Status
+					%th
+				%tbody
+					- @assets.each do |asset|
+						%tr
+							%td
+								= image_tag asset.url, width: 50, class: 'img img-rounded'
+							%td
+								.title{ style: 'font-size:120%;' }= link_to asset.title, edit_asset_admin_path( asset.id )
+								%br
+								%a.btn{ 'data-clipboard-text' => asset.url, style: 'padding:0;border:none;' }
+									= asset.url.truncate( 120 )
+									%i.fa.fa-clipboard
+							
+							%td
+								= asset.created_at.to_s( :slashed_time )
+
+							%td
+								.badge{ class: asset.status }
+									= asset.status
+							
+							%td
+								.btn-group
+									%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
+										%i.fa.fa-cog
+										%b.caret
+									%ul.dropdown-menu
+										%li
+											%a{ href: edit_asset_admin_path( asset.id ) }
+												%i.fa.fa-pencil
+												Edit
+										%li.divider
+										%li
+											%a{ href: asset_admin_path( asset ), data: { method: 'delete', confirm: 'Are you sure?' } }
+												%i.fa.fa-trash-o
+												Delete!
+
+- if SwellMedia::Asset.trash.present?
+	.pull-right{ style: 'margin-right:2em;' }
+		%a{ href: empty_trash_asset_admin_index_path, data: { method: 'delete', confirm: 'Are you sure?' } }
+			%btn.btn.btn-danger
+				empty trash
+
+= render 'new_modal'

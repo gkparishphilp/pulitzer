@@ -3,22 +3,23 @@ module Pulitzer
 	class Media < ApplicationRecord
 
 		include Pulitzer::Concerns::URLConcern
-		include Pulitzer::Concerns::AvatarAsset
-		include Pulitzer::Concerns::ExpiresCache
+		#include Pulitzer::Concerns::AvatarAsset
+		#include Pulitzer::Concerns::ExpiresCache
 
 		mounted_at '/'
 
-		expires_cache :user_id, :managed_by_id, :public_id, :category_id, :avatar_asset_id, :parent_id, :lft, :rgt, :type, :sub_type, :title, :subtitle, :avatar, :cover_image, :avatar_caption, :layout, :template, :description, :content, :slug, :is_commentable, :is_sticky, :show_title, :modified_at, :keywords, :duration, :price, :status, :availability, :publish_at, :tags
+		#expires_cache :user_id, :managed_by_id, :public_id, :category_id, :avatar_asset_id, :parent_id, :lft, :rgt, :type, :sub_type, :title, :subtitle, :avatar, :cover_image, :avatar_caption, :layout, :template, :description, :content, :slug, :is_commentable, :is_sticky, :show_title, :modified_at, :keywords, :duration, :price, :status, :availability, :publish_at, :tags
 
 
 		enum status: { 'draft' => 0, 'active' => 1, 'archive' => 2, 'trash' => 3 }
 		enum availability: { 'anyone' => 1, 'logged_in_users' => 2, 'just_me' => 3 }
 
-		before_save	:set_publish_at, :set_keywords_and_tags, :set_cached_counts
+		before_create	:set_template_and_layout
+		before_save		:set_publish_at, :set_keywords_and_tags, :set_cached_counts
 
 		validates		:title, presence: true, unless: :allow_blank_title?
 
-		attr_accessor	:slug_pref
+		attr_accessor	:slug_pref, :category_name
 
 		belongs_to	:user
 		has_many 	:media_versions, -> { order("id DESC") }
@@ -41,6 +42,8 @@ module Pulitzer
 		accepts_nested_attributes_for :working_media_version
 
 
+
+		# Class Methods
 		
 		def self.media_tag_cloud( args = {} )
 			args[:limit] ||= 7
@@ -88,6 +91,10 @@ module Pulitzer
 			url_hash.each do |size, url|
 				self.properties["avatar_#{size}"] = url
 			end
+		end
+
+		def category_name=( name )
+			self.category = Pulitzer::Category.where( name: name ).first_or_create
 		end
 
 		def char_count
@@ -172,6 +179,10 @@ module Pulitzer
 
 		private
 
+			def allow_blank_title?
+				self.slug_pref.present?
+			end
+
 			def set_cached_counts
 				if self.respond_to?( :cached_word_count )
 					self.cached_word_count = self.word_count
@@ -208,9 +219,12 @@ module Pulitzer
 
 			end
 
-			def allow_blank_title?
-				self.slug_pref.present?
+			def set_template_and_layout
+				self.layout ||= 'application'
+				self.template ||= "#{self.class.name.underscore.pluralize}/show"
 			end
+
+			
 				
 
 	end

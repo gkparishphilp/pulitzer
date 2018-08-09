@@ -1,0 +1,129 @@
+
+
+.container-fluid
+	.row
+		.col-xs-10
+			%ul.breadcrumb
+				%li
+					= link_to 'Admin', main_app.admin_index_path
+				%li
+					= link_to 'Blog Admin', article_admin_index_path
+				%li
+					%strong
+						Edit
+						= @article.title
+		.col-xs-2
+			%a.btn.btn-primary{ href: preview_article_admin_path( @article.id ), target: '_new' }
+				%i.fa.fa-eye
+				Preview
+
+	= form_for @article, url: article_admin_path( @article ) do |f|
+
+		.row
+			.col-xs-8
+				.form-group
+					= f.text_field :title, class: 'form-control input-lg'
+				.form-group
+					= f.label :subtitle
+					= f.text_field :subtitle, class: 'form-control'
+
+				.form-group
+					= f.label :slug_pref, 'URL for this article:'
+					.input-group
+						%span.input-group-addon
+							= SwellMedia.app_host
+						= f.text_field :slug_pref, class: 'form-control', placeholder: @article.slug
+						%span.input-group-btn
+							%a.btn.btn-default{ 'data-clipboard-text' => @article.url }
+								%i.fa.fa-clipboard
+
+					= f.label :redirect_url, 'Redirect to:'
+					= f.text_field :redirect_url, class: 'form-control'
+
+
+				.row
+					.col-xs-4
+						.form-group
+							= f.label :avatar, 'Image (default):'
+							- if @article.avatar.present?
+								%a.btn.btn-default{ 'data-clipboard-text' => @article.avatar_url }
+									%i.fa.fa-clipboard
+
+							= image_tag @article.avatar.to_s, class: 'img-responsive', id: 'article_avatar_img'
+							%div{ style: 'text-align:center;padding:0.3em;' }
+								%a{ href: '#', data: { toggle: :assetup, for: '#article_avatar,#article_avatar_img', asset: { asset_type: 'image', use: 'avatar', status: 'active', parent_obj_id: @article.id, parent_obj_type: @article.class.base_class.name }.to_json, params: { authenticity_token: form_authenticity_token() }.to_json } }
+									%i.fa.fa-upload
+									upload
+							= f.hidden_field :avatar, class: 'form-control', id: 'article_avatar'
+							-# = text_field_tag :avatar_text_field, '', class: 'form-control', placeholder: 'Full Path to Image', data: { inputfor: '#article_avatar_asset_url' }
+
+
+					.col-xs-4
+						.form-group
+							= f.label :cover_image, 'Image (cover):'
+							- if @article.cover_image.present?
+								%a.btn.btn-default{ 'data-clipboard-text' => @article.cover_image }
+									%i.fa.fa-clipboard
+
+							= image_tag @article.cover_image.to_s, class: 'img-responsive', id: 'article_cover_image_img'
+							%div{ style: 'text-align:center;padding:0.3em;' }
+								%a{ href: '#', data: { toggle: :assetup, for: '#article_cover_image, #article_cover_image_img', asset: { asset_type: 'image', use: 'avatar', status: 'active', parent_obj_id: @article.id, parent_obj_type: @article.class.base_class.name }.to_json, params: { authenticity_token: form_authenticity_token() }.to_json } }
+									%i.fa.fa-upload
+									upload
+							= f.hidden_field :cover_image, class: 'form-control', id: 'article_cover_image'
+							-# = text_field_tag :avatar_text_field, '', class: 'form-control', placeholder: 'Full Path to Image', data: { inputfor: '#article_avatar_asset_url' }
+
+
+
+
+					- SwellMedia.article_avatars.each do |avatar_name|
+						.col-xs-4
+
+							.form-group
+								= f.label "avatar_#{avatar_name}", "Image (#{avatar_name}):"
+								= image_tag @article.avatar_url( avatar_name.to_sym ), class: 'img-responsive', id: "article_avatar_#{avatar_name}_img"
+								%div{ style: 'text-align:center;padding:0.3em;' }
+									%a{ href: '#', data: { toggle: :assetup, for: "#article_avatar_#{avatar_name}_img, #article_avatar_asset_#{avatar_name}_url", asset: { asset_type: 'image', use: "avatar_#{avatar_name}", status: 'active', parent_obj_id: @article.id, parent_obj_type: @article.class.base_class.name }.to_json, params: { authenticity_token: form_authenticity_token() }.to_json } }
+										%i.fa.fa-upload
+										upload
+								= hidden_field_tag "article[avatar_urls][#{avatar_name}]", @article.avatar_url( avatar_name.to_sym ), class: 'form-control', id: "article_avatar_asset_#{avatar_name}_url"
+
+
+				.form-group
+					= f.label :avatar_caption, 'Caption'
+					= f.text_area :avatar_caption, class: 'form-control wysiwyg', data: { wysiwyg: { toolbar_sticky: false, toolbar_preset: 'admin_lite', asset_manager: swell_media.asset_manager_index_path( asset: { parent_obj_type: @article.class.name, parent_obj_id: @article.id }, request_forgery_protection_token.to_s => form_authenticity_token, response: :json ) }.to_json }
+				.form-group
+					= f.label :description, 'Summary'
+					= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: false, toolbar_preset: 'admin_default', asset_manager: swell_media.asset_manager_index_path( asset: { parent_obj_type: @article.class.name, parent_obj_id: @article.id }, request_forgery_protection_token.to_s => form_authenticity_token, response: :json ) }.to_json }
+
+				.form-group
+					= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', asset_manager: swell_media.asset_manager_index_path( asset: { parent_obj_type: @article.class.name, parent_obj_id: @article.id }, request_forgery_protection_token.to_s => form_authenticity_token, response: :json ) }.to_json }
+
+
+			.col-xs-4
+				.well
+					.form-group
+						= f.label :user_id, 'Author'
+						= f.collection_select :user_id, SwellMedia.registered_user_class.constantize.where( "role > 1" ), :id, :name, {}, class: 'form-control'
+					.form-group
+						= f.label :publish_at
+						= f.text_field :publish_at, value: current_user.to_local_tz( @article.publish_at ), class: 'form-control datetimepicker'
+					.form-group
+						= f.label :category_id
+						= f.collection_select :category_id, SwellMedia::ArticleCategory.active.order( :name ), :id, :name, { include_blank: '-- None -- ' }, class: 'form-control'
+					.form-group
+						= f.text_field :category_name, class: 'form-control', placeholder: 'Add Category'
+					.form-group
+						= f.label :status
+						= f.collection_select :status, SwellMedia::Article.statuses, :first, :first, {}, class: 'form-control'
+					.form-group
+						= f.label :availability
+						= f.collection_select :availability, SwellMedia::Article.availabilities, :first, :first, {}, class: 'form-control'
+					.form-group
+						= f.label :tags_csv, 'Tags:'
+						= f.text_field :tags_csv, placeholder: 'Separate tags with commas', class: 'form-control'
+					.form-group
+						= f.check_box :is_commentable, {}, 'true', 'false'
+						Allow Comments?
+					.form-group
+						= f.submit 'Update', class: 'btn btn-primary'
