@@ -21,12 +21,11 @@ module Pulitzer
 					@mounted_at
 				end
 
+				#def mounted_at
+				#	return @@mounted_at
+				#end
 
 			end
-
-
-			####################################################
-			# Instance Methods
 
 			def path( args={} )
 				mounted_at = args[:mounted_at] || self.class.config_mounted_at
@@ -49,8 +48,8 @@ module Pulitzer
 			end
 
 			def url( args={} )
-				domain = ( args.present? && args.delete( :domain ) ) || Pulitzer.app_host
-				protocol = ( args.present? && args.delete( :protocol ) ) || Pulitzer.default_protocol
+				domain = ( args.present? && args.delete( :domain ) ) || SwellMedia.app_host
+				protocol = ( args.present? && args.delete( :protocol ) ) || SwellMedia.default_protocol
 				path = self.path( args )
 				url = "#{protocol}://#{domain}#{self.path( args )}"
 

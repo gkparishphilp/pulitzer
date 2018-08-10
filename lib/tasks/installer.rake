@@ -6,6 +6,12 @@ namespace :pulitzer do
 		files = {
 					'root_controller.rb' => 'app/controllers',
 					'application_controller.rb' => 'app/controllers',
+					'admin.html.haml' => 'app/views/layouts',
+					'application.html.haml' => 'app/views/layouts',
+					'_gtm_head.html.erb' => 'app/views/application',
+					'_gtm_body.html.erb' => 'app/views/application',
+					'_navbar.html.haml' => 'app/views/application',
+					'_footer.html.haml' => 'app/views/application',
 		}
 
 		files.each do |filename, path|

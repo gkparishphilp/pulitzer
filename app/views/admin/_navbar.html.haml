@@ -1,0 +1,16 @@
+#head-nav.navbar.navbar-default
+	.container-fluid
+		.navbar-collapse
+			%ul.nav.navbar-nav.navbar-right.user-nav
+				%li.dropdown.profile-menu
+					%a.dropdown-toggle{ href: '#', data: { toggle: :dropdown} }
+						= current_user.avatar_tag( width: 24 )
+						%span
+							= current_user
+						%b.caret
+					%ul.dropdown-menu
+
+						%li
+							%a{ href: '/logout' }
+								Logout
+			%ul.nav.navbar-nav.not-nav

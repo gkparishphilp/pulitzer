@@ -30,7 +30,7 @@ module Pulitzer
 
 		has_many	:assets, as: :parent_obj, dependent: :destroy
 
-		belongs_to 	:avatar_asset, class_name: Asset.name, optional: true
+		#belongs_to 	:avatar_asset, class_name: Asset.name, optional: true
 
 		include FriendlyId
 		friendly_id :slugger, use: [ :slugged, :history ]

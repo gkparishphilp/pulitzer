@@ -5,8 +5,6 @@ class ApplicationController < ActionController::Base
 
 	include Pulitzer::Concerns::ApplicationControllerConcern
 
-	helper Pulitzer::Engine.helpers
-
 	before_action :set_page_meta
 
 
@@ -19,6 +17,11 @@ class ApplicationController < ActionController::Base
 	# 		return '/'
 	# 	end
 	# end
+
+	protected
+		def log_event( opts={} )
+			true
+		end
 
 
 end

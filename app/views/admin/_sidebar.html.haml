@@ -1,0 +1,55 @@
+-#
+	.cl-sidebar
+		.cl-toggle
+			%i.fa.fa-bars
+		.cl-navblock
+			.menu-space
+				.content
+					.sidebar-logo
+						.logo
+							%a{ href: '/admin' }
+								Admin
+					.side-user{ style: 'padding: 0 20px;' }
+
+					%ul.cl-vnavigation
+
+
+						%li.parent
+							%a{ href: '#' }
+								Blog
+							%ul.sub-menu
+								%li
+									%a{ href: pulitzer.article_admin_index_path }
+										%i.fa.fa-gear
+										Admin
+								%li
+									%a{ data: { toggle: :modal, target: '#new_article' } }
+										%i.fa.fa-plus
+										New
+								%li.separator
+								- Pulitzer::Article.draft.order( publish_at: :desc ).limit( 10 ).each do |article|
+									%li
+										%a{ href: pulitzer.edit_article_admin_path( article ) }
+											= article.title
+
+						%li.parent
+							%a{ href: '#' }
+								Pages
+							%ul.sub-menu
+								%li
+									%a{ href: pulitzer.page_admin_index_path }
+										%i.fa.fa-gear
+										Admin
+								%li
+									%a{ data: { toggle: :modal, target: '#new_page' } }
+										%i.fa.fa-plus
+										New
+								%li.separator
+								- Pulitzer::Page.order( publish_at: :desc ).limit( 10 ).each do |page|
+									%li
+										%a{ href: pulitzer.edit_page_admin_path( page ) }
+											= page.title
+								
+	= render 'pulitzer/article_admin/new_modal'
+	= render 'pulitzer/page_admin/new_modal'
+

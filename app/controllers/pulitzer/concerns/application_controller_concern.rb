@@ -5,7 +5,7 @@ module Pulitzer
 			extend ActiveSupport::Concern
 
 			included do		
-				
+				helper Pulitzer::ApplicationHelper
 			end
 
 
@@ -19,6 +19,8 @@ module Pulitzer
 
 			####################################################
 			# Instance Methods
+
+			
 			
 			def set_flash( msg, code=:success, *objs )
 				if flash[code].blank?
