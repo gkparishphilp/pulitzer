@@ -26,8 +26,6 @@
 				.form-group
 					.input-group
 						= f.label :slug_pref, 'URL for this page:'
-						%span.input-group-addon
-							= SwellMedia.app_host
 						= f.text_field :slug_pref, class: 'form-control', placeholder: @page.slug
 						%span.input-group-btn
 							%a.btn.btn-default{ 'data-clipboard-text' => @page.url }
@@ -62,10 +60,10 @@
 						= f.text_field :publish_at, value: current_user.to_local_tz( @page.publish_at ), class: 'form-control datetimepicker'
 					.form-group
 						= f.label :status
-						= f.collection_select :status, SwellMedia::Page.statuses, :first, :first, {}, class: 'form-control'
+						= f.collection_select :status, Pulitzer::Page.statuses, :first, :first, {}, class: 'form-control'
 					.form-group
 						= f.label :availability
-						= f.collection_select :availability, SwellMedia::Page.availabilities, :first, :first, {}, class: 'form-control'
+						= f.collection_select :availability, Pulitzer::Page.availabilities, :first, :first, {}, class: 'form-control'
 					.form-group
 						= f.check_box :show_title, {}, 'true', 'false'
 						Show Title?

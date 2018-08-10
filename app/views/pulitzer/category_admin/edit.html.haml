@@ -57,7 +57,7 @@
 					= f.text_field :type, class: 'form-control'
 				.form-group
 					= f.label :status
-					= f.collection_select :status, SwellMedia::Category.statuses, :first, :first, {}, class: 'form-control'
+					= f.collection_select :status, Pulitzer::Category.statuses, :first, :first, {}, class: 'form-control'
 
 				.form-group
 					= f.submit 'Update', class: 'btn btn-primary'

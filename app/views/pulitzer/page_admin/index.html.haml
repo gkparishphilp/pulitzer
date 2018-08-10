@@ -20,7 +20,7 @@
 			= raw paginate @pages
 		.col-xs-6
 			= form_tag page_admin_index_path, method: :get, class: 'pull-right form-inline' do
-				= select_tag :status, options_from_collection_for_select( SwellMedia::Page.statuses, :first, :first, params[:status] ), { prompt: "-- All --", class: 'form-control' }
+				= select_tag :status, options_from_collection_for_select( Pulitzer::Page.statuses, :first, :first, params[:status] ), { prompt: "-- All --", class: 'form-control' }
 				= text_field_tag :q, params[:q], class: 'form-control'
 				= submit_tag 'Search', class: 'btn btn-primary'
 				= link_to 'Clear', page_admin_index_path, class: 'btn btn-default btn-xs'
