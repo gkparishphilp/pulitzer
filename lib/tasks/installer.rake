@@ -6,6 +6,8 @@ namespace :pulitzer do
 		files = {
 					'root_controller.rb' => 'app/controllers',
 					'application_controller.rb' => 'app/controllers',
+					'admin.js' => 'app/assets/javascripts',
+					'admin.css' => 'app/assets/stylesheets',
 					'admin.html.haml' => 'app/views/layouts',
 					'application.html.haml' => 'app/views/layouts',
 					'_gtm_head.html.erb' => 'app/views/application',
@@ -14,7 +16,12 @@ namespace :pulitzer do
 					'_footer.html.haml' => 'app/views/application',
 					'storage.yml' => 'config',
 					'route_downcaser.rb' => 'config/initialiers',
+					'index.html.haml' => 'app/views/root',
 		}
+
+		FileUtils::mkdir_p( File.join( Rails.root, 'app/views/application' ) )
+		FileUtils::mkdir_p( File.join( Rails.root, 'app/views/root' ) )
+		FileUtils::mkdir_p( File.join( Rails.root, 'config/initialiers' ) )
 
 		files.each do |filename, path|
 			puts "installing: #{path}/#{filename}"
@@ -52,6 +59,11 @@ namespace :pulitzer do
     		FileUtils.cp_r source, target
     		prefix += 1
 		end
+
+		new_contents = File.read(File.join( Rails.root, 'config/routes.rb' ))
+		new_contents = new_contents.gsub(/^Rails\.application\.routes\.draw do\n/, "Rails.application.routes.draw do\n\troot to: 'root#index' # homepage\n")
+		new_contents = new_contents.gsub(/^end/, "\tmount Pulitzer::Engine, at: '/'\n\n\t# quick catch-all route for static pages set root route to field any media\n\tget '/:id', to: 'root#show', as: 'root_show'\nend")
+	  File.open(File.join( Rails.root, 'config/routes.rb' ), "w") {|file| file.puts new_contents }
 
 	end
 

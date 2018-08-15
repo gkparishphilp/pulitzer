@@ -1,15 +1,3 @@
-# Route root controller directly to root controller
-# outside engine scope so that root controller can 
-# just live at app-level
-Rails.application.routes.draw do
-	root to: 'root#index' # homepage
-
-	# quick catch-all route for static pages
-	# set root route to field any media
-	get '/:id', to: 'root#show', as: 'root_show'
-
-end
-
 Pulitzer::Engine.routes.draw do
 
 	resources :articles, path: Pulitzer.article_path
