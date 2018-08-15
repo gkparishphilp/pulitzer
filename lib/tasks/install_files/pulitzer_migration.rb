@@ -2,40 +2,6 @@ class PulitzerMigration < ActiveRecord::Migration[5.1]
 
 	def change
 
-		create_table :pulitzer_assets do |t|
-			t.references 	:parent_obj, polymorphic: true
-			t.references	:user
-			t.string		:title
-			t.string		:description # use for caption
-			t.text			:content # jic it is a chunk of html or caching entire webpage or something
-
-			t.string		:type # jic want to sti someday....
-			t.string		:sub_type # to use e.g. to designate one image as primary avatar
-			t.string		:use, default: nil  # e.g. avatar, thumbnail
-			t.string		:asset_type, default: 'image'
-
-			t.string		:origin_name
-			t.string		:origin_identifier
-			t.text			:origin_url
-
-			t.text			:upload # location for CW
-
-			t.integer		:height
-			t.integer		:width
-			t.integer		:duration
-
-			t.integer		:status, 						default: 1
-			t.integer		:availability, 					default: 1	# anyone, logged_in, just_me
-
-			t.text 			:tags, array: true, 			default: []
-			t.hstore		:properties, 					default: {}
-			t.timestamps
-		end
-
-		add_index :pulitzer_assets, :tags, using: 'gin'
-		add_index :pulitzer_assets, [:parent_obj_id, :parent_obj_type, :asset_type, :use], name: 'swell_media_asset_use_index'
-
-
 		create_table :pulitzer_categories, force: true do |t|
 			t.references		:user 			# created_by
 			t.references 		:parent
@@ -64,7 +30,6 @@ class PulitzerMigration < ActiveRecord::Migration[5.1]
 			t.references	:managed_by 			# User acct that has origin acct (e.g. youtube) rights
 			t.string		:public_id				# public id to spoof sequential id grepping
 			t.references 	:category
-			t.references 	:avatar_asset
 
 			t.references 	:working_media_version
 
@@ -104,7 +69,7 @@ class PulitzerMigration < ActiveRecord::Migration[5.1]
 			t.integer		:availability, 					default: 1	# anyone, logged_in, just_me
 			t.datetime		:publish_at
 			t.hstore		:properties, default: {}
-			
+
 
 			t.timestamps
 		end

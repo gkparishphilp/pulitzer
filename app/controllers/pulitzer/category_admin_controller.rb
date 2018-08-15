@@ -31,7 +31,7 @@ module Pulitzer
 		end
 
 		def index
-		
+
 			sort_by = params[:sort_by] || 'created_at'
 			sort_dir = params[:sort_dir] || 'asc'
 
@@ -50,7 +50,7 @@ module Pulitzer
 
 		def update
 			@category.attributes = category_params
-			
+
 			if @category.save
 				set_flash 'Category Updated'
 				redirect_to edit_category_admin_path( id: @category.id )
@@ -63,7 +63,7 @@ module Pulitzer
 
 		private
 			def category_params
-				params.require( :category ).permit( :name, :display, :slug, :parent_id, :description, :avatar, :status, :seq, :cover_image ) # todo
+				params.require( :category ).permit( :name, :display, :slug, :parent_id, :description, :status, :seq, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } ) # todo
 			end
 
 			def get_category

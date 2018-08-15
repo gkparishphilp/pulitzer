@@ -7,7 +7,7 @@ module Pulitzer
 
 		mounted_at '/'
 
-		#expires_cache :user_id, :managed_by_id, :public_id, :category_id, :avatar_asset_id, :parent_id, :lft, :rgt, :type, :sub_type, :title, :subtitle, :avatar, :cover_image, :avatar_caption, :layout, :template, :description, :content, :slug, :is_commentable, :is_sticky, :show_title, :modified_at, :keywords, :duration, :price, :status, :availability, :publish_at, :tags
+		#expires_cache :user_id, :managed_by_id, :public_id, :category_id, :parent_id, :lft, :rgt, :type, :sub_type, :title, :subtitle, :avatar, :cover_image, :avatar_caption, :layout, :template, :description, :content, :slug, :is_commentable, :is_sticky, :show_title, :modified_at, :keywords, :duration, :price, :status, :availability, :publish_at, :tags
 
 
 		enum status: { 'draft' => 0, 'active' => 1, 'archive' => 2, 'trash' => 3 }
@@ -27,9 +27,8 @@ module Pulitzer
 		belongs_to 	:managed_by, class_name: 'User', optional: true
 		belongs_to 	:category, optional: true
 
-		has_many	:assets, as: :parent_obj, dependent: :destroy
-
 		has_one_attached :avatar_attachment
+		has_one_attached :cover_attachment
 		has_many_attached :embedded_attachments
 		has_many_attached :other_attachments
 
