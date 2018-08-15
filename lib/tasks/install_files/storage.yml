@@ -1,0 +1,12 @@
+
+local:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+amazon:
+  service: PulitzerS3
+  access_key_id: <%= ENV['AMAZON_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AMAZON_SECRET_ACCESS_KEY'] %>
+  force_path_style: true
+  region: <%= ENV['AMAZON_S3_REGION'] %>
+  bucket: <%= ENV['AMAZON_S3_BUCKET'] %>

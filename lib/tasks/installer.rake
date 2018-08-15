@@ -12,6 +12,8 @@ namespace :pulitzer do
 					'_gtm_body.html.erb' => 'app/views/application',
 					'_navbar.html.haml' => 'app/views/application',
 					'_footer.html.haml' => 'app/views/application',
+					'storage.yml' => 'config',
+					'route_downcaser.rb' => 'config/initialiers',
 		}
 
 		files.each do |filename, path|
@@ -34,6 +36,7 @@ namespace :pulitzer do
 
 		migrations = [
 			'pulitzer_migration.rb',
+			'pulitzer_active_storage_migration.rb',
 		]
 
 		prefix = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i

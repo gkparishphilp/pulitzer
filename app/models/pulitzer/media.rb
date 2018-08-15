@@ -3,7 +3,6 @@ module Pulitzer
 	class Media < ApplicationRecord
 
 		include Pulitzer::Concerns::URLConcern
-		#include Pulitzer::Concerns::AvatarAsset
 		#include Pulitzer::Concerns::ExpiresCache
 
 		mounted_at '/'
@@ -15,7 +14,7 @@ module Pulitzer
 		enum availability: { 'anyone' => 1, 'logged_in_users' => 2, 'just_me' => 3 }
 
 		before_create	:set_template_and_layout
-		before_save		:set_publish_at, :set_keywords_and_tags, :set_cached_counts
+		before_save		:set_publish_at, :set_keywords_and_tags, :set_cached_counts, :set_avatar
 
 		validates		:title, presence: true, unless: :allow_blank_title?
 
@@ -30,7 +29,9 @@ module Pulitzer
 
 		has_many	:assets, as: :parent_obj, dependent: :destroy
 
-		#belongs_to 	:avatar_asset, class_name: Asset.name, optional: true
+		has_one_attached :avatar_attachment
+		has_many_attached :embedded_attachments
+		has_many_attached :other_attachments
 
 		include FriendlyId
 		friendly_id :slugger, use: [ :slugged, :history ]
@@ -44,12 +45,20 @@ module Pulitzer
 
 
 		# Class Methods
-		
+
 		def self.media_tag_cloud( args = {} )
 			args[:limit] ||= 7
 			media_relation = self.limit(nil)
 			return Pulitzer::Media.unscoped.limit( args[:limit] ).tags_cloud{ merge( media_relation ) }.to_a
 		end
+
+		# def self.other_attachments_with_tags( tags = [] )
+		# 	query = self.all
+		# 	tags.each do |tag|
+		# 		query = query.where( "? = ANY(annotations)", tag )
+		# 	end
+		# 	query
+		# end
 
 
 		def self.published( args = {} )
@@ -71,25 +80,6 @@ module Pulitzer
 				return self.user.to_s
 			else
 				return ''
-			end
-		end
-
-		def avatar_url( size = :default )
-			if size == :default
-				self.avatar
-			else
-				self.properties["avatar_#{size}"]
-			end
-
-		end
-
-		def avatar_urls
-			[]
-		end
-
-		def avatar_urls=(url_hash)
-			url_hash.each do |size, url|
-				self.properties["avatar_#{size}"] = url
 			end
 		end
 
@@ -151,7 +141,7 @@ module Pulitzer
 		end
 
 		def slugger
-			if self.slug_pref.present? 
+			if self.slug_pref.present?
 				self.slug = nil # friendly_id 5.0 only updates slug if slug field is nil
 				return self.slug_pref
 			else
@@ -183,6 +173,10 @@ module Pulitzer
 				self.slug_pref.present?
 			end
 
+			def set_avatar
+				self.avatar = self.avatar_attachment.service_url if self.avatar_attachment.attached?
+			end
+
 			def set_cached_counts
 				if self.respond_to?( :cached_word_count )
 					self.cached_word_count = self.word_count
@@ -200,7 +194,7 @@ module Pulitzer
 
 			def set_keywords_and_tags
 				common_terms = ["able", "about", "above", "across", "after", "almost", "also", "among", "around", "back", "because", "been", "below", "came", "cannot", "come", "cool", "could", "dear", "does", "down", "each", "either", "else", "ever", "every", "find", "first", "from", "from", "gave", "give", "goodhave", "have", "hers", "however", "inside", "into", "its", "just", "least", "like", "likely", "little", "live", "long", "made", "make", "many", "might", "more", "most", "must", "neither", "number", "often", "only", "other", "our", "outside", "over", "part", "people", "place", "rather", "said", "says", "should", "show", "side", "since", "some", "sound", "take", "than", "that", "the", "their", "them",  "then", "there", "these", "they", "thing", "this", "those", "time", "twas", "under", "upon", "was", "wants", "were", "what", "whatever", "when", "where", "which", "while", "whom", "will", "with", "within", "work", "would", "write", "year", "you", "your"]
-				
+
 				# auto-tag hashtags
 				unless self.description.blank?
 					# hashtags must start with a # and must contain at least one letter
@@ -224,8 +218,8 @@ module Pulitzer
 				self.template ||= "#{self.class.name.underscore.pluralize}/show"
 			end
 
-			
-				
+
+
 
 	end
 

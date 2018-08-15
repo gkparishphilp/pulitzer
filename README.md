@@ -21,6 +21,19 @@ Or install it yourself as:
 $ gem install pulitzer
 ```
 
+Then install active storage:
+
+```bash
+$ rails active_storage:install
+$ rails db:migrate
+```
+
+Finally install and migrate pulitzer files
+```bash
+$ rails pulizer:install
+$ rails db:migrate
+```
+
 ## Contributing
 Contribution directions go here.
 
