@@ -9,7 +9,7 @@ module ActiveStorage
   class Service::PulitzerS3Service < Service::S3Service
 
 		# Prettifies public URLS
-		def url(key, expires_in:, disposition:, filename:, content_type:, **options)
+		def url(key, expires_in:, disposition:, filename:, content_type:)
 			if expires_in.to_f == 300 && disposition.to_s == 'inline'
 				"#{Pulitzer.asset_host}/#{key}\##{filename.to_s}"
 			else
