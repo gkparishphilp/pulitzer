@@ -43,51 +43,24 @@
 
 				.row
 					.col-xs-4
+
 						.form-group
-							= f.label :avatar, 'Image (default):'
-							- if @article.avatar.present?
-								%a.btn.btn-default{ 'data-clipboard-text' => @article.avatar_url }
+							= f.label :avatar_attachment, "Avatar Image"
+							= f.file_field :avatar_attachment
+							- if @article.avatar
+								= image_tag @article.avatar, class: 'img-responsive'
+								%a.btn.btn-default{ 'data-clipboard-text' => @article.avatar }
 									%i.fa.fa-clipboard
-
-							= image_tag @article.avatar.to_s, class: 'img-responsive', id: 'article_avatar_img'
-							%div{ style: 'text-align:center;padding:0.3em;' }
-								%a{ href: '#', data: { toggle: :assetup, for: '#article_avatar,#article_avatar_img', asset: { asset_type: 'image', use: 'avatar', status: 'active', parent_obj_id: @article.id, parent_obj_type: @article.class.base_class.name }.to_json, params: { authenticity_token: form_authenticity_token() }.to_json } }
-									%i.fa.fa-upload
-									upload
-							= f.hidden_field :avatar, class: 'form-control', id: 'article_avatar'
-							-# = text_field_tag :avatar_text_field, '', class: 'form-control', placeholder: 'Full Path to Image', data: { inputfor: '#article_avatar_asset_url' }
-
 
 					.col-xs-4
+
 						.form-group
-							= f.label :cover_image, 'Image (cover):'
-							- if @article.cover_image.present?
+							= f.label :cover_attachment, "Cover Image"
+							= f.file_field :cover_attachment
+							- if @article.cover_image
+								= image_tag @article.cover_image, class: 'img-responsive'
 								%a.btn.btn-default{ 'data-clipboard-text' => @article.cover_image }
 									%i.fa.fa-clipboard
-
-							= image_tag @article.cover_image.to_s, class: 'img-responsive', id: 'article_cover_image_img'
-							%div{ style: 'text-align:center;padding:0.3em;' }
-								%a{ href: '#', data: { toggle: :assetup, for: '#article_cover_image, #article_cover_image_img', asset: { asset_type: 'image', use: 'avatar', status: 'active', parent_obj_id: @article.id, parent_obj_type: @article.class.base_class.name }.to_json, params: { authenticity_token: form_authenticity_token() }.to_json } }
-									%i.fa.fa-upload
-									upload
-							= f.hidden_field :cover_image, class: 'form-control', id: 'article_cover_image'
-							-# = text_field_tag :avatar_text_field, '', class: 'form-control', placeholder: 'Full Path to Image', data: { inputfor: '#article_avatar_asset_url' }
-
-
-
-
-					- SwellMedia.article_avatars.each do |avatar_name|
-						.col-xs-4
-
-							.form-group
-								= f.label "avatar_#{avatar_name}", "Image (#{avatar_name}):"
-								= image_tag @article.avatar_url( avatar_name.to_sym ), class: 'img-responsive', id: "article_avatar_#{avatar_name}_img"
-								%div{ style: 'text-align:center;padding:0.3em;' }
-									%a{ href: '#', data: { toggle: :assetup, for: "#article_avatar_#{avatar_name}_img, #article_avatar_asset_#{avatar_name}_url", asset: { asset_type: 'image', use: "avatar_#{avatar_name}", status: 'active', parent_obj_id: @article.id, parent_obj_type: @article.class.base_class.name }.to_json, params: { authenticity_token: form_authenticity_token() }.to_json } }
-										%i.fa.fa-upload
-										upload
-								= hidden_field_tag "article[avatar_urls][#{avatar_name}]", @article.avatar_url( avatar_name.to_sym ), class: 'form-control', id: "article_avatar_asset_#{avatar_name}_url"
-
 
 				.form-group
 					= f.label :avatar_caption, 'Caption'

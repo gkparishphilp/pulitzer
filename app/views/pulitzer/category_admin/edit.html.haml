@@ -11,9 +11,9 @@
 					%strong
 						Edit
 						= @category.name
-	
+
 	= form_for @category, as: :category, url: category_admin_path( @category ) do |f|
-	
+
 		.row
 			.col-xs-8
 				.form-group
@@ -22,25 +22,23 @@
 
 				.row
 					.col-xs-4
+
 						.form-group
-							= f.label :avatar, 'Image (default):'
-							= image_tag @category.avatar.to_s, class: 'img-responsive', id: 'category_avatar_img'
-							%div{ style: 'text-align:center;padding:0.3em;' }
-								%a{ href: '#', data: { toggle: :assetup, for: '#category_avatar,#category_avatar_img', asset: { asset_type: 'image', use: 'avatar', status: 'active', parent_obj_id: @category.id, parent_obj_type: @category.class.base_class.name }.to_json, params: { authenticity_token: form_authenticity_token() }.to_json } }
-									%i.fa.fa-upload
-									upload
-							= f.hidden_field :avatar, class: 'form-control', id: 'category_avatar'
-							-# = text_field_tag :avatar_text_field, '', class: 'form-control', placeholder: 'Full Path to Image', data: { inputfor: '#category_avatar_asset_url' }
+							= f.label :avatar_attachment, "Avatar Image"
+							= f.file_field :avatar_attachment
+							- if @category.avatar
+								= image_tag @category.avatar, class: 'img-responsive'
+								%a.btn.btn-default{ 'data-clipboard-text' => @category.avatar }
+									%i.fa.fa-clipboard
+
 					.col-xs-4
 						.form-group
-							= f.label :cover_image, 'Image (cover):'
-							= image_tag @category.cover_image, class: 'img-responsive', id: 'category_cover_image_img'
-							%div{ style: 'text-align:center;padding:0.3em;' }
-								%a{ href: '#', data: { toggle: :assetup, for: '#category_cover_image, #category_cover_image_img', asset: { asset_type: 'image', use: 'avatar', status: 'active', parent_obj_id: @category.id, parent_obj_type: @category.class.base_class.name }.to_json, params: { authenticity_token: form_authenticity_token() }.to_json } }
-									%i.fa.fa-upload
-									upload
-							= f.hidden_field :cover_image, class: 'form-control', id: 'category_cover_image'
-							-# = text_field_tag :avatar_text_field, '', class: 'form-control', placeholder: 'Full Path to Image', data: { inputfor: '#category_avatar_asset_url' }
+							= f.label :cover_attachment, "Cover Image"
+							= f.file_field :cover_attachment
+							- if @category.cover_image
+								= image_tag @category.cover_image, class: 'img-responsive'
+								%a.btn.btn-default{ 'data-clipboard-text' => @category.cover_image }
+									%i.fa.fa-clipboard
 				.row
 					.col-xs-12
 						.form-group
@@ -61,8 +59,3 @@
 
 				.form-group
 					= f.submit 'Update', class: 'btn btn-primary'
-
-
-
-
-					
