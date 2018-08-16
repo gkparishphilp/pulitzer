@@ -9,9 +9,10 @@
 						Category Admin
 						= "(#{pluralize @categories.total_count, 'Category'})"
 		.col-xs-2
-			%a.btn.btn-success{ data: { toggle: :modal, target: '#new_category' } }
-				%i.fa.fa-plus-square
-				New
+			- if authorized?( Pulitzer::Category, controller: Pulitzer::CategoryAdminController, action: :create )
+				%a.btn.btn-success{ data: { toggle: :modal, target: '#new_category' } }
+					%i.fa.fa-plus-square
+					New
 
 	.row
 		.col-xs-6
@@ -24,7 +25,7 @@
 				= link_to 'Clear', category_admin_index_path, class: 'btn btn-default btn-xs'
 	.row
 		.col-xs-12
-			%table.table
+			%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
 				%thead
 					%th
 					%th Slug

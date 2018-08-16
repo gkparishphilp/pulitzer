@@ -13,9 +13,10 @@
 						= "(#{pluralize @articles.total_count, 'Article'})"
 
 		.col-xs-2
-			%a.btn.btn-success{ data: { toggle: :modal, target: '#new_article' } }
-				%i.fa.fa-plus-square
-				New
+			- if authorized?( Pulitzer::Article, controller: Pulitzer::ArticleAdminController, action: :create )
+				%a.btn.btn-success{ data: { toggle: :modal, target: '#new_article' } }
+					%i.fa.fa-plus-square
+					New
 	.row
 		.col-xs-6
 			= raw paginate @articles
@@ -28,7 +29,7 @@
 
 	.row
 		.col-xs-12
-			%table.table
+			%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
 				%thead
 					%th
 					%th
@@ -63,7 +64,6 @@
 								= image_tag article.avatar.to_s, width: 50, class: 'img img-rounded'
 							%td
 								.title{ style: 'font-size:120%;' }= link_to article.title, edit_article_admin_path( article.id )
-								%br
 								%a.btn{ 'data-clipboard-text' => article.url, style: 'padding:0;border:none;' }
 									= article.path
 									%i.fa.fa-clipboard
@@ -98,7 +98,7 @@
 											%a{ href: edit_article_admin_path( article.id ) }
 												%i.fa.fa-pencil
 												Edit
-										
+
 										%li
 											%a{ href: preview_article_admin_path( article.id ) }
 												%i.fa.fa-eye

@@ -11,9 +11,10 @@
 						Page Admin
 						= "(#{pluralize @pages.total_count, 'Page'})"
 		.col-xs-2
-			%a.btn.btn-success{ data: { toggle: :modal, target: '#new_page' } }
-				%i.fa.fa-plus-square
-				New
+			- if authorized?( Pulitzer::Page, controller: Pulitzer::PageAdminController, action: :create )
+				%a.btn.btn-success{ data: { toggle: :modal, target: '#new_page' } }
+					%i.fa.fa-plus-square
+					New
 
 	.row
 		.col-xs-6
@@ -27,7 +28,7 @@
 
 	.row
 		.col-xs-12
-			%table.table
+			%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
 				%thead
 					%th
 						Title
@@ -49,7 +50,6 @@
 						%tr
 							%td
 								.title{ style: 'font-size:120%;' }= link_to page.title, edit_page_admin_path( page.id )
-								%br
 								%a.btn{ 'data-clipboard-text' => page.url, style: 'padding:0;border:none;' }
 									= page.path
 									%i.fa.fa-clipboard
