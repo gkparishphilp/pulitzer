@@ -10,48 +10,53 @@
 				Admin
 		.navbar-collapse.collapse#head-nav-collapse
 			%ul.nav.navbar-nav.navbar-left
-				%li.dropdown
-					%a.dropdown-toggle{ href: '#', data: { toggle: :dropdown} }
-						Website
-						%b.caret
-					%ul.dropdown-menu
+				- if defined?( Pulitzer )
+					%li.dropdown
+						%a.dropdown-toggle{ href: '#', data: { toggle: :dropdown} }
+							Website
+							%b.caret
+						%ul.dropdown-menu
 
-						%li
-							%a.dropdown-toggle{ href: '#', data: { toggle: :dropdown} }
-								Blog
-							%ul
-								%li
-									%a{ href: pulitzer.article_admin_index_path }
-										%i.fa.fa-gear
-										Admin
-								%li
-									%a{ href: '#new_article', data: { toggle: :modal, target: '#new_article' } }
-										%i.fa.fa-plus
-										New
-								%li.separator
-								- Pulitzer::Article.draft.order( publish_at: :desc ).limit( 10 ).each do |article|
+							%li.dropdown.dropdown-submenu
+								%a.dropdown-toggle{ href: '#', data: { toggle: :dropdown} }
+									Blog
+								%ul.dropdown-menu
 									%li
-										%a{ href: pulitzer.edit_article_admin_path( article ) }
-											= article.title
-
-
-						%li
-							%a.dropdown-toggle{ href: '#', data: { toggle: :dropdown} }
-								Pages
-							%ul
-								%li
-									%a{ href: pulitzer.page_admin_index_path }
-										%i.fa.fa-gear
-										Admin
-								%li
-									%a{ href: '#new_page', data: { toggle: :modal, target: '#new_page' } }
-										%i.fa.fa-plus
-										New
-								%li.separator
-								- Pulitzer::Page.order( publish_at: :desc ).limit( 10 ).each do |page|
+										%a{ href: pulitzer.article_admin_index_path }
+											%i.fa.fa-gear
+											Admin
 									%li
-										%a{ href: pulitzer.edit_page_admin_path( page ) }
-											= page.title
+										%a{ href: '#new_article', data: { toggle: :modal, target: '#new_article' } }
+											%i.fa.fa-plus
+											New
+									%li.separator
+									- Pulitzer::Article.draft.order( publish_at: :desc ).limit( 10 ).each do |article|
+										%li
+											%a{ href: pulitzer.edit_article_admin_path( article ) }
+												= article.title
+
+
+							%li.dropdown.dropdown-submenu
+								%a.dropdown-toggle{ href: '#', data: { toggle: :dropdown} }
+									Pages
+								%ul.dropdown-menu
+									%li
+										%a{ href: pulitzer.page_admin_index_path }
+											%i.fa.fa-gear
+											Admin
+									%li
+										%a{ href: '#new_page', data: { toggle: :modal, target: '#new_page' } }
+											%i.fa.fa-plus
+											New
+									%li.separator
+									- Pulitzer::Page.order( publish_at: :desc ).limit( 10 ).each do |page|
+										%li
+											%a{ href: pulitzer.edit_page_admin_path( page ) }
+												= page.title
+				- if defined?( SwellId )
+					%li.dropdown
+						%a.dropdown-toggle{ href: swell_id.user_admin_index_path() }
+							Users
 
 			%ul.nav.navbar-nav.navbar-right.user-nav
 				%li.dropdown.profile-menu
