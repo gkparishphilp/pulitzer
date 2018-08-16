@@ -31,7 +31,7 @@
 					= f.label :slug_pref, 'URL for this article:'
 					.input-group
 						%span.input-group-addon
-							= SwellMedia.app_host
+							= Pulitzer.app_host
 						= f.text_field :slug_pref, class: 'form-control', placeholder: @article.slug
 						%span.input-group-btn
 							%a.btn.btn-default{ 'data-clipboard-text' => @article.url }
@@ -77,7 +77,7 @@
 				.well
 					.form-group
 						= f.label :user_id, 'Author'
-						= f.collection_select :user_id, SwellMedia.registered_user_class.constantize.where( "role > 1" ), :id, :name, {}, class: 'form-control'
+						= f.collection_select :user_id, User.where( "role > 1" ), :id, :username, {}, class: 'form-control'
 					.form-group
 						= f.label :publish_at
 						= f.text_field :publish_at, value: current_user.to_local_tz( @article.publish_at ), class: 'form-control datetimepicker'
