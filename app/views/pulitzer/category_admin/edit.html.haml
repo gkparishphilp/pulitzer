@@ -43,7 +43,7 @@
 					.col-xs-12
 						.form-group
 							= f.label :description
-							= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: true, toolbar_preset: 'admin_default', asset_manager: swell_media.asset_manager_index_path( asset: { parent_obj_type: @category.class.name, parent_obj_id: @category.id }, request_forgery_protection_token.to_s => form_authenticity_token, response: :json ) }.to_json }
+							= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: true, toolbar_preset: 'admin_default' }.to_json }
 
 
 			.col-xs-4
