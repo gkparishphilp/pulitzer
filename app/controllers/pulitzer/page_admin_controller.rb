@@ -51,7 +51,7 @@ module Pulitzer
 
 
 		def destroy
-			authorize( @page, :admin_destroy? )
+			authorize( @page )
 			@page.trash!
 			set_flash 'Page Trashed'
 			redirect_back( fallback_location: '/admin' )
@@ -59,7 +59,7 @@ module Pulitzer
 
 
 		def edit
-			authorize( @page, :admin_edit? )
+			authorize( @page )
 		end
 
 
@@ -94,7 +94,7 @@ module Pulitzer
 
 
 		def preview
-			authorize( @page, :admin_preview? )
+			authorize( @page )
 			@media = @page
 			layout = @media.slug == 'homepage' ? 'swell_media/homepage' : "#{@media.class.name.underscore.pluralize}"
 			render "swell_media/pages/show", layout: layout
@@ -102,7 +102,7 @@ module Pulitzer
 
 
 		def update
-			authorize( @page, :admin_update? )
+			authorize( @page )
 
 			@page.slug = nil if params[:page][:slug_pref].present? || params[:page][:title] != @page.title
 			@page.attributes = page_params
