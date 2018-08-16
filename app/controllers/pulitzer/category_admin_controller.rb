@@ -7,6 +7,8 @@ module Pulitzer
 			@category = Category.new( category_params )
 			@category.user_id = current_user.id
 
+			authorize( @category )
+
 			if @category.save
 				set_flash 'Category Created'
 				redirect_to edit_category_admin_path( @category.id )
@@ -17,6 +19,8 @@ module Pulitzer
 		end
 
 		def destroy
+			authorize( @category )
+
 			if @category.trash?
 				@category.destroy
 			else
@@ -27,10 +31,11 @@ module Pulitzer
 		end
 
 		def edit
-
+			authorize( @category )
 		end
 
 		def index
+			authorize( Category )
 
 			sort_by = params[:sort_by] || 'created_at'
 			sort_dir = params[:sort_dir] || 'asc'
@@ -50,6 +55,8 @@ module Pulitzer
 
 		def update
 			@category.attributes = category_params
+
+			authorize( @category )
 
 			if @category.save
 				set_flash 'Category Updated'

@@ -12,6 +12,8 @@ module Pulitzer
 				@article.category = Category.where( name: params[:article][:category_name] ).first_or_create( status: 'active' )
 			end
 
+			authorize( @article )
+
 			if @article.save
 				set_flash 'Article Created'
 				redirect_to edit_article_admin_path( @article )
@@ -23,6 +25,7 @@ module Pulitzer
 
 
 		def destroy
+			authorize( @article )
 			@article.trash!
 			set_flash 'Article Deleted'
 			redirect_back( fallback_location: '/admin' )
@@ -30,6 +33,7 @@ module Pulitzer
 
 
 		def edit
+			authorize( @article )
 			# create new working version if none exists or if not a draft
 			# unless @article.working_media_version.try(:draft?)
 			#
@@ -42,6 +46,7 @@ module Pulitzer
 
 
 		def empty_trash
+			authorize( Article )
 			@articles = Article.trash.destroy_all
 			redirect_back( fallback_location: '/admin' )
 			set_flash "#{@articles.count} destroyed"
@@ -49,6 +54,7 @@ module Pulitzer
 
 
 		def index
+			authorize( Article )
 			sort_by = params[:sort_by] || 'publish_at'
 			sort_dir = params[:sort_dir] || 'desc'
 
@@ -67,7 +73,7 @@ module Pulitzer
 
 
 		def preview
-
+			authorize( @article )
 			@media = @article
 
 			#@media_comments = SwellSocial::UserPost.active.where( parent_obj_id: @media.id, parent_obj_type: @media.class.name ).order( created_at: :desc ) if defined?( SwellSocial )
@@ -90,6 +96,8 @@ module Pulitzer
 			if params[:article][:category_name].present?
 				@article.category = Category.where( name: params[:article][:category_name] ).first_or_create( status: 'active' )
 			end
+
+			authorize( @article )
 
 			if @article.save
 				set_flash 'Article Updated'
