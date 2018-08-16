@@ -6,6 +6,7 @@ namespace :pulitzer do
 		files = {
 					'root_controller.rb' => 'app/controllers',
 					'application_controller.rb' => 'app/controllers',
+					'admin_controller.rb' => 'app/controllers',
 					'admin.js' => 'app/assets/javascripts',
 					'admin.css' => 'app/assets/stylesheets',
 					'admin.html.haml' => 'app/views/layouts',
@@ -17,6 +18,7 @@ namespace :pulitzer do
 					'storage.yml' => 'config',
 					'route_downcaser.rb' => 'config/initialiers',
 					'index.html.haml' => 'app/views/root',
+					'admin' => 'app/views',
 		}
 
 		FileUtils::mkdir_p( File.join( Rails.root, 'app/views/application' ) )
