@@ -5,7 +5,7 @@ module Pulitzer
 		def page_meta
 			super.merge( fb_type: 'article' )
 		end
-		
+
 	end
 
 end

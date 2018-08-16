@@ -5,7 +5,7 @@ module Pulitzer
 
 
 		def clone
-			authorize( Page, :admin_create? )
+			authorize( Page )
 			@new_page = Page.new(
 				title: 			@page.title + " (copy)",
 				subtitle: 		@page.subtitle,
@@ -34,7 +34,7 @@ module Pulitzer
 
 
 		def create
-			authorize( Page, :admin_create? )
+			authorize( Page )
 			@page = Page.new( page_params )
 			@page.publish_at ||= Time.zone.now
 			@page.user = current_user
@@ -64,7 +64,7 @@ module Pulitzer
 
 
 		def empty_trash
-			authorize( Page, :admin_empty_trash? )
+			authorize( Page )
 			@pages = Page.trash.destroy_all
 			redirect_back( fallback_location: '/admin' )
 			set_flash "#{@pages.count} destroyed"
@@ -72,7 +72,7 @@ module Pulitzer
 
 
 		def index
-			authorize( Page, :admin? )
+			authorize( Page )
 
 			sort_by = params[:sort_by] || 'publish_at'
 			sort_dir = params[:sort_dir] || 'desc'

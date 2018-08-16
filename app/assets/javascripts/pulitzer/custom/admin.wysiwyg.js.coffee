@@ -36,8 +36,6 @@ init_wysiwyg = (container)->
 			config.toolbar_sticky = config.toolbar_sticky || false
 			config.char_counter_count = config.char_counter_count || false
 
-			console.log( 'wysiwyg config', config )
-
 			toolbar_preset = config.toolbar_preset || 'default'
 
 			wysiwyg_toolbar_buttons = config.toolbar_buttons || default_wysiwyg_toolbar_button_presets[toolbar_preset] || default_wysiwyg_toolbar_button_presets['default']
@@ -101,8 +99,7 @@ init_wysiwyg = (container)->
 
 
 
+$(document).ready ()->
+	$(document).trigger('ready')
 $(document).on 'ready', (e)->
-
-	container = $(e.target)
-
-	init_wysiwyg( container )
+	init_wysiwyg( $(e.target) )

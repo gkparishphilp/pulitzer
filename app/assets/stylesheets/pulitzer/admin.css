@@ -1,6 +1,8 @@
 /*
 *= require ./plugins/bootstrap-datetimepicker
 *= require ./plugins/select2
+*= require ./custom/admin.wysiwyg
+*= require ./custom/admin.bootstrap
 
 *= require_self
 

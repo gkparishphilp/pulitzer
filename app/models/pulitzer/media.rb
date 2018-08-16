@@ -23,7 +23,7 @@ module Pulitzer
 		belongs_to	:user
 		has_many 	:media_versions, -> { order("id DESC") }
 
-		belongs_to	:working_media_version, :class_name => "SwellMedia::MediaVersion", optional: true
+		belongs_to	:working_media_version, :class_name => "Pulitzer::MediaVersion", optional: true
 		belongs_to 	:managed_by, class_name: 'User', optional: true
 		belongs_to 	:category, optional: true
 

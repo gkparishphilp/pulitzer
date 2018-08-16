@@ -14,7 +14,7 @@
 			%a.btn.btn-success{ data: { toggle: :modal, target: '#new_page' } }
 				%i.fa.fa-plus-square
 				New
-	
+
 	.row
 		.col-xs-6
 			= raw paginate @pages
@@ -29,13 +29,13 @@
 		.col-xs-12
 			%table.table
 				%thead
-					%th 
+					%th
 						Title
 						%a{ href: page_admin_index_path( sort_by: 'title', sort_dir: 'asc' ) }
 							%i.fa.fa-arrow-up
 						%a{ href: page_admin_index_path( sort_by: 'title', sort_dir: 'desc' ) }
 							%i.fa.fa-arrow-down
-					%th 
+					%th
 						Publish At
 						%a{ href: page_admin_index_path( sort_by: 'publish_at', sort_dir: 'asc' ) }
 							%i.fa.fa-arrow-up
@@ -53,7 +53,7 @@
 								%a.btn{ 'data-clipboard-text' => page.url, style: 'padding:0;border:none;' }
 									= page.path
 									%i.fa.fa-clipboard
-		
+
 							%td
 								= page.publish_at.to_s( :slashed_time )
 							%td
@@ -86,7 +86,7 @@
 												%i.fa.fa-trash-o
 												Delete!
 
-- if SwellMedia::Page.trash.present?
+- if Pulitzer::Page.trash.present?
 	.pull-right{ style: 'margin-right:2em;' }
 		%a{ href: empty_trash_page_admin_index_path, data: { method: 'delete', confirm: 'Are you sure?' } }
 			%btn.btn.btn-danger

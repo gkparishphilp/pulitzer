@@ -34,11 +34,14 @@
 		= csrf_meta_tags
 
 	%body
-		#cl-wrapper
-			= render 'admin/sidebar'
-			#pcont.container-fluid{ class: "controller_#{controller_name.underscore} action_#{action_name.underscore}" }
-				= render 'admin/navbar'
+		.container-fluid
+			= render 'admin/navbar'
 
-				.cl-mcont
-					= render 'application/flash'
-					= yield
+		.container-fluid
+			= render 'application/flash'
+			= yield
+
+		= render 'admin/footer'
+
+		= render 'pulitzer/article_admin/new_modal'
+		= render 'pulitzer/page_admin/new_modal'

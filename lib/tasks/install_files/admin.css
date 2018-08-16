@@ -1,6 +1,7 @@
-/* Replace with theme files */
-@import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
-
 /*
+ *= require_self
  *= require 'pulitzer/admin'
  */
+
+/* Replace with theme files */
+@import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
