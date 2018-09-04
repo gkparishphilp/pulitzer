@@ -4,7 +4,7 @@ module Pulitzer
 		module ApplicationControllerConcern
 			extend ActiveSupport::Concern
 
-			included do		
+			included do
 				helper Pulitzer::ApplicationHelper
 			end
 
@@ -20,7 +20,8 @@ module Pulitzer
 			####################################################
 			# Instance Methods
 
-			
+
+			protected
 			
 			def set_flash( msg, code=:success, *objs )
 				if flash[code].blank?
@@ -33,6 +34,14 @@ module Pulitzer
 						flash[code] += "<p>#{error.to_s}: #{obj.errors[error].join(';')}</p>"
 					end
 				end
+			end
+
+			def add_page_event_data( args={} )
+
+				@page_event_data ||= []
+
+				@page_event_data << args
+
 			end
 
 			def set_page_meta( args={} )
