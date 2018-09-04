@@ -6,6 +6,8 @@ Pulitzer::Engine.routes.draw do
 		delete :empty_trash, on: :collection
 	end
 
+	resources :attachments, only: [:create,:destroy,:index]
+
 	resources :category_admin
 
 	resources :page_admin do

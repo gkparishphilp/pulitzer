@@ -96,8 +96,6 @@ module Pulitzer
 		def preview
 			authorize( @page )
 			@media = @page
-			layout = @media.slug == 'homepage' ? 'swell_media/homepage' : "#{@media.class.name.underscore.pluralize}"
-			render "swell_media/pages/show", layout: layout
 		end
 
 

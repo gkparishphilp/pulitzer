@@ -1,1 +1,1 @@
-json.array! @articles, partial: 'swell_media/articles/article', as: :article
+json.array! @articles, partial: 'pulitzer/articles/article', as: :article

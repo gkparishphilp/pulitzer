@@ -75,13 +75,6 @@ module Pulitzer
 		def preview
 			authorize( @article )
 			@media = @article
-
-			#@media_comments = SwellSocial::UserPost.active.where( parent_obj_id: @media.id, parent_obj_type: @media.class.name ).order( created_at: :desc ) if defined?( SwellSocial )
-
-			# layout = @media.class.name.underscore.pluralize
-			# layout = @media.layout if @media.layout.present?
-
-			# render "swell_media/articles/show", layout: layout
 		end
 
 
