@@ -19,6 +19,14 @@ class ApplicationController < ActionController::Base
 	# end
 
 	protected
+		def client_ip
+			request.headers['CF-Connecting-IP'] || request.remote_ip
+		end
+
+		def client_ip_country
+			request.headers['CF-IPCountry']
+		end
+		
 		def log_event( opts={} )
 			true
 		end

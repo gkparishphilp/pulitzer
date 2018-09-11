@@ -22,7 +22,14 @@ module Pulitzer
 
 
 			protected
-			
+			def client_ip
+				request.remote_ip
+			end
+
+			def client_ip_country
+				nil
+			end
+
 			def set_flash( msg, code=:success, *objs )
 				if flash[code].blank?
 					flash[code] = "<p>#{msg}</p>"
