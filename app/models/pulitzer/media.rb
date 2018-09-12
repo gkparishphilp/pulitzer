@@ -61,7 +61,7 @@ module Pulitzer
 
 
 		def self.published( args = {} )
-			where( "media.publish_at <= :now", now: Time.zone.now ).active.anyone
+			where( "pulitzer_media.publish_at <= :now", now: Time.zone.now ).active.anyone
 		end
 
 		def published?
@@ -126,6 +126,15 @@ module Pulitzer
 
 			}
 		end
+
+		# def new_embedded_attachments=( attachments )
+		# 	self.embedded_attachments.attach( attachments )
+		# end
+
+		# def new_other_attachments=( attachments )
+		# 	self.other_attachments.attach( attachments )
+		# end
+
 
 		def sanitized_content
 			ActionView::Base.full_sanitizer.sanitize( self.content )
