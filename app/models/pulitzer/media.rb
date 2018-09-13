@@ -10,7 +10,7 @@ module Pulitzer
 		#expires_cache :user_id, :managed_by_id, :public_id, :category_id, :parent_id, :lft, :rgt, :type, :sub_type, :title, :subtitle, :avatar, :cover_image, :avatar_caption, :layout, :template, :description, :content, :slug, :is_commentable, :is_sticky, :show_title, :modified_at, :keywords, :duration, :price, :status, :availability, :publish_at, :tags
 
 
-		enum status: { 'draft' => 0, 'active' => 1, 'archive' => 2, 'trash' => 3 }
+		enum status: { 'draft' => 0, 'active' => 1, 'archive' => 100, 'trash' => -50 }
 		enum availability: { 'anyone' => 1, 'logged_in_users' => 2, 'just_me' => 3 }
 
 		before_create	:set_template_and_layout
