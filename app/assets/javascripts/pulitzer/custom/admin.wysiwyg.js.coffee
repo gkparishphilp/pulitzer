@@ -38,6 +38,10 @@ init_wysiwyg = (container)->
 
 			toolbar_preset = config.toolbar_preset || 'default'
 
+			config.image_upload_params = (config.image_upload_params || { attribute: (config.attachment_attribute || 'embedded_attachments'), object_class: config.object_class, object_id: config.object_id })
+			config.image_upload_params[$('meta[name=csrf-param]').attr('content')] = $('meta[name=csrf-token]').attr('content')
+			config.image_upload_method = config.image_upload_method || 'POST'
+
 			wysiwyg_toolbar_buttons = config.toolbar_buttons || default_wysiwyg_toolbar_button_presets[toolbar_preset] || default_wysiwyg_toolbar_button_presets['default']
 			wysiwyg_toolbar_buttons_md = config.toolbar_buttons_md || default_wysiwyg_toolbar_button_presets[toolbar_preset+"_md"] || wysiwyg_toolbar_buttons
 			wysiwyg_toolbar_buttons_sm = config.toolbar_buttons_sm || default_wysiwyg_toolbar_button_presets[toolbar_preset+"_sm"] || wysiwyg_toolbar_buttons_md
@@ -55,7 +59,10 @@ init_wysiwyg = (container)->
 				height: $this.data('height'),
 				toolbarSticky: config.toolbar_sticky,
 				toolbarStickyOffset: config.toolbar_sticky_offset || $('header>nav').outerHeight(),
-				imageUploadURL: (config.asset_manager || '/asset_manager'),
+				imageUploadParam: (config.image_upload_param || 'attachments'),
+				imageUploadParams: config.image_upload_params,
+				imageUploadURL: (config.image_upload_url || '/attachments'),
+				imageUploadMethod: config.image_upload_method,
 				toolbarButtons: wysiwyg_toolbar_buttons,
 				toolbarButtonsMD: wysiwyg_toolbar_buttons_md,
 				toolbarButtonsSM: wysiwyg_toolbar_buttons_sm,
@@ -65,32 +72,33 @@ init_wysiwyg = (container)->
 			$this.froalaEditor('events.focus') if $this.attr('autofocus')
 		$('textarea.wysiwyg-inline', container).each ->
 			$this = $(this)
+			toolbar_preset = config.toolbar_preset || 'default'
 
-			toolbar_preset = ($this.data('wysiwyg') || {}).toolbar_preset || 'default'
-
-			wysiwyg_toolbar_buttons = ($this.data('wysiwyg') || {}).toolbar_buttons || default_wysiwyg_toolbar_button_presets[toolbar_preset] || default_wysiwyg_toolbar_button_presets['default']
-			wysiwyg_toolbar_buttons_md = ($this.data('wysiwyg') || {}).toolbar_buttons_md || default_wysiwyg_toolbar_button_presets[toolbar_preset+"_md"] || wysiwyg_toolbar_buttons
-			wysiwyg_toolbar_buttons_sm = ($this.data('wysiwyg') || {}).toolbar_buttons_sm || default_wysiwyg_toolbar_button_presets[toolbar_preset+"_sm"] || wysiwyg_toolbar_buttons_md
-			wysiwyg_toolbar_buttons_xs = ($this.data('wysiwyg') || {}).toolbar_buttons_xs || default_wysiwyg_toolbar_button_presets[toolbar_preset+"_xs"] || wysiwyg_toolbar_buttons_sm
+			wysiwyg_toolbar_buttons = config.toolbar_buttons || default_wysiwyg_toolbar_button_presets[toolbar_preset] || default_wysiwyg_toolbar_button_presets['default']
+			wysiwyg_toolbar_buttons_md = config.toolbar_buttons_md || default_wysiwyg_toolbar_button_presets[toolbar_preset+"_md"] || wysiwyg_toolbar_buttons
+			wysiwyg_toolbar_buttons_sm = config.toolbar_buttons_sm || default_wysiwyg_toolbar_button_presets[toolbar_preset+"_sm"] || wysiwyg_toolbar_buttons_md
+			wysiwyg_toolbar_buttons_xs = config.toolbar_buttons_xs || default_wysiwyg_toolbar_button_presets[toolbar_preset+"_xs"] || wysiwyg_toolbar_buttons_sm
 
 			$this.froalaEditor({
-				heightMin: $this.data('heightmin') || ($this.data('wysiwyg') || {}).height_min,
+				heightMin: $this.data('heightmin') || config.height_min,
 				linkInsertButtons: ['linkBack'],
 				linkList: false,
 				linkMultipleStyles: false,
 				toolbarInline: true,
 				pastePlain: true,
-				charCounterCount: ($this.data('wysiwyg') || {}).char_counter_count || false,
-				toolbarContainer: ($this.data('wysiwyg') || {}).toolbar_container || null,
-				toolbarVisibleWithoutSelection: ($this.data('wysiwyg') || {}).toolbar_visible_without_selection || false,
+				charCounterCount: config.char_counter_count || false,
+				toolbarContainer: config.toolbar_container || null,
+				toolbarVisibleWithoutSelection: config.toolbar_visible_without_selection || false,
 				toolbarButtons: wysiwyg_toolbar_buttons,
 				toolbarButtonsMD: wysiwyg_toolbar_buttons_md,
 				toolbarButtonsSM: wysiwyg_toolbar_buttons_sm,
 				toolbarButtonsXS: wysiwyg_toolbar_buttons_xs,
 				height: $this.data('height'),
 				placeholderText: $this.attr('placeholder'),
-			#toolbarSticky: false,
-				imageUploadURL: (($this.data('wysiwyg') || {}).assets || '/assets'),
+				#toolbarSticky: false,
+				imageUploadParam: (config.image_upload_param || 'attachments'),
+				imageUploadParams: config.image_upload_params,
+				imageUploadURL: (config.image_upload_url || '/attachments'),
 			})
 			$this.froalaEditor('events.focus') if $this.attr('autofocus')
 	catch e

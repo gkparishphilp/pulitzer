@@ -5,7 +5,16 @@ module Pulitzer
 		def create
 			authorize( @model.try( params[:attribute] ).new, attachments: active_storate_params[:attachments] )
 			@model.try( params[:attribute] ).attach( active_storate_params[:attachments] )
-			redirect_back fallback_location: '/'
+
+			respond_to do |format|
+				format.json {
+					@model.reload
+					render :json => { link: @model.try( params[:attribute] ).last.service_url }
+				}
+				format.html {
+					redirect_back fallback_location: '/'
+				}
+			end
 		end
 
 
