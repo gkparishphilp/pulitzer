@@ -4,8 +4,8 @@ module Pulitzer
 		module RootConcern
 			extend ActiveSupport::Concern
 
-			included do		
-				
+			included do
+
 			end
 
 
@@ -19,7 +19,7 @@ module Pulitzer
 
 			####################################################
 			# Instance Methods
-			
+
 			def get_pulitzer_media( id )
 				if id.present?
 					page_id = id.downcase
@@ -42,6 +42,14 @@ module Pulitzer
 					redirect_to root_path
 					return false
 				end
+			end
+
+			def pulitzer_render( media )
+
+				set_page_meta( media.page_meta )
+
+				render media.template, layout: media.layout
+
 			end
 
 		end
