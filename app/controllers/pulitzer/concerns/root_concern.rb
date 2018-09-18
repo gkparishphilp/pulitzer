@@ -25,14 +25,15 @@ module Pulitzer
 					page_id = id.downcase
 					if page_id.match( /sitemap/i )
 						redirect_to Pulitzer.site_map_url
-						return false
 					else
 						begin
 							@media = Media.friendly.find( page_id )
 							if not( @media.redirect_url.blank? )
-								redirect_to @media.redirect_url, status: :moved_permanently and return
+								redirect_to @media.redirect_url, status: :moved_permanently
 							elsif not( @media.published? )
 								raise ActionController::RoutingError.new( 'Not Found' )
+							else
+								return true
 							end
 						rescue ActiveRecord::RecordNotFound
 							raise ActionController::RoutingError.new( 'Not Found' )
@@ -40,8 +41,9 @@ module Pulitzer
 					end
 				else
 					redirect_to root_path
-					return false
 				end
+
+				return false
 			end
 
 			def pulitzer_render( media )

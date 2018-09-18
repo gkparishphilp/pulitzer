@@ -7,15 +7,15 @@ class RootController < ApplicationController
 
 	# this is the homepage!
 	def index
-		
+
 	end
 
 	# this handles all media in the pulitzer_media table
 	def show
-		
-		# get_pulitzer_media is a wrapper on friendly_id that also 
+
+		# get_pulitzer_media is a wrapper on friendly_id that also
 		# handles special cases such as the sitemap & handling redirects
-		get_pulitzer_media( params[:id] )
+		return unless get_pulitzer_media( params[:id] )
 
 		# pulitzer_render renders while handling custom layouts/views
 		# via media.layout and media.template
@@ -24,7 +24,7 @@ class RootController < ApplicationController
 
 
 	# route additional static pages not edited via wysiwyg here
-	# e.g. 
+	# e.g.
 	# route '/about', to: 'root#about'
 	# then here
 	# def about
