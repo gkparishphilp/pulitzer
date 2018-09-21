@@ -17,7 +17,7 @@ module Pulitzer
 					@mounted_at = mounted_at
 				end
 
-				def config_mounted_at
+				def mounted_path
 					@mounted_at
 				end
 
@@ -28,7 +28,7 @@ module Pulitzer
 			end
 
 			def path( args={} )
-				mounted_at = args[:mounted_at] || self.class.config_mounted_at
+				mounted_at = args[:mounted_at] || self.class.mounted_path
 
 				if mounted_at.nil? || mounted_at == '/'
 					if self.slug == 'homepage'
