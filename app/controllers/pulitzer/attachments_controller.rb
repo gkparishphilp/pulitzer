@@ -6,6 +6,7 @@ module Pulitzer
 			authorize( @model.try( params[:attribute] ).new, attachments: active_storate_params[:attachments] )
 			@model.try( params[:attribute] ).attach( active_storate_params[:attachments] )
 
+			set_flash "Attachment Added"
 			respond_to do |format|
 				format.json {
 					@model.reload
@@ -19,9 +20,12 @@ module Pulitzer
 
 
 		def destroy
-			@attachment = @model.try( params[:attribute] ).find_by_id(params[:attachment_id])
+			@attachment = @model.try( params[:attribute] ).find_by_id(params[:id])
 			authorize( @attachment )
 			@attachment.purge
+
+			set_flash "Attachment Removed"
+
 			redirect_back fallback_location: '/'
 		end
 
