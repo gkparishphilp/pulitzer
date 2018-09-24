@@ -32,9 +32,8 @@ module Pulitzer
 
 		private
 			def get_model
-				puts "active_storate_params #{active_storate_params.to_json}"
-				model_class = "::#{active_storate_params[:object_class]}".constantize
-				raise Exception.new("Invalid model class: #{model_class}") unless model_class < ApplicationRecord
+				model_class = "::#{active_storate_params[:object_class]}".safe_constantize
+				raise Exception.new("Invalid model class: #{model_class}") unless model_class < ::ApplicationRecord
 				@model = model_class.find( active_storate_params[:object_id] )
 				raise Exception.new('Invalid attachment attribute') unless @model.respond_to?( active_storate_params[:attribute] ) && @model.try( active_storate_params[:attribute] ).is_a?( ActiveStorage::Attached::Many )
 			end
