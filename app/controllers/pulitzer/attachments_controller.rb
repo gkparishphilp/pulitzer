@@ -32,6 +32,7 @@ module Pulitzer
 
 		private
 			def get_model
+				puts "active_storate_params #{active_storate_params.to_json}"
 				model_class = active_storate_params[:object_class].constantize
 				raise Exception.new('Invalid model class') unless model_class < ApplicationRecord
 				@model = model_class.find( active_storate_params[:object_id] )
