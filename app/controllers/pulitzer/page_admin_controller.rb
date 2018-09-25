@@ -96,6 +96,10 @@ module Pulitzer
 		def preview
 			authorize( @page )
 			@media = @page
+
+			# copied from pulitzer_render
+			set_page_meta( @media.page_meta )
+			render @media.template, layout: @media.layout
 		end
 
 
