@@ -40,7 +40,7 @@
 						%a.btn.btn-default{ 'data-clipboard-text' => @page.avatar }
 							%i.fa.fa-clipboard
 
-				-# .form-group
+				.form-group
 					= f.label :cover_attachment, "Cover Image"
 					= f.file_field :cover_attachment
 					- if @page.cover_image
@@ -49,7 +49,7 @@
 							%i.fa.fa-clipboard
 
 				.form-group
-					= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @page.class.base_class.name, page: @category.id }.to_json }
+					= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @page.class.base_class.name, object_id: @page.id }.to_json }
 
 
 			.col-xs-4
