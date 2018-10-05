@@ -1,5 +1,6 @@
 
 
+require 'core_extensions/active_storage/blob_extensions'
 require 'awesome_nested_set'
 require 'haml'
 require 'jquery-rails'
@@ -17,7 +18,7 @@ module Pulitzer
 		mattr_accessor :app_time_zone
 
 		mattr_accessor :article_path
-		
+
 		mattr_accessor :article_avatars
 
 		mattr_accessor :asset_host
@@ -69,6 +70,13 @@ module Pulitzer
 
 	class Engine < ::Rails::Engine
 		isolate_namespace Pulitzer
+
+
+		initializer "pulitzer.active_storage_blob" do
+			ActiveSupport.on_load(:active_storage_blob) do
+				ActiveStorage::Blob.prepend CoreExtensions::ActiveStorage::BlobExtensions
+			end
+		end
 
 	end
 end
