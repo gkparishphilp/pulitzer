@@ -223,7 +223,7 @@ module Pulitzer
 			end
 
 			def set_template_and_layout
-				self.layout ||= 'application'
+				self.layout ||= ( Pulitzer.default_layouts[Media.class.name] || Pulitzer.default_layouts[self.class.name] || 'application' )
 				self.template ||= "#{self.class.name.underscore.pluralize}/show"
 			end
 
