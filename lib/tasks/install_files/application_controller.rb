@@ -4,7 +4,9 @@ class ApplicationController < ActionController::Base
 	protect_from_forgery with: :exception
 
 	include Pulitzer::Concerns::ApplicationControllerConcern
+	# include SwellId::Concerns::ApplicationControllerConcern
 
+	# before_action :register_then # to enable uncomment this and include SwellId::Concerns::ApplicationControllerConcern
 	before_action :set_page_meta
 
 
@@ -26,7 +28,7 @@ class ApplicationController < ActionController::Base
 		def client_ip_country
 			request.headers['CF-IPCountry']
 		end
-		
+
 		def log_event( opts={} )
 			true
 		end
