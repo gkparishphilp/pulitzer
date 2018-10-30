@@ -12,7 +12,7 @@ module Pulitzer
 			@title = @category.try(:name)
 			@title ||= "Blog"
 
-			@articles = Pulitzer::Article.order( publish_at: :desc )
+			@articles = Pulitzer::Article.published.order( publish_at: :desc )
 			@articles = @articles.where( category: @category ) if @category
 			@articles = @articles.with_any_tags( @tagged ) if @tagged
 			@articles = @articles.where( user: @author ) if @author
