@@ -26,5 +26,22 @@ module Pulitzer
 			return args[:else_class]
 
 		end
+
+		def render_content_sections( args = {} )
+
+			if args[:content_sections].present?
+				content_sections = args[:content_sections]
+			elsif args[:parent].present?
+				content_sections = args[:parent].content_sections
+			end
+
+			content_sections = content_sections.where( key: args[:key] )
+
+			content_sections = content_sections.order( position: :asc, id: :asc )
+		end
+
+		def render_content_section( content_section, args = {} )
+			args[:partial] ||= content_section.partial || 'application/content_sections/default'
+		end
 	end
 end
