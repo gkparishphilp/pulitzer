@@ -22,6 +22,7 @@ module Pulitzer
 
 		belongs_to	:user
 		has_many 	:media_versions, -> { order("id DESC") }
+		has_many 	:content_sections, as: :parent, -> { order("seq ASC") }
 
 		belongs_to	:working_media_version, :class_name => "Pulitzer::MediaVersion", optional: true
 		belongs_to 	:managed_by, class_name: 'User', optional: true
@@ -40,7 +41,6 @@ module Pulitzer
 		acts_as_taggable_array_on :tags
 
 		accepts_nested_attributes_for :working_media_version
-
 
 
 		# Class Methods
