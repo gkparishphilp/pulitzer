@@ -10,6 +10,8 @@ Pulitzer::Engine.routes.draw do
 
 	resources :category_admin
 
+	resources :content_section_admin
+
 	resources :page_admin do
 		put :clone, on: :member
 		get :preview, on: :member

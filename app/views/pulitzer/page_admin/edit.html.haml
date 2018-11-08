@@ -19,7 +19,7 @@
 	= form_for @page, url: page_admin_path( @page ) do |f|
 
 		.row
-			.col-xs-8
+			.col-sm-8
 				.form-group
 					= f.text_field :title, class: 'form-control'
 
@@ -52,7 +52,7 @@
 					= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @page.class.base_class.name, object_id: @page.id }.to_json }
 
 
-			.col-xs-4
+			.col-sm-4
 				.well
 					.form-group
 						= f.label :publish_at
@@ -72,3 +72,35 @@
 					.form-group
 						= f.submit 'Update', class: 'btn btn-primary'
 						.pull-right= link_to 'Cancel', :back, class: 'btn btn-default btn-sm'
+
+	.row
+		.col-sm-8
+			.row
+				.col-sm-8
+					%h3
+						Content Sections
+				.col-sm-4
+					%a.btn.btn-success.pull-right{ href: '#new_section', data: { toggle: :modal, target: '#new_section' }, style: 'margin-top:1em;' }
+						%i.fa-fa-plus
+						Add
+			
+			- @page.content_sections.each do |section|
+				.row
+					= form_for section, url: content_section_admin_path( section ) do |f|
+						.form-group
+							= f.label :name
+							= f.text_field :name, class: 'form-control'
+						.form-group
+							= f.label :content
+							= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: section.class.base_class.name, object_id: section.id }.to_json }
+
+
+
+						.form-group
+							= f.submit 'Update', class: 'btn btn-primary'
+
+			
+		.col-sm-4
+
+
+= render 'pulitzer/content_sections/new_modal', parent: @page

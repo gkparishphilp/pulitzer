@@ -1,0 +1,9 @@
+- if content_section.background_attachment.service_url.present?
+	%section.pulitzer_content_section.pulitzer_content_section_background[content_section]{ class: content_section.css_classes, style: "background-image: url('#{content_section.background_attachment.service_url}');#{content_section.css_style}" }
+		= raw content_section.content
+- elsif content_section.css_style.present?
+	%section.pulitzer_content_section[content_section]{ class: content_section.css_classes, style: content_section.css_style }
+		= raw content_section.content
+- else
+	%section.pulitzer_content_section[content_section]{ class: content_section.css_classes }
+		= raw content_section.content

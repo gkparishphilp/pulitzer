@@ -22,7 +22,7 @@ module Pulitzer
 
 		belongs_to	:user
 		has_many 	:media_versions, -> { order("id DESC") }
-		has_many 	:content_sections, as: :parent, -> { order("seq ASC") }
+		has_many 	:content_sections, -> { order("seq ASC") }, as: :parent
 
 		belongs_to	:working_media_version, :class_name => "Pulitzer::MediaVersion", optional: true
 		belongs_to 	:managed_by, class_name: 'User', optional: true

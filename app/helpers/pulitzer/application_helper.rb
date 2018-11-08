@@ -21,7 +21,7 @@ module Pulitzer
 					return class_name if controller_name == controller.to_s
 				end
 			elsif args[:controller].present?
-				return class_name if controller_name == args[:controller].to_s
+				return class_name if controller_name == args[:controller].to_s 
 			end
 
 			return args[:else_class]
@@ -41,8 +41,9 @@ module Pulitzer
 		# 	content_sections = content_sections.order( position: :asc, id: :asc )
 		# end
 
-		def render_content_section( content_section, args = {} )
-			args[:partial] ||= content_section.partial || 'application/content_sections/default'
+		def render_section( content_section, args = {} )
+			partial = args[:partial] || content_section.partial || 'pulitzer/content_sections/partial'
+			render partial, content_section: content_section
 		end
 	end
 end
