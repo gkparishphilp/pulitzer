@@ -5,6 +5,20 @@ $(->
 
 	$('.select-2-basic').select2();
 
+	$('.toggle').hide()
+	$('.toggle-hide').hide()
+	$('.toggle-show').click ()->
+		$('.toggle').show()
+		$('.toggle-hide').show()
+		$('.toggle-show').hide()
+		return false
+	$('.toggle-hide').click ()->
+		$('.toggle').hide()
+		$('.toggle-hide').hide()
+		$('.toggle-show').show()
+		return false
+
+
 	if $('.datepicker').datetimepicker != undefined
 		$('.datepicker').datetimepicker
 			dateFormat: 'dd MM, yy'

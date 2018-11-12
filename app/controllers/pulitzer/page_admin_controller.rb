@@ -60,6 +60,12 @@ module Pulitzer
 
 		def edit
 			authorize( @page )
+
+			partial_path = "#{Rails.root}/app/views/pulitzer/content_sections/partials/" 
+
+			@partials = [ 'default' ]
+			@partials += Dir.glob( "#{partial_path}**/*" ).collect{ |f| f.gsub( '.html.haml', '' ).gsub( "#{partial_path}_", '' )  }
+			
 		end
 
 

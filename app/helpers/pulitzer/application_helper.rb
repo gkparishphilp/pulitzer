@@ -42,7 +42,11 @@ module Pulitzer
 		# end
 
 		def render_section( content_section, args = {} )
-			partial = args[:partial] || content_section.partial || 'pulitzer/content_sections/partial'
+			partial_path = 'pulitzer/content_sections/partials/'
+
+			partial = args[:partial] || content_section.partial || 'default'
+			partial = partial_path + partial
+			
 			render partial, content_section: content_section
 		end
 	end
