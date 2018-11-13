@@ -22,6 +22,10 @@ module Pulitzer
 			@new_page.user = current_user
 			@new_page.status = 'draft'
 
+			@page.content_sections.each do |section|
+				s = @new_page.content_sections.new( section.attributes.except( :id, :created_at, :updated_at ) )
+			end
+
 			if @new_page.save
 				set_flash 'Page Cloned'
 				redirect_to edit_page_admin_path( @new_page )
@@ -126,7 +130,7 @@ module Pulitzer
 
 		private
 			def page_params
-				params.require( :page ).permit( :title, :subtitle, :avatar_caption, :slug_pref, :description, :content, :status, :publish_at, :show_title, :is_commentable, :user_id, :tags, :tags_csv, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
+				params.require( :page ).permit( :title, :subtitle, :avatar_caption, :slug_pref, :description, :content, :status, :publish_at, :show_title, :is_commentable, :user_id, :tags, :tags_csv, :layout, :template, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
 			end
 
 			def get_page

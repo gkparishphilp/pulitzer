@@ -41,13 +41,13 @@ module Pulitzer
 		# 	content_sections = content_sections.order( position: :asc, id: :asc )
 		# end
 
-		def render_section( content_section, args = {} )
+		def render_section( section, args = {} )
 			partial_path = 'pulitzer/content_sections/partials/'
 
-			partial = args[:partial] || content_section.partial || 'default'
+			partial = args[:partial] || section.partial || 'default'
 			partial = partial_path + partial
-			
-			render partial, content_section: content_section
+
+			render partial, section: section
 		end
 	end
 end

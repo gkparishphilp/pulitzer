@@ -31,6 +31,14 @@
 							%a.btn.btn-default{ 'data-clipboard-text' => @page.url }
 								%i.fa.fa-clipboard
 
+				.form-group
+					%label Layout Name
+					= f.text_field :layout, class: 'form-control'
+
+				.form-group
+					%label Template Name
+					= f.text_field :template, class: 'form-control'
+
 
 				.form-group
 					= f.label :avatar_attachment, "Avatar Image"
@@ -48,7 +56,7 @@
 						%a.btn.btn-default{ 'data-clipboard-text' => @page.cover_image }
 							%i.fa.fa-clipboard
 
-				.form-group
+				-#.form-group
 					= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @page.class.base_class.name, object_id: @page.id }.to_json }
 
 
@@ -80,60 +88,12 @@
 					%h3
 						Content Sections
 				.col-sm-4
-					%a.btn.btn-success.pull-right{ href: '#new_section', data: { toggle: :modal, target: '#new_section' }, style: 'margin-top:1em;' }
+					-#%a.btn.btn-success.pull-right{ href: '#new_section', data: { toggle: :modal, target: '#new_section' }, style: 'margin-top:1em;' }
 						%i.fa-fa-plus
 						Add
 			
 			- @page.content_sections.each do |section|
-				
-				= form_for section, url: content_section_admin_path( section ) do |f|
-					.well
-						.row
-							.col-sm-6
-								.form-group
-									= f.label :name
-									= f.text_field :name, class: 'form-control'
-								%a.toggle-show{ href: '#' }
-									Show Advanced
-								
-								%a.toggle-hide{ href: '#' }
-									Hide Advanced
-							.col-sm-6
-								.form-group
-									= f.label :seq
-									= f.text_field :seq, class: 'form-control'
-						.toggle
-							.row
-								.col-sm-12
-									.form-group
-										= f.label :partial
-										=# f.text_field :partial, class: 'form-control'
-										= f.select :partial, @partials, {}, class: 'form-control'
-
-								
-							.row
-								.col-sm-12
-									.form-group
-										= f.label :css_classes
-										= f.text_field :css_classes, class: 'form-control'
-							.row
-								.col-sm-12
-									.form-group
-										= f.label :css_style
-										= f.text_field :css_style, class: 'form-control'
-						.row
-							.col-sm-12
-								.form-group
-									= f.label :title
-									= f.text_field :title, class: 'form-control'
-								.form-group
-									= f.label :content
-									= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: section.class.base_class.name, object_id: section.id }.to_json }
-
-
-
-							.form-group
-								= f.submit 'Update', class: 'btn btn-primary pull-right', style: 'margin-right:2em;'
+				= render 'pulitzer/content_sections/form', section: section
 
 			
 		.col-sm-4

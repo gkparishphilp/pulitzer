@@ -23,6 +23,8 @@ module Pulitzer
 
 		def update
 			@section = ContentSection.friendly.find( params[:id] )
+			params[:content_section][:seq] = 1 if params[:content_section][:seq] == 'first'
+			params[:content_section][:seq] = ContentSection.maximum( :seq ) + 1 if params[:content_section][:seq] == 'last'
 			@section.update( content_section_params )
 			redirect_back fallback_location: '/admin'
 		end
@@ -31,7 +33,7 @@ module Pulitzer
 		private
 
 			def content_section_params
-				params.require( :content_section ).permit( :name, :title, :description, :seq, :partial, :css_style, :css_classes, :content )
+				params.require( :content_section ).permit( :parent_id, :parent_type, :name, :title, :description, :seq, :partial, :css_style, :css_classes, :content, :background_attachment )
 			end
 
 	end
