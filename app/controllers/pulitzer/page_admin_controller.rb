@@ -65,7 +65,7 @@ module Pulitzer
 
 			@partials = [ 'default' ]
 			@partials += Dir.glob( "#{partial_path}**/*" ).collect{ |f| f.gsub( '.html.haml', '' ).gsub( "#{partial_path}_", '' )  }
-			
+			@partials.sort!
 		end
 
 
