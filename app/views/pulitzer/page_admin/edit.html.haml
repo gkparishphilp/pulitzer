@@ -88,12 +88,13 @@
 					%h3
 						Content Sections
 				.col-sm-4
-					-#%a.btn.btn-success.pull-right{ href: '#new_section', data: { toggle: :modal, target: '#new_section' }, style: 'margin-top:1em;' }
+					%a.btn.btn-success.pull-right{ href: '#new_section', data: { toggle: :modal, target: '#new_section' }, style: 'margin-top:1em;' }
 						%i.fa-fa-plus
 						Add
 			
 			- @page.content_sections.each do |section|
 				= render 'pulitzer/content_sections/form', section: section
+
 
 			
 		.col-sm-4
