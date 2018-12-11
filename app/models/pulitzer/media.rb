@@ -20,7 +20,7 @@ module Pulitzer
 
 		attr_accessor	:slug_pref, :category_name
 
-		belongs_to	:user
+		belongs_to	:user, optional: true
 		has_many 	:media_versions, -> { order("id DESC") }
 		has_many 	:content_sections, -> { order("seq ASC") }, as: :parent
 
