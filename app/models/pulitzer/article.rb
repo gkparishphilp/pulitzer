@@ -1,6 +1,7 @@
 module Pulitzer
 
 	class Article < Pulitzer::Media
+		include Pulitzer::ArticleSearchable if (Pulitzer::ArticleSearchable rescue nil)
 
 
 		def page_meta

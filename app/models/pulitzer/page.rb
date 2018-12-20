@@ -2,6 +2,8 @@ module Pulitzer
 
 	class Page < Pulitzer::Media
 
+		include Pulitzer::PageSearchable if (Pulitzer::PageSearchable rescue nil)
+
 		after_create :add_content_section
 
 		def page_meta

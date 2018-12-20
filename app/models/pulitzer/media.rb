@@ -4,6 +4,7 @@ module Pulitzer
 
 		include Pulitzer::Concerns::URLConcern
 		#include Pulitzer::Concerns::ExpiresCache
+		include Pulitzer::MediaSearchable if (Pulitzer::MediaSearchable rescue nil)
 
 		mounted_at '/'
 
