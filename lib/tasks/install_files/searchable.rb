@@ -10,7 +10,7 @@ module Searchable
 	end
 
 	def self.search( term, classes=nil )
-		classes ||= [Bazaar::Product, Bazaar::SubscriptionPlan,User]
+		classes ||= []
 		Elasticsearch::Model.search(term, classes)
 	end
 
