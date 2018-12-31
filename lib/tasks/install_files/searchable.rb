@@ -9,21 +9,26 @@ module Searchable
 		after_update :elastic_search_update
 	end
 
-	def self.search( term, classes=nil )
-		classes ||= []
-		Elasticsearch::Model.search(term, classes)
+	def self.search( term, options=nil )
+		options ||= [Bazaar::Product, Bazaar::SubscriptionPlan,User]
+		Elasticsearch::Model.search( term, options )
 	end
 
 	module ClassMethods
-		def search( term, args = {} )
-			self.__elasticsearch__.search term
+		def search( term, options = nil )
+			if options.nil?
+				self.__elasticsearch__.search term
+			else
+				self.__elasticsearch__.search term, options
+			end
 		end
 
-		def drop_create_index!
+		def drop_create_index!( args = { import: true } )
 			self.__elasticsearch__.client.indices.delete index: self.index_name rescue nil
 			self.__elasticsearch__.client.indices.create \
 			  index: self.index_name,
 			  body: { settings: self.settings.to_hash, mappings: self.mappings.to_hash }
+			self.import if args[:import]
 		end
 	end
 
