@@ -11,17 +11,20 @@ namespace :pulitzer do
 					'admin.css' => 'app/assets/stylesheets',
 					'admin.html.haml' => 'app/views/layouts',
 					'application.html.haml' => 'app/views/layouts',
-					'_gtm_head.html.erb' => 'app/views/application',
-					'_gtm_body.html.erb' => 'app/views/application',
-					'_navbar.html.haml' => 'app/views/application',
-					'_footer.html.haml' => 'app/views/application',
+					'_gtm_head.html.erb' => 'app/views/partials/plugins',
+					'_gtm_body.html.erb' => 'app/views/partials/plugins',
+					'_flash.html.haml' => 'app/views/partials/ui',
+					'_navbar.html.haml' => 'app/views/partials/ui',
+					'_footer.html.haml' => 'app/views/partials/ui',
 					'storage.yml' => 'config',
 					'route_downcaser.rb' => 'config/initialiers',
 					'index.html.haml' => 'app/views/root',
 					'admin' => 'app/views',
 		}
 
-		FileUtils::mkdir_p( File.join( Rails.root, 'app/views/application' ) )
+		FileUtils::mkdir_p( File.join( Rails.root, 'app/views/partials' ) )
+		FileUtils::mkdir_p( File.join( Rails.root, 'app/views/partials/ui' ) )
+		FileUtils::mkdir_p( File.join( Rails.root, 'app/views/partials/plugins' ) )
 		FileUtils::mkdir_p( File.join( Rails.root, 'app/views/root' ) )
 		FileUtils::mkdir_p( File.join( Rails.root, 'config/initialiers' ) )
 
