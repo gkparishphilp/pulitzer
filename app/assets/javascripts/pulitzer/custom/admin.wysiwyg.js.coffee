@@ -1,3 +1,8 @@
+
+#= require codemirror
+#= require codemirror/modes/xml
+#= require codemirror/addons/runmode/runmode
+#= require codemirror/addons/runmode/colorize
 #= require ./../plugins/froala/js/froala_editor
 #= require ./../plugins/froala/js/plugins/align
 #= require ./../plugins/froala/js/plugins/char_counter
@@ -68,6 +73,24 @@ init_wysiwyg = (container)->
 				toolbarButtonsSM: wysiwyg_toolbar_buttons_sm,
 				toolbarButtonsXS: wysiwyg_toolbar_buttons_xs,
 				zIndex: ($this.data('wysiwyg') || {}).z_index,
+				codeBeautifierOptions: {
+					end_with_newline: true,
+					indent_inner_html: true,
+					extra_liners: "['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre', 'ul', 'ol', 'table', 'dl']",
+					brace_style: 'expand',
+					indent_char: ' ',
+					indent_size: 4,
+					wrap_line_length: 0
+				},
+				codeMirror: true,
+				codeMirrorOptions: {
+					indentWithTabs: true,
+					lineNumbers: true,
+					lineWrapping: true,
+					mode: 'text/html',
+					tabMode: 'indent',
+					tabSize: 4
+				},
 			})
 			$this.froalaEditor('events.focus') if $this.attr('autofocus')
 		$('textarea.wysiwyg-inline', container).each ->
@@ -99,6 +122,24 @@ init_wysiwyg = (container)->
 				imageUploadParam: (config.image_upload_param || 'attachments'),
 				imageUploadParams: config.image_upload_params,
 				imageUploadURL: (config.image_upload_url || '/attachments'),
+				codeBeautifierOptions: {
+					end_with_newline: true,
+					indent_inner_html: true,
+					extra_liners: "['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre', 'ul', 'ol', 'table', 'dl']",
+					brace_style: 'expand',
+					indent_char: ' ',
+					indent_size: 4,
+					wrap_line_length: 0
+				},
+				codeMirror: true,
+				codeMirrorOptions: {
+					indentWithTabs: true,
+					lineNumbers: true,
+					lineWrapping: true,
+					mode: 'text/html',
+					tabMode: 'indent',
+					tabSize: 4
+				},
 			})
 			$this.froalaEditor('events.focus') if $this.attr('autofocus')
 	catch e
