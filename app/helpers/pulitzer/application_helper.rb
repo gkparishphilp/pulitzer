@@ -2,6 +2,18 @@ module Pulitzer
 	module ApplicationHelper
 
 		def attachment_resolutions(attachment, options={})
+			attached = ( attachment.attached? rescue false )
+
+			# if no attachment, use the fallback
+			if attachment.nil? || not( attached )
+				return [{
+					src: options[:fallback],
+					width: 0,
+					height: 0,
+					breakpoint: 0,
+				}]
+			end
+
 			breakpoints_max = {
 				xs: 575,
 				sm: 767,
@@ -44,7 +56,7 @@ module Pulitzer
 					end
 
 					size = size_parts.last
-				else
+				elsif attached
 
 					size = "#{(breakpoints_max[breakpoint]).to_f / 100 * size[0..-3].to_f}x" if size.end_with?('%x') && breakpoints_max[breakpoint].present?
 					size = "auto" if size.end_with?('%x') && breakpoints_max[breakpoint].nil?
@@ -52,7 +64,7 @@ module Pulitzer
 					size = "#{size.split('x').first}x#{(size.split('x').first.to_f / attachment.blob.metadata['width'] * attachment.blob.metadata['height']).round(2)}" if size.last == 'x'
 					size = "#{(size.split('x').last.to_f / attachment.blob.metadata['height'] * attachment.blob.metadata['width']).round(2)}x#{size.split('x').last}" if size.first == 'x'
 
-					src = "#{attachment.variant(resize: size).processed.service_url}\##{size}"
+					src = "#{attachment.variant(resize: size).processed.service_url}\#resolution-#{size}"
 				end
 
 				resolutions << {
@@ -74,14 +86,14 @@ module Pulitzer
 
 			content = <<-EOS
 #{selector} {
-	background-image: url('#{smallest_resolution[:src]}')
+	background-image: url('#{smallest_resolution[:src]}') !important;
 }
 EOS
 			resolutions.each do |resolution|
 				content = content + <<-EOS
 @media(min-width: #{resolution[:breakpoint]}px) {
 	#{selector} {
-		background-image: url('#{resolution[:src]}')
+		background-image: url('#{resolution[:src]}') !important;
 	}
 }
 EOS
