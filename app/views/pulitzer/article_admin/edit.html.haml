@@ -96,6 +96,9 @@
 						= f.label :tags_csv, 'Tags:'
 						= f.text_field :tags_csv, placeholder: 'Separate tags with commas', class: 'form-control'
 					.form-group
+						= f.check_box :is_sticky, {}, 'true', 'false'
+						Feature?
+					.form-group
 						= f.check_box :is_commentable, {}, 'true', 'false'
 						Allow Comments?
 					.form-group
