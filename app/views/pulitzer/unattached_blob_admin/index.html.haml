@@ -1,0 +1,58 @@
+
+
+.container-fluid
+	.row
+		.col-xs-10
+			%ul.breadcrumb
+				%li
+					= link_to 'Admin', main_app.admin_index_path
+				%li
+					%strong
+						File Admin
+						= "(#{pluralize @blobs.total_count, 'File'})"
+		.col-xs-2
+			- if authorized?( Pulitzer::UnattachedBlob, controller: Pulitzer::UnattachedBlobAdminController, action: :create )
+				%a.btn.btn-success{ data: { toggle: :modal, target: '#new_storage_blob' } }
+					%i.fa.fa-plus-square
+					New
+
+	.row
+		.col-xs-6
+			= raw paginate @blobs
+		.col-xs-6
+			= form_tag pulitzer.unattached_blob_admin_index_path, method: :get, class: 'pull-right form-inline' do
+				= text_field_tag :q, params[:q], class: 'form-control'
+				= submit_tag 'Search', class: 'btn btn-primary'
+				= link_to 'Clear', pulitzer.unattached_blob_admin_index_path, class: 'btn btn-default'
+
+	.row
+		.col-xs-12
+			%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
+				%thead
+					%th
+						Image
+					%th
+						Url
+					%th
+						Created At
+						%a{ href: unattached_blob_admin_index_path( sort_by: 'created_at', sort_dir: 'asc' ) }
+							%i.fa.fa-arrow-up
+						%a{ href: unattached_blob_admin_index_path( sort_by: 'created_at', sort_dir: 'desc' ) }
+							%i.fa.fa-arrow-down
+					%th
+				%tbody
+					- @blobs.each do |blob|
+						%tr
+							%td
+								%a{ href: edit_unattached_blob_admin_path( blob.id ) }
+									= attachment_picture_tag(blob, xs: '100%x', class: 'img img-responsive', style: 'max-width: 50px;')
+							%td
+								%a.btn{ 'data-clipboard-text' => blob.service_url, style: 'padding:0;border:none;' }
+									= blob.service_url
+									%i.fa.fa-clipboard
+
+							%td
+								= blob.created_at.to_s( :slashed_time )
+							%td
+
+= render 'new_modal'

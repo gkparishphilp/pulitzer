@@ -18,6 +18,8 @@ Pulitzer::Engine.routes.draw do
 		delete :empty_trash, on: :collection
 	end
 
+	resources :unattached_blob_admin
+
 	# resources :user_admin
 
 end

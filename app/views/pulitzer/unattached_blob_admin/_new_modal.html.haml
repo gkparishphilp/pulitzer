@@ -1,0 +1,16 @@
+
+#new_storage_blob.modal.fade
+	.modal-dialog
+		.modal-content
+			.modal-header
+				%button.close{ type: :button, 'data-dismiss' => 'modal', 'aria-hidden' => 'true' }
+					&times;
+				%h4.modal-title
+					New Blob
+			= form_tag pulitzer.unattached_blob_admin_index_path, method: :post, class: 'form', enctype: "multipart/form-data" do |f|
+				.modal-body
+					= file_field_tag :file
+				.modal-footer
+					%button.btn.btn-default{ type: :button, 'data-dismiss' => 'modal' }
+						Close
+					= submit_tag 'Create', class: 'btn btn-primary'

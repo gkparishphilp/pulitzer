@@ -3,6 +3,9 @@ module Pulitzer
 
 		def attachment_resolutions(attachment, options={})
 			attached = ( attachment.attached? rescue false )
+			attached = true if attachment.is_a?( ActiveStorage::Blob ) && attachment.service_url.present?
+			blob = attachment if attachment.is_a?( ActiveStorage::Blob )
+			blob ||= attachment.blob if attached
 
 			# if no attachment, use the fallback
 			if attachment.nil? || not( attached )
@@ -60,11 +63,12 @@ module Pulitzer
 
 					size = "#{(breakpoints_max[breakpoint]).to_f / 100 * size[0..-3].to_f}x" if size.end_with?('%x') && breakpoints_max[breakpoint].present?
 					size = "auto" if size.end_with?('%x') && breakpoints_max[breakpoint].nil?
-					size = "#{attachment.blob.metadata['width']}x#{attachment.blob.metadata['height']}" if size.to_s == 'auto'
-					size = "#{size.split('x').first}x#{(size.split('x').first.to_f / attachment.blob.metadata['width'] * attachment.blob.metadata['height']).round(2)}" if size.last == 'x'
-					size = "#{(size.split('x').last.to_f / attachment.blob.metadata['height'] * attachment.blob.metadata['width']).round(2)}x#{size.split('x').last}" if size.first == 'x'
-
-					src = "#{attachment.variant(resize: size).processed.service_url}\#resolution-#{size}"
+					size = "#{blob.metadata['width']}x#{blob.metadata['height']}" if size.to_s == 'auto' && blob.metadata['width']
+					size = "#{size.split('x').first}x#{(size.split('x').first.to_f / blob.metadata['width'] * blob.metadata['height']).round(2)}" if size.last == 'x' && blob.metadata['width']
+					size = "#{(size.split('x').last.to_f / blob.metadata['height'] * blob.metadata['width']).round(2)}x#{size.split('x').last}" if size.first == 'x' && blob.metadata['width']
+					puts "size #{size}"
+					src = "#{attachment.variant(resize: size).processed.service_url}\#resolution-#{size}" if size && size != 'auto'
+					src ||= attachment.service_url
 				end
 
 				resolutions << {
