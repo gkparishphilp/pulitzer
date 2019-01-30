@@ -1,0 +1,81 @@
+
+
+.container-fluid
+	.row
+		.col-xs-10
+			%ul.breadcrumb
+				%li
+					= link_to 'Admin', main_app.admin_index_path
+				%li
+					%strong
+						Redirect Admin
+						= "(#{pluralize @redirects.total_count, 'Redirects'})"
+		.col-xs-2
+			- if authorized?( Pulitzer::Redirect, controller: Pulitzer::RedirectAdminController, action: :create )
+				%a.btn.btn-success{ data: { toggle: :modal, target: '#new_redirect' } }
+					%i.fa.fa-plus-square
+					New
+
+	.row
+		.col-xs-6
+			= raw paginate @redirects
+		.col-xs-6
+
+
+	.row
+		.col-xs-12
+			%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
+				%thead
+					%th
+						Path
+						%a{ href: redirect_admin_index_path( sort_by: 'slug', sort_dir: 'asc' ) }
+							%i.fa.fa-arrow-up
+						%a{ href: redirect_admin_index_path( sort_by: 'slug', sort_dir: 'desc' ) }
+							%i.fa.fa-arrow-down
+					%th
+						Redirect To
+						%a{ href: redirect_admin_index_path( sort_by: 'redirect_url', sort_dir: 'asc' ) }
+							%i.fa.fa-arrow-up
+						%a{ href: redirect_admin_index_path( sort_by: 'redirect_url', sort_dir: 'desc' ) }
+							%i.fa.fa-arrow-down
+					%th
+						Created At
+						%a{ href: redirect_admin_index_path( sort_by: 'created_at', sort_dir: 'asc' ) }
+							%i.fa.fa-arrow-up
+						%a{ href: redirect_admin_index_path( sort_by: 'created_at', sort_dir: 'desc' ) }
+							%i.fa.fa-arrow-down
+					%th
+				%tbody
+					- @redirects.each do |redirect|
+						%tr
+							%td
+								.title{ style: 'font-size:120%;' }
+									= link_to "/#{redirect.slug}", edit_redirect_admin_path( redirect.id )
+								
+
+							%td
+								= redirect.redirect_url
+							%td
+								= redirect.created_at.to_s( :slashed_time )
+					
+							%td
+								.btn-group
+									%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
+										%i.fa.fa-cog
+										%b.caret
+									%ul.dropdown-menu
+										%li
+											%a{ href: edit_redirect_admin_path( redirect.id ) }
+												%i.fa.fa-pencil
+												Edit
+										
+										%li.divider
+										%li
+											%a{ href: redirect_admin_path( redirect.id ), data: { method: 'delete', confirm: 'Are you sure?' } }
+												%i.fa.fa-trash-o
+												Delete!
+
+
+
+
+= render 'new_modal'

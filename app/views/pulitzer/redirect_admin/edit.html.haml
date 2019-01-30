@@ -1,0 +1,45 @@
+
+.container-fluid
+	.row
+		.col-xs-10
+			%ul.breadcrumb
+				%li
+					= link_to 'Admin', main_app.admin_index_path
+				%li
+					= link_to 'Redirect Admin', redirect_admin_index_path
+				%li
+					%strong
+						Edit
+						= "/#{@redirect.slug}"
+		.col-xs-2
+			
+
+	= form_for @redirect, url: redirect_admin_path( @redirect ) do |f|
+
+		.row
+			.col-sm-8
+
+				.form-group
+					= f.label :slug_pref, 'Path:'
+					= f.text_field :slug_pref, class: 'form-control', placeholder: @redirect.slug
+						
+
+				.form-group
+					= f.label :redirect_url, 'Redirect To:'
+					= f.text_field :redirect_url, class: 'form-control'
+
+				
+
+
+			.col-sm-4
+				.well
+
+					.form-group
+						= f.submit 'Update', class: 'btn btn-primary'
+						.pull-right= link_to 'Cancel', :back, class: 'btn btn-default btn-sm'
+
+
+
+			
+		.col-sm-4
+
