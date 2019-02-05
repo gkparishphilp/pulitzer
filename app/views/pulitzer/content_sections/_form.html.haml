@@ -1,5 +1,5 @@
 
-= form_for section, url: content_section_admin_path( section ) do |f|
+= form_for section, url: pulitzer.content_section_admin_path( section ) do |f|
 	.well
 		.row
 			.col-sm-4
@@ -22,7 +22,7 @@
 					= f.label :seq
 					= f.text_field :seq, class: 'form-control'
 			.col-sm-2
-				%a.btn.btn-danger.pull-right{ href: content_section_admin_path( section ), data: { method: :delete, confirm: 'Are you sure?' } }
+				%a.btn.btn-danger.pull-right{ href: pulitzer.content_section_admin_path( section ), data: { method: :delete, confirm: 'Are you sure?' } }
 					Delete
 		.toggle
 			.row
