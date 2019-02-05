@@ -8,7 +8,7 @@
 					New Content Section
 			= form_tag pulitzer.content_section_admin_index_path do
 				= hidden_field_tag :parent_id, parent.id
-				= hidden_field_tag :parent_type, parent.type
+				= hidden_field_tag :parent_type, parent.class.name
 				.modal-body
 					.form-group
 						= label_tag :name

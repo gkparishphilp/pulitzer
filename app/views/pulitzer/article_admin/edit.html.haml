@@ -81,10 +81,10 @@
 					.form-group
 						= f.label :publish_at
 						= f.text_field :publish_at, value: current_user.to_local_tz( @article.publish_at ), class: 'form-control datetimepicker'
-					-# .form-group
+					.form-group
 						= f.label :category_id
 						= f.collection_select :category_id, Pulitzer::ArticleCategory.active.order( :name ), :id, :name, { include_blank: '-- None -- ' }, class: 'form-control'
-					-# .form-group
+					.form-group
 						= f.text_field :category_name, class: 'form-control', placeholder: 'Add Category'
 					.form-group
 						= f.label :status
