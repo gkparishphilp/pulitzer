@@ -6,10 +6,10 @@
 				.form-group
 					= f.label :name
 					= f.text_field :name, class: 'form-control'
-				%a.toggle-show{ href: '#' }
+				-#%a.toggle-show{ href: '#' }
 					Show Advanced
 				
-				%a.toggle-hide{ href: '#' }
+				-#%a.toggle-hide{ href: '#' }
 					Hide Advanced
 			.col-sm-4
 				= f.label :background_attachment, "Background Image"
@@ -24,33 +24,57 @@
 			.col-sm-2
 				%a.btn.btn-danger.pull-right{ href: pulitzer.content_section_admin_path( section ), data: { method: :delete, confirm: 'Are you sure?' } }
 					Delete
-		.toggle
-			.row
-				.col-sm-12
-					.form-group
-						= f.label :partial
-						=# f.text_field :partial, class: 'form-control'
-						= f.select :partial, @partials, {}, class: 'form-control'
-
-				
-			.row
-				.col-sm-12
-					.form-group
-						= f.label :css_classes
-						= f.text_field :css_classes, class: 'form-control'
-			.row
-				.col-sm-12
-					.form-group
-						= f.label :css_style
-						= f.text_field :css_style, class: 'form-control'
+	
 		.row
 			.col-sm-12
 				.form-group
-					= f.label :title
-					= f.text_field :title, class: 'form-control'
+					= f.label :partial
+					=# f.text_field :partial, class: 'form-control'
+					= f.select :partial, @partials, {}, class: 'form-control'
+
+			
+		.row
+			.col-sm-6
+				.form-group
+					= f.label :section_classes
+					= f.text_field :section_classes, class: 'form-control'
+
+			.col-sm-6
+				.form-group
+					= f.label :section_style
+					= f.text_field :section_style, class: 'form-control'
+		.row
+			.col-sm-6
+				.form-group
+					= f.label :header
+					= f.text_field :header, class: 'form-control'
+			.col-sm-6
+				.form-group
+					= f.label :header_tag
+					= f.select :header_tag, [ 'h1', 'h2', 'h3', 'h4', 'h5' ], {}, class: 'form-control'
+		.row
+			.col-sm-6
+				.form-group
+					= f.label :header_classes
+					= f.text_field :header_classes, class: 'form-control'
+			.col-sm-6
+				.form-group
+					= f.label :header_style
+					= f.text_field :header_style, class: 'form-control'
+		.row
+			.col
 				.form-group
 					= f.label :content
 					= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: section.class.base_class.name, object_id: section.id }.to_json }
+		.row
+			.col-sm-6
+				.form-group
+					= f.label :content_classes
+					= f.text_field :content_classes, class: 'form-control'
+			.col-sm-6
+				.form-group
+					= f.label :content_style
+					= f.text_field :content_style, class: 'form-control'
 
 
 

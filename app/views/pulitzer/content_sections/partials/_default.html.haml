@@ -1,19 +1,17 @@
 - if section.background_attachment.attached?
-	%section.pulitzer_content_section.pulitzer_content_section_bg[section]{ class: section.css_classes, style: "background-image: url('#{section.background_attachment.service_url}');#{section.css_style}" }
-		- if section.title.present?
-			%h2
-				= section.title
-		= raw section.content
+	%section.pulitzer_content_section.pulitzer_content_section_bg[section]{ class: section.section_classes, style: "background-image: url('#{section.background_attachment.service_url}');#{section.section_style}" }
+		- if section.header.present?
+			= "<#{section.header_tag} class='#{section.header_classes}' style='#{section.header_style}'>"
+			= raw section.header
+			= "</#{section.header_tag}>"
+		.div{  class: section.content_classes, style: section.content_style }
+			= raw section.content
 
-- elsif section.css_style.present?
-	%section.pulitzer_content_section[section]{ class: section.css_classes, style: section.css_style }
-		- if section.title.present?
-			%h2
-				= section.title
-		= raw content_section.content
 - else
-	%section.pulitzer_content_section[section]{ class: section.css_classes }
-		- if section.title.present?
-			%h2
-				= section.title
-		= raw section.content
+	%section.pulitzer_content_section[section]{ class: section.section_classes, style: section.section_style }
+		- if section.header.present?
+			= raw "<#{section.header_tag} class='#{section.header_classes}' style='#{section.header_style}'>"
+			= raw section.header
+			= raw "</#{section.header_tag}>"
+		.div{  class: section.content_classes, style: section.content_style }
+			= raw section.content
