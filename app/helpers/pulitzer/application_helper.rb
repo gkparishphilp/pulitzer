@@ -7,10 +7,12 @@ module Pulitzer
 			blob = attachment if attachment.is_a?( ActiveStorage::Blob )
 			blob ||= attachment.blob if attached
 
+			fallback = options.delete(:fallback)
+
 			# if no attachment, use the fallback
 			if attachment.nil? || not( attached )
 				return [{
-					src: options[:fallback],
+					src: fallback,
 					width: 0,
 					height: 0,
 					breakpoint: 0,
@@ -110,12 +112,24 @@ EOS
 		# sample: = attachment_picture_tag ActiveStorage::Attachment.last, xs: '100x100', md: '500x500', lg: '1000x1000', style: 'width: auto !important;'
 		# sample: = attachment_picture_tag 'https://cdn1.neurohacker.com/uploads/Header-eaed8404-255c-4f31-a865-ee81e445f5b6.jpg', xs: 'https://wp.neurohacker.com/wp-content/uploads/2017/07/media_left.jpg 100x100', lg: 'https://cdn1.neurohacker.com/uploads/Headline_Bottles-7542e2fd-bb9b-47f2-bf9b-d96958b229be.png 200x200', style: 'width: auto !important;'
 		def attachment_picture_tag(attachment, options={})
+			lazy = options.delete(:lazy)
+			lazy = 'lazy' if lazy && ( !!lazy == lazy )
+
 			resolutions = attachment_resolutions(attachment, options)
 			smallest_resolution = resolutions.sort_by{ |resolution| resolution[:width].to_f * resolution[:height].to_f }.first
 
-			content = image_tag( smallest_resolution[:src], options )
+			if lazy
+				content = image_tag( 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=', options.merge( 'data-src' => smallest_resolution[:src], class: "#{options[:class]} #{lazy}" ) )
+			else
+				content = image_tag( smallest_resolution[:src], options )
+			end
+
 			resolutions.each do |resolution|
-				content = content_tag( :source, '', media: "(min-width: #{resolution[:breakpoint]}px)", srcset: resolution[:src] ) + content
+				if lazy
+					content = content_tag( :source, '', media: "(min-width: #{resolution[:breakpoint]}px)", 'data-srcset' => resolution[:src], class: lazy ) + content
+				else
+					content = content_tag( :source, '', media: "(min-width: #{resolution[:breakpoint]}px)", srcset: resolution[:src] ) + content
+				end
 			end
 
 			content_tag( :picture, content )
