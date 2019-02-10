@@ -67,7 +67,7 @@ module Pulitzer
 
 			partial_path = "#{Rails.root}/app/views/pulitzer/content_sections/partials/"
 
-			@partials = [ 'default' ]
+			@partials = [ 'default', 'default_contained' ]
 			@partials += Dir.glob( "#{partial_path}**/*" ).collect{ |f| f.gsub( '.html.haml', '' ).gsub( "#{partial_path}_", '' )  }
 			@partials.sort!
 		end
