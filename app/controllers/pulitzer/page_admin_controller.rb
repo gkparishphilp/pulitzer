@@ -65,7 +65,7 @@ module Pulitzer
 		def edit
 			authorize( @page )
 
-			partial_path = "#{Rails.root}/app/views/pulitzer/content_sections/partials/" 
+			partial_path = "#{Rails.root}/app/views/pulitzer/content_sections/partials/"
 
 			@partials = [ 'default' ]
 			@partials += Dir.glob( "#{partial_path}**/*" ).collect{ |f| f.gsub( '.html.haml', '' ).gsub( "#{partial_path}_", '' )  }
@@ -130,7 +130,7 @@ module Pulitzer
 
 		private
 			def page_params
-				params.require( :page ).permit( :title, :subtitle, :avatar_caption, :slug_pref, :description, :content, :status, :publish_at, :show_title, :is_sticky, :is_commentable, :user_id, :tags, :tags_csv, :layout, :template, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
+				params.require( :page ).permit( :title, :subtitle, :avatar_caption, :slug_pref, :description, :content, :status, :availability, :publish_at, :show_title, :is_sticky, :is_commentable, :user_id, :tags, :tags_csv, :layout, :template, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
 			end
 
 			def get_page

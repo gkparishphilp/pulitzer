@@ -12,7 +12,7 @@ module Pulitzer
 
 
 		enum status: { 'draft' => 0, 'active' => 1, 'archive' => 100, 'trash' => -50 }
-		enum availability: { 'anyone' => 1, 'logged_in_users' => 2, 'just_me' => 3 }
+		enum availability: { 'anyone' => 1, 'logged_in_users' => 2, 'just_me' => 3, 'authorized_users' => 100 }
 
 		before_create	:set_template_and_layout
 		before_save		:set_publish_at, :set_keywords_and_tags, :set_cached_counts, :set_avatar
@@ -65,8 +65,12 @@ module Pulitzer
 			where( "pulitzer_media.publish_at <= :now", now: Time.zone.now ).active.anyone
 		end
 
+		def after_published_at?
+			publish_at < Time.zone.now
+		end
+
 		def published?
-			active? && anyone? && publish_at < Time.zone.now
+			active? && anyone? && after_published_at?
 		end
 
 
