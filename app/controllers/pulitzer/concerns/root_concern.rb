@@ -29,7 +29,7 @@ module Pulitzer
 						begin
 
 							@media = Media.friendly.find( page_id )
-							
+
 							if not( @media.redirect_url.blank? )
 								redirect_to @media.redirect_url, status: :moved_permanently
 							elsif not(@media.publish_at_before_now?) || not(@media.active?)
@@ -40,7 +40,7 @@ module Pulitzer
 								raise ActionController::RoutingError.new( 'Not Found' )
 							elsif @media.logged_in_users? && current_user.nil?
 								raise ActionController::RoutingError.new( 'Not Found' )
-							elsif not( %w( active authorized_users just_me logged_in_users ).include?( @media.availability.to_s ) )
+							elsif not( %w( anyone logged_in_users just_me authorized_users ).include?( @media.availability.to_s ) )
 								raise ActionController::RoutingError.new( 'Not Found - Invalid availability' )
 							end
 
