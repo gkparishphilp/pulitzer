@@ -65,12 +65,17 @@ module Pulitzer
 			where( "pulitzer_media.publish_at <= :now", now: Time.zone.now ).active.anyone
 		end
 
-		def after_published_at?
-			publish_at < Time.zone.now
+
+		def self.publish_at_before_now( args = {} )
+			where( "pulitzer_media.publish_at <= :now", now: Time.zone.now )
+		end
+
+		def publish_at_before_now?( args = {} )
+			publish_at <= Time.zone.now
 		end
 
 		def published?
-			active? && anyone? && after_published_at?
+			active? && anyone? && publish_at_before_now?
 		end
 
 

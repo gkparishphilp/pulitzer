@@ -27,19 +27,25 @@ module Pulitzer
 						redirect_to Pulitzer.site_map_url
 					else
 						begin
+
 							@media = Media.friendly.find( page_id )
+							
 							if not( @media.redirect_url.blank? )
 								redirect_to @media.redirect_url, status: :moved_permanently
-							elsif not( @media.after_published_at? )
+							elsif not(@media.publish_at_before_now?) || not(@media.active?)
 								raise ActionController::RoutingError.new( 'Not Found' )
 							elsif @media.authorized_users?
 								authorize( @media )
-								return true
-							elsif not( @media.published? )
+							elsif @media.just_me? && ( current_user.nil? || @media.user != current_user )
 								raise ActionController::RoutingError.new( 'Not Found' )
-							else
-								return true
+							elsif @media.logged_in_users? && current_user.nil?
+								raise ActionController::RoutingError.new( 'Not Found' )
+							elsif not( %w( active authorized_users just_me logged_in_users ).include?( @media.availability.to_s ) )
+								raise ActionController::RoutingError.new( 'Not Found - Invalid availability' )
 							end
+
+							return true
+
 						rescue ActiveRecord::RecordNotFound
 							raise ActionController::RoutingError.new( 'Not Found' )
 						end
