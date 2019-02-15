@@ -77,7 +77,8 @@ module Pulitzer
 					src: src,
 					width: size.split('x').first,
 					height: size.split('x').last,
-					breakpoint: breakpoint_size,
+					breakpoint_min: breakpoint_size,
+					breakpoint_max: breakpoints_max[breakpoint],
 				}
 			end
 
@@ -96,8 +97,11 @@ module Pulitzer
 }
 EOS
 			resolutions.each do |resolution|
+				media = "(min-width: #{resolution[:breakpoint_min]}px)"
+				media = "#{media} and (max-width: #{resolution[:breakpoint_max]}px)" if resolution[:breakpoint_max]
+
 				content = content + <<-EOS
-@media(min-width: #{resolution[:breakpoint]}px) {
+@media #{media} {
 	#{selector} {
 		background-image: url('#{resolution[:src]}') !important;
 	}
@@ -125,11 +129,9 @@ EOS
 			end
 
 			resolutions.each do |resolution|
-				if lazy
-					content = content_tag( :source, '', media: "(min-width: #{resolution[:breakpoint]}px)", 'data-srcset' => resolution[:src], class: lazy ) + content
-				else
-					content = content_tag( :source, '', media: "(min-width: #{resolution[:breakpoint]}px)", srcset: resolution[:src] ) + content
-				end
+				media = "(min-width: #{resolution[:breakpoint_min]}px)"
+				media = "#{media} and (max-width: #{resolution[:breakpoint_max]}px)" if resolution[:breakpoint_max]
+				content = content_tag( :source, '', media: media, srcset: resolution[:src] ) + content
 			end
 
 			content_tag( :picture, content )
