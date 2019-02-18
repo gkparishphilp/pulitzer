@@ -137,7 +137,7 @@ EOS
 			#	"#{media} #{resolution[:breakpoint_max] || 9999999}w"
 			#end.join(',')
 
-			default_image = attachment.service_url if attachment.attached?
+			default_image = attachment.service_url if attachment.is_a?( ActiveStorage::Blob ) || ( attachment.respond_to?(:attached?) && attachment.attached? )
 			default_image ||= options[:fallback]
 			default_image ||= smallest_resolution[:src]
 
