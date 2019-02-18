@@ -145,12 +145,12 @@ EOS
 				options['data-srcset'] = srcset
 				options['data-sizes'] = sizes
 
-				image_tag( 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=', options.merge( 'data-src' => attachment.service_url, class: "#{options[:class]} #{lazy}" ) )
+				image_tag( 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=', options.merge( 'data-src' => default_image, class: "#{options[:class]} #{lazy}" ) )
 			else
 				options['srcset'] = srcset
 				options['sizes'] = sizes
 
-				image_tag( attachment.service_url, options )
+				image_tag( default_image, options )
 			end
 
 			#if lazy
