@@ -137,6 +137,10 @@ EOS
 			#	"#{media} #{resolution[:breakpoint_max] || 9999999}w"
 			#end.join(',')
 
+			default_image = attachment.service_url if attachment.attached?
+			default_image ||= options[:fallback]
+			default_image ||= smallest_resolution[:src]
+
 			if lazy
 				options['data-srcset'] = srcset
 				options['data-sizes'] = sizes

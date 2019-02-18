@@ -1,3 +1,3 @@
 module Pulitzer
-  VERSION = '1.15.3'
+  VERSION = '1.15.4'
 end
