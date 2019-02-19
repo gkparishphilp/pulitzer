@@ -58,7 +58,7 @@ module Pulitzer
 
 			attributes = params.permit(:tags_csv,:tags,{ :metadata => [:title,:description,:alt,:author] })
 
-
+			@blob.attributes = params.require(:unattached_blob).permit(:filename)
 			@blob.metadata = @blob.metadata.merge( attributes[:metadata] ) if attributes.key? :metadata
 			@blob.tags = attributes[:tags] if attributes.key? :tags
 			@blob.tags_csv = attributes[:tags_csv] if attributes.key? :tags_csv
