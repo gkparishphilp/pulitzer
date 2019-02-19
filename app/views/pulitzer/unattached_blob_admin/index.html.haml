@@ -30,7 +30,7 @@
 			%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
 				%thead
 					%th
-						Image
+						&nbsp;
 					%th
 						Url
 					%th
@@ -45,7 +45,10 @@
 						%tr
 							%td
 								%a{ href: edit_unattached_blob_admin_path( blob.id ) }
-									= attachment_picture_tag(blob, xs: '100%x', class: 'img img-responsive', style: 'max-width: 50px;')
+									- if blob.image?
+										= attachment_picture_tag(blob, xs: '100%x', class: 'img img-responsive', style: 'max-width: 50px;')
+									- else
+										= blob.filename
 							%td
 								%a.btn{ 'data-clipboard-text' => blob.service_url, style: 'padding:0;border:none;' }
 									= blob.service_url
