@@ -22,6 +22,11 @@ Pulitzer::Engine.routes.draw do
 
 	resources :unattached_blob_admin
 
+	resources :version_admin do
+		put :restore, on: :member
+		put :undo, on: :member
+	end
+
 	# resources :user_admin
 
 end

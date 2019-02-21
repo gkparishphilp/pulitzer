@@ -101,5 +101,64 @@
 					.form-group
 						= f.check_box :is_commentable, {}, 'true', 'false'
 						Allow Comments?
+					
+					.form-group
+						= label_tag 'Version Notes'
+						= text_area_tag :version_notes, '', class: 'form-control'
+
 					.form-group
 						= f.submit 'Update', class: 'btn btn-primary'
+					
+
+
+.row
+	.col-sm-10.col-sm-offset-1
+		%h3 Version History
+
+		%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
+			%thead
+				%th
+					
+				%th
+					
+				%th
+
+				%th
+
+				%th
+					
+				%th
+			%tbody
+
+				- @article.versions.reorder( created_at: :desc ).each do |version|
+					%tr
+						%td
+							= User.where( id: version.whodunnit ).last
+							
+						%td
+							= version.event + 'd'
+						%td
+							- version.object_changes.to_h.each do |field, from_to|
+								- next if from_to[0].blank?
+								= field
+								from
+								= raw from_to[0]
+								to
+								= raw from_to[1]
+
+						%td
+							= version.created_at.strftime( "%m/%d/%Y @ %H:%M")
+						%td
+							= version.notes
+				
+						%td
+							%a{ href: restore_version_admin_path( version.id ), data: { method: :put } }
+								%i.fa.fa-history
+								Restore
+						
+
+
+
+
+
+

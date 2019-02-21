@@ -27,7 +27,8 @@ module Pulitzer
 		def destroy
 			authorize( @article )
 			@article.trash!
-			set_flash 'Article Deleted'
+			undo_link = view_context.link_to( "undo", revert_version_admin_path( @article.versions.last ), method: :put )
+			set_flash 'Article Deleted ' + undo_link
 			redirect_back( fallback_location: '/admin' )
 		end
 
@@ -97,7 +98,8 @@ module Pulitzer
 			authorize( @article )
 
 			if @article.save
-				set_flash 'Article Updated'
+				undo_link = view_context.link_to( "undo", undo_version_admin_path( @article.versions.last ), method: :put )
+				set_flash 'Article Updated ' + undo_link
 				redirect_to edit_article_admin_path( id: @article.id )
 			else
 				set_flash 'Article could not be Updated', :error, @article
@@ -116,6 +118,9 @@ module Pulitzer
 				@article = Article.friendly.find( params[:id] )
 			end
 
+			def info_for_paper_trail
+				{ notes: params[:version_notes] }
+			end
 
 	end
 end

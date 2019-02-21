@@ -1,0 +1,71 @@
+
+
+.container-fluid
+	.row
+		.col-xs-10
+			%ul.breadcrumb
+				%li
+					= link_to 'Admin', main_app.admin_index_path
+				%li
+					%strong
+						Version Admin
+		.col-xs-2
+			
+
+	.row
+		.col-xs-6
+			= raw paginate @versions
+		.col-xs-6
+			%h3
+				= @parent_obj
+				History
+
+	.row
+		.col-xs-12
+			%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
+				%thead
+					%th
+						
+					%th
+						
+					%th
+
+					%th
+						
+					%th
+				%tbody
+					- @versions.each do |version|
+						%tr
+							%td
+								= User.where( id: version.whodunnit ).last
+								
+							%td
+								= version.event
+							%td
+								- version.object_changes.to_h.each do |field, from_to|
+									= field
+									from
+									= from_to[0].blank?  ? 'EMPTY' : from_to[0]
+									to
+									= raw from_to[1]
+
+							%td
+								= version.created_at.to_s( :slashed_time )
+					
+							%td
+								.btn-group
+									%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
+										%i.fa.fa-cog
+										%b.caret
+									%ul.dropdown-menu
+										%li
+											%a{ href: revert_version_admin_path( version.id ), data: { method: :put } }
+												%i.fa.fa-pencil
+												Revert
+										
+										%li.divider
+										%li
+											%a{ href: version_admin_path( version.id ), data: { method: 'delete', confirm: 'Are you sure?' } }
+												%i.fa.fa-trash-o
+												Delete!
+

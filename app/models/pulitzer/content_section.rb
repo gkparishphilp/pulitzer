@@ -11,6 +11,8 @@ module Pulitzer
 		include FriendlyId
 		friendly_id :name, use: :slugged
 
+		has_paper_trail
+
 		before_save	:set_seq
 
 

@@ -6,6 +6,7 @@ require 'haml'
 require 'jquery-rails'
 require 'jquery-ui-rails'
 require 'kaminari'
+require 'paper_trail'
 require 'route_downcaser'
 
 module Pulitzer
