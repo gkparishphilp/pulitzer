@@ -32,6 +32,7 @@ module Pulitzer
 
 							if not( @media.redirect_url.blank? )
 								redirect_to @media.redirect_url, status: :moved_permanently
+								return false
 							elsif not(@media.publish_at_before_now?) || not(@media.active?)
 								raise ActionController::RoutingError.new( 'Not Found' )
 							elsif @media.authorized_users?
