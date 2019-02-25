@@ -70,6 +70,12 @@ module Pulitzer
 			@partials = [ 'default', 'default_contained' ]
 			@partials += Dir.glob( "#{partial_path}**/*" ).collect{ |f| f.gsub( '.html.haml', '' ).gsub( "#{partial_path}_", '' )  }
 			@partials.sort!
+
+			if params[:adv]
+				render 'advanced_edit'
+			else
+				render 'edit'
+			end
 		end
 
 
