@@ -87,6 +87,11 @@
 						= f.check_box :is_commentable, {}, 'true', 'false'
 						Allow Comments?
 					.form-group
+						= label_tag 'Version Notes'
+						= text_area_tag :version_notes, '', class: 'form-control'
+
+
+					.form-group
 						= f.submit 'Update', class: 'btn btn-primary'
 						.pull-right= link_to 'Cancel', :back, class: 'btn btn-default btn-sm'
 
@@ -126,9 +131,7 @@
 
 				%th
 					
-				%th
 			%tbody
-
 				- @page.versions.reorder( created_at: :desc ).each do |version|
 					%tr
 						%td
@@ -151,7 +154,21 @@
 							= version.notes
 				
 						%td
-							%a{ href: restore_version_admin_path( version.id ), data: { method: :put } }
-								%i.fa.fa-history
-								Restore
+							- if version.next.present?
+								.btn-group
+									%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
+										%i.fa.fa-cog
+										%b.caret
+									%ul.dropdown-menu
+										%li
+											%a{ href: preview_page_admin_path( @page.id, v: version.id ), target: '_new' }
+												%i.fa.fa-eye
+												Preview
+							
+										%li
+											%a{ href: restore_version_admin_path( version.id ), data: { method: :put } }
+												%i.fa.fa-history
+												Restore
+							- else
+								Current Version
 						

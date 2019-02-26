@@ -111,7 +111,12 @@ module Pulitzer
 
 		def preview
 			authorize( @page )
-			@media = @page
+			
+			if @version = @page.versions.find( params[:v] )
+				@media = @version.next.reify
+			else
+				@media = @article
+			end
 
 			# copied from pulitzer_render
 			set_page_meta( @media.page_meta )
@@ -126,7 +131,8 @@ module Pulitzer
 			@page.attributes = page_params
 
 			if @page.save
-				set_flash 'Page Updated'
+				undo_link = view_context.link_to( "undo", undo_version_admin_path( @page.versions.last ), method: :put )
+				set_flash 'Page Updated ' + undo_link
 				redirect_to edit_page_admin_path( id: @page.id )
 			else
 				set_flash 'Page could not be Updated', :error, @page
@@ -141,6 +147,10 @@ module Pulitzer
 
 			def get_page
 				@page = Page.friendly.find( params[:id] )
+			end
+
+			def info_for_paper_trail
+				{ notes: params[:version_notes] }
 			end
 
 	end

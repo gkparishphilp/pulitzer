@@ -128,6 +128,8 @@
 				%th
 					
 				%th
+
+
 			%tbody
 
 				- @article.versions.reorder( created_at: :desc ).each do |version|
@@ -150,11 +152,25 @@
 							= version.created_at.strftime( "%m/%d/%Y @ %H:%M")
 						%td
 							= version.notes
-				
+
 						%td
-							%a{ href: restore_version_admin_path( version.id ), data: { method: :put } }
-								%i.fa.fa-history
-								Restore
+							- if version.next.present?
+								.btn-group
+									%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
+										%i.fa.fa-cog
+										%b.caret
+									%ul.dropdown-menu
+										%li
+											%a{ href: preview_article_admin_path( @article.id, v: version.id ), target: '_new' }
+												%i.fa.fa-eye
+												Preview
+							
+										%li
+											%a{ href: restore_version_admin_path( version.id ), data: { method: :put } }
+												%i.fa.fa-history
+												Restore
+							- else
+								Current Version
 						
 
 

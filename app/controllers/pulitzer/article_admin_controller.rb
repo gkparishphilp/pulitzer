@@ -75,7 +75,13 @@ module Pulitzer
 
 		def preview
 			authorize( @article )
-			@media = @article
+			
+
+			if @version = @article.versions.find( params[:v] )
+				@media = @version.next.reify
+			else
+				@media = @article
+			end
 
 			# copied from pulitzer_render
 			set_page_meta( @media.page_meta )
