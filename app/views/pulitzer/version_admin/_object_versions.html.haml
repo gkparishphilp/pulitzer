@@ -1,0 +1,58 @@
+%h3
+	Version History
+%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
+	%thead
+		%th
+			
+		%th
+			
+		%th
+
+		%th
+
+		%th
+			
+		%th
+
+
+	%tbody
+
+		- object.versions.reorder( created_at: :desc ).each do |version|
+			%tr
+				%td
+					= User.where( id: version.whodunnit ).last
+					
+				%td
+					= version.event + 'd'
+				%td
+					- version.object_changes.to_h.each do |field, from_to|
+						- next if from_to[0].blank?
+						= field
+						from
+						= raw from_to[0]
+						to
+						= raw from_to[1]
+
+				%td
+					= version.created_at.strftime( "%m/%d/%Y @ %H:%M")
+				%td
+					= version.notes
+
+				%td
+					- if version.next.present?
+						.btn-group
+							%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
+								%i.fa.fa-cog
+								%b.caret
+							%ul.dropdown-menu
+								%li
+									%a{ href: "#{preview_path}?v=#{version.id}" , target: '_new' }
+										%i.fa.fa-eye
+										Preview
+					
+								%li
+									%a{ href: restore_version_admin_path( version.id ), data: { method: :put } }
+										%i.fa.fa-history
+										Restore
+					- else
+						Current Version
