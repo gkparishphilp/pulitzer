@@ -83,7 +83,7 @@ module Pulitzer
 
 
 		def author
-			if self.properties.present?
+			if self.properties.present? && self.properties['author_name'].present?
 				return self.properties['author_name']
 			elsif self.user.present?
 				return self.user.to_s
