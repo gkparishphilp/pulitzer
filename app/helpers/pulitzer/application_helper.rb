@@ -20,6 +20,7 @@ module Pulitzer
 			end
 
 			breakpoints_max = {
+				xxs: 286,
 				xs: 575,
 				sm: 767,
 				md: 991,
@@ -27,7 +28,8 @@ module Pulitzer
 				xl: nil,
 			}
 			breakpoints_min = {
-				xs: 0,
+				xxs: 0,
+				xs: 287,
 				sm: 576,
 				md: 768,
 				lg: 992,
@@ -77,7 +79,8 @@ module Pulitzer
 					src: src,
 					width: size.split('x').first,
 					height: size.split('x').last,
-					breakpoint: breakpoint_size,
+					breakpoint_min: breakpoint_size,
+					breakpoint_max: breakpoints_max[breakpoint],
 				}
 			end
 
@@ -96,8 +99,11 @@ module Pulitzer
 }
 EOS
 			resolutions.each do |resolution|
+				media = "(min-width: #{resolution[:breakpoint_min]}px)"
+				media = "#{media} and (max-width: #{resolution[:breakpoint_max]}px)" if resolution[:breakpoint_max]
+
 				content = content + <<-EOS
-@media(min-width: #{resolution[:breakpoint]}px) {
+@media #{media} {
 	#{selector} {
 		background-image: url('#{resolution[:src]}') !important;
 	}
@@ -106,6 +112,59 @@ EOS
 			end
 
 			content_tag( :style, raw( content ) )
+
+		end
+
+
+
+		# sample: = attachment_image_tag ActiveStorage::Attachment.last, xs: '100x100', md: '500x500', lg: '1000x1000', style: 'width: auto !important;'
+		# sample: = attachment_image_tag 'https://cdn1.neurohacker.com/uploads/Header-eaed8404-255c-4f31-a865-ee81e445f5b6.jpg', xs: 'https://wp.neurohacker.com/wp-content/uploads/2017/07/media_left.jpg 100x100', lg: 'https://cdn1.neurohacker.com/uploads/Headline_Bottles-7542e2fd-bb9b-47f2-bf9b-d96958b229be.png 200x200', style: 'width: auto !important;'
+		def attachment_image_tag(attachment, options={})
+			lazy = options.delete(:lazy)
+			lazy = 'lazy' if lazy && ( !!lazy == lazy )
+
+			resolutions = attachment_resolutions(attachment, options)
+			smallest_resolution = resolutions.sort_by{ |resolution| resolution[:width].to_f * resolution[:height].to_f }.first
+
+			srcset = resolutions.collect do |resolution|
+				"#{resolution[:src]} #{resolution[:width].to_i}w"
+			end.join(',')
+
+			sizes = nil
+			#sizes = resolutions.collect do |resolution|
+			#	media = "(min-width: #{resolution[:breakpoint_min]}px)"
+			#	media = "#{media} and (max-width: #{resolution[:breakpoint_max]}px)" if resolution[:breakpoint_max]
+			#	"#{media} #{resolution[:breakpoint_max] || 9999999}w"
+			#end.join(',')
+
+			default_image = attachment.service_url if attachment.is_a?( ActiveStorage::Blob ) || ( attachment.respond_to?(:attached?) && attachment.attached? )
+			default_image ||= options[:fallback]
+			default_image ||= smallest_resolution[:src]
+
+			if lazy
+				options['data-srcset'] = srcset
+				options['data-sizes'] = sizes
+				options['data-src'] = default_image
+				options[:class] = "#{options[:class]} #{lazy}"
+				image_tag( 'data:,', options )
+			else
+				options['srcset'] = srcset
+				options['sizes'] = sizes
+
+				image_tag( default_image, options )
+			end
+
+			#if lazy
+			#	content = image_tag( 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=', options.merge( 'data-src' => smallest_resolution[:src], class: "#{options[:class]} #{lazy}" ) )
+			#else
+			#	content = image_tag( smallest_resolution[:src], options )
+			#end
+			#resolutions.each do |resolution|
+			#	media = "(min-width: #{resolution[:breakpoint_min]}px)"
+			#	media = "#{media} and (max-width: #{resolution[:breakpoint_max]}px)" if resolution[:breakpoint_max]
+			#	content = content_tag( :source, '', media: media, srcset: resolution[:src] ) + content
+			#end
+			#content_tag( :picture, content )
 
 		end
 
@@ -125,11 +184,9 @@ EOS
 			end
 
 			resolutions.each do |resolution|
-				if lazy
-					content = content_tag( :source, '', media: "(min-width: #{resolution[:breakpoint]}px)", 'data-srcset' => resolution[:src], class: lazy ) + content
-				else
-					content = content_tag( :source, '', media: "(min-width: #{resolution[:breakpoint]}px)", srcset: resolution[:src] ) + content
-				end
+				media = "(min-width: #{resolution[:breakpoint_min]}px)"
+				media = "#{media} and (max-width: #{resolution[:breakpoint_max]}px)" if resolution[:breakpoint_max]
+				content = content_tag( :source, '', media: media, srcset: resolution[:src] ) + content
 			end
 
 			content_tag( :picture, content )

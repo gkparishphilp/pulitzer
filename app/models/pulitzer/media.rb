@@ -82,17 +82,6 @@ module Pulitzer
 
 		# Instance Methods
 
-
-		def author
-			if self.properties.present?
-				return self.properties['author_name']
-			elsif self.user.present?
-				return self.user.to_s
-			else
-				return ''
-			end
-		end
-
 		def category_name=( name )
 			self.category = Pulitzer::Category.where( name: name ).first_or_create
 		end

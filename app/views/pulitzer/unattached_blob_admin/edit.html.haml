@@ -15,14 +15,21 @@
 	= form_for @blob, url: pulitzer.unattached_blob_admin_path(@blob.id) do |f|
 		.row
 			.col-sm-12.col-md-6.col-md-offset-3
-				.form-group
-					= attachment_picture_tag(@blob, xs: '100%x', class: 'img img-responsive center-block')
+				- if @blob.image?
+					.form-group
+						= attachment_picture_tag(@blob, xs: '100%x', class: 'img img-responsive center-block')
 				.form-group
 					%label URL
 					.form-control
 						%a.btn{ 'data-clipboard-text' => @blob.service_url, style: 'padding:0;border:none;' }
 							= @blob.service_url
 							%i.fa.fa-clipboard
+				- if main_app.respond_to? :unattached_blob_url
+					.form-group
+						.form-control
+							%a.btn{ 'data-clipboard-text' => main_app.url_for( @blob ), style: 'padding:0;border:none;' }
+								= main_app.url_for( @blob )
+								%i.fa.fa-clipboard
 			.col-sm-8.col-md-6
 				%h2 Specs
 				.well
@@ -30,7 +37,7 @@
 						.col-xs-12.col-md-6
 							.form-group
 								%label Filename
-								.form-control= @blob.filename
+								= f.text_field :filename, class: 'form-control'
 						.col-xs-12.col-md-6
 							.form-group
 								%label Width
