@@ -77,7 +77,7 @@ module Pulitzer
 			authorize( @article )
 			
 
-			if @version = @article.versions.find( params[:v] )
+			if @version = @article.versions.find_by( id: params[:v] )
 				@media = @version.next.reify
 			else
 				@media = @article
