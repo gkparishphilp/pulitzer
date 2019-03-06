@@ -213,7 +213,7 @@ module Pulitzer
 					self.tags = new_tags unless new_tags & (self.tags || []) == new_tags
 				end
 
-				new_keywords = "#{self.author} #{self.title}".downcase.split( /\W/ ).delete_if{ |elem| elem.length <= 2 }.delete_if{ |elem| common_terms.include?( elem ) }.uniq
+				new_keywords = "#{self.user} #{self.title}".downcase.split( /\W/ ).delete_if{ |elem| elem.length <= 2 }.delete_if{ |elem| common_terms.include?( elem ) }.uniq
 				self.tags.each{ |tag| new_keywords << tag.to_s unless new_keywords.include?( tag.to_s )}
 
 				new_keywords = new_keywords.uniq.sort
