@@ -97,12 +97,12 @@
 					%a.btn.btn-success.pull-right{ href: '#new_section', data: { toggle: :modal, target: '#new_section' }, style: 'margin-top:1em;' }
 						%i.fa-fa-plus
 						Add
-			
+
 			- @page.content_sections.each do |section|
 				= render 'pulitzer/content_sections/form', section: section
 
 
-			
+
 		.col-sm-4
 
 
@@ -113,15 +113,15 @@
 		%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
 			%thead
 				%th
-					
+
 				%th
-					
+
 				%th
 
 				%th
 
 				%th
-					
+
 				%th
 			%tbody
 
@@ -129,7 +129,7 @@
 					%tr
 						%td
 							= User.where( id: version.whodunnit ).last
-							
+
 						%td
 							= version.event + 'd'
 						%td
@@ -145,12 +145,12 @@
 							= version.created_at.strftime( "%m/%d/%Y @ %H:%M")
 						%td
 							= version.notes
-				
+
 						%td
-							%a{ href: restore_version_admin_path( version.id ), data: { method: :put } }
+							%a{ href: pulitzer.restore_version_admin_path( version.id ), data: { method: :put } }
 								%i.fa.fa-history
 								Restore
-						
+
 
 
 = render 'pulitzer/content_sections/new_modal', parent: @page
