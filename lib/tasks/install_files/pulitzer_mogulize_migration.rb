@@ -2,14 +2,6 @@ class PulitzerMogulizeMigration < ActiveRecord::Migration[5.1]
 
 	def change
 
-		create_table 	:auto_links do |t|
-			t.string 	:phrase
-			t.string	:url
-
-			t.integer 	:status, default: 0
-			t.timestamps
-		end
-		
 		create_table 	:site_assets do |t|
 			t.string	:asset_type			# document, image, audio, video, css, js
 			t.string	:title
@@ -18,9 +10,11 @@ class PulitzerMogulizeMigration < ActiveRecord::Migration[5.1]
 			t.timestamps
 		end
 
-		create_table 	:sits do |t|
+		create_table 	:sites do |t|
 			t.string	:name
 			t.string	:domain
+
+			t.text 		:description
 
 			t.integer	:status, 		default: 0
 			t.timestamps
