@@ -6,6 +6,7 @@ module Pulitzer
 		def create
 			@category = Category.new( category_params )
 			@category.user_id = current_user.id
+			@category.site_id = @current_site.id
 
 			authorize( @category )
 
@@ -74,7 +75,7 @@ module Pulitzer
 			end
 
 			def get_category
-				@category = Category.friendly.find( params[:id] )
+				@category = Category.where( site_id: @current_site.id ).friendly.find( params[:id] )
 			end
 	end
 end

@@ -24,11 +24,11 @@ module Pulitzer
 				if id.present?
 					page_id = id.downcase
 					if page_id.match( /sitemap/i )
-						redirect_to Pulitzer.site_map_url
+						redirect_to @current_site.site_map_url
 					else
 						begin
 
-							@media = Media.friendly.find( page_id )
+							@media = Media.where( site_id: @current_site.id ).friendly.find( page_id )
 
 							if not( @media.redirect_url.blank? )
 								redirect_to @media.redirect_url, status: :moved_permanently

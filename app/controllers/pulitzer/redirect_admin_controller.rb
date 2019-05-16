@@ -6,6 +6,7 @@ module Pulitzer
 			@redirect = Redirect.new( redirect_params )
 			
 			@redirect.user ||= current_user
+			@redirect.site_id ||= @current_site.id
 			@redirect.status = 'active'
 
 			authorize( @redirect )

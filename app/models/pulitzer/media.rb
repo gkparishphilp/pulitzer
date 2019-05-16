@@ -21,6 +21,7 @@ module Pulitzer
 
 		attr_accessor	:slug_pref, :category_name
 
+		belongs_to 	:site
 		belongs_to	:user, optional: true
 		has_many 	:media_versions, -> { order("id DESC") }
 		has_many 	:content_sections, -> { order("seq ASC") }, as: :parent
@@ -34,7 +35,7 @@ module Pulitzer
 		has_many_attached :other_attachments
 
 		include FriendlyId
-		friendly_id :slugger, use: [ :slugged, :history ]
+		friendly_id :slugger, use: [ :slugged, :history, :scoped ], scope: :site_id
 
 		acts_as_nested_set
 

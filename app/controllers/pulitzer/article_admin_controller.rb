@@ -4,6 +4,7 @@ module Pulitzer
 
 		def create
 			@article = Article.new( article_params )
+			@article.site = @current_site
 			@article.publish_at ||= Time.zone.now
 			@article.user ||= current_user
 			@article.status = 'draft'
@@ -121,7 +122,7 @@ module Pulitzer
 			end
 
 			def get_article
-				@article = Article.friendly.find( params[:id] )
+				@article = Article.where( site_id: @current_site.id ).friendly.find( params[:id] )
 			end
 
 			def info_for_paper_trail

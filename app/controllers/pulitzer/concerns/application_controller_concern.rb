@@ -77,7 +77,10 @@ module Pulitzer
 				end
 
 				def set_site
-					current_site = Site.find_by_domain( request.domain )
+					@current_site = Site.find_by_domain( request.domain )
+					if @current_site.nil?
+						raise ActionController::RoutingError.new( 'Not Found' )
+					end
 				end
 
 

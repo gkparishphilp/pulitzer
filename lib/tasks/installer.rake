@@ -49,6 +49,8 @@ namespace :pulitzer do
 		migrations = [
 			'pulitzer_migration.rb',
 			'pulitzer_active_storage_migration.rb',
+			'pulitzer_content_sections_migration.rb',
+			'pulitzer_mogulize_migration.rb',
 		]
 
 		prefix = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i

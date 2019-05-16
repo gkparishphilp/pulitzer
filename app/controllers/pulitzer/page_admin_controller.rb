@@ -42,6 +42,7 @@ module Pulitzer
 			@page = Page.new( page_params )
 			@page.publish_at ||= Time.zone.now
 			@page.user = current_user
+			@page.site_id = @current_site.id
 			@page.status = 'draft'
 
 			if @page.save
@@ -146,7 +147,7 @@ module Pulitzer
 			end
 
 			def get_page
-				@page = Page.friendly.find( params[:id] )
+				@page = Page.where( site_id: @current_site.id ).friendly.find( params[:id] )
 			end
 
 			def info_for_paper_trail
