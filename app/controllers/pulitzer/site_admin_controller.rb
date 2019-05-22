@@ -1,0 +1,6 @@
+
+class SiteAdminController < ApplicationAdminController
+
+
+
+end

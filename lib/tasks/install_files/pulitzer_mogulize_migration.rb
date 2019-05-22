@@ -16,7 +16,7 @@ class PulitzerMogulizeMigration < ActiveRecord::Migration[5.1]
 
 			t.text 		:description
 			t.string	:site_map_url
-			
+			t.string	:blog_path
 
 			t.integer	:status, 		default: 0
 			t.timestamps

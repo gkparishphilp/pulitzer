@@ -20,7 +20,9 @@ Pulitzer::Engine.routes.draw do
 
 	resources :redirect_admin
 
-	resources :unattached_blob_admin
+	resources :site_admin
+
+	resources :site_asset_admin
 
 	resources :version_admin do
 		put :restore, on: :member
