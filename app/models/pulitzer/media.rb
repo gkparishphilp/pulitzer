@@ -146,15 +146,16 @@ module Pulitzer
 		end
 
 		def should_generate_new_friendly_id?
-			self.slug.nil? || self.slug_pref.present?
+			( self.title_changed? || self.slug_pref.present? ) || super
 		end
 
 		def slugger
+			clean_class = self.class.name.demodulize
 			if self.slug_pref.present?
 				self.slug = nil # friendly_id 5.0 only updates slug if slug field is nil
-				return self.slug_pref
+				[ self.slug_pref, [ self.slug_pref, clean_class ] ]
 			else
-				return self.title
+				[ self.title, [ self.title, clean_class ] ]
 			end
 		end
 

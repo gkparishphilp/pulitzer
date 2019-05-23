@@ -127,8 +127,7 @@ module Pulitzer
 
 		def update
 			authorize( @page )
-
-			@page.slug = nil if params[:page][:slug_pref].present? || params[:page][:title] != @page.title
+			
 			@page.attributes = page_params
 
 			if @page.save

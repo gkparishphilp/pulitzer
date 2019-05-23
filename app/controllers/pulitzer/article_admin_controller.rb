@@ -92,8 +92,6 @@ module Pulitzer
 
 		def update
 
-			@article.slug = nil if ( params[:article][:title] != @article.title ) || ( params[:article][:slug_pref].present? )
-
 			@article.attributes = article_params
 			@article.avatar_urls = params[:article][:avatar_urls] if params[:article].present? && params[:article][:avatar_urls].present?
 
