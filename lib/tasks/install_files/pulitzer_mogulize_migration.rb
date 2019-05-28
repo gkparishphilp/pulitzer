@@ -12,6 +12,7 @@ class PulitzerMogulizeMigration < ActiveRecord::Migration[5.1]
 
 		create_table 	:pulitzer_sites do |t|
 			t.string	:name
+			t.string 	:title
 			t.string	:domain
 
 			t.text 		:description
@@ -24,6 +25,7 @@ class PulitzerMogulizeMigration < ActiveRecord::Migration[5.1]
 
 
 		add_column	:pulitzer_media, :site_id, :integer
+		add_column	:pulitzer_categories, :site_id, :integer
 
 
 

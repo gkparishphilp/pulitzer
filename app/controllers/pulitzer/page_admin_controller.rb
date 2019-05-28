@@ -116,7 +116,7 @@ module Pulitzer
 			if @version = @page.versions.find_by( id: params[:v] )
 				@media = @version.next.reify
 			else
-				@media = @article
+				@media = @page
 			end
 
 			# copied from pulitzer_render
@@ -129,6 +129,10 @@ module Pulitzer
 			authorize( @page )
 			
 			@page.attributes = page_params
+
+			if params[:page][:category_name].present?
+				@page.category = PageCategory.where( name: params[:page][:category_name] ).first_or_create( status: 'active' )
+			end
 
 			if @page.save
 				undo_link = view_context.link_to( "undo", undo_version_admin_path( @page.versions.last ), method: :put )

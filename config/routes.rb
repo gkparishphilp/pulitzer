@@ -1,6 +1,11 @@
 Pulitzer::Engine.routes.draw do
 
 	resources :articles, path: Pulitzer.article_path
+
+	get "#{Pulitzer.article_path}/by/:id", to: 'articles#by_author'
+	get "#{Pulitzer.article_path}/in/:id", to: 'articles#in_category'
+	get "#{Pulitzer.article_path}/tagged/:id", to: 'articles#tagged'
+
 	resources :article_admin, path: 'blog_admin' do
 		get :preview, on: :member
 		delete :empty_trash, on: :collection
