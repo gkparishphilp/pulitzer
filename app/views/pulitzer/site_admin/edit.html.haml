@@ -1,0 +1,44 @@
+
+.container-fluid
+	.row
+		.col-xs-10
+			%ul.breadcrumb
+				%li
+					= link_to 'Admin', main_app.admin_index_path
+				%li
+					= link_to 'Site Admin', site_admin_index_path
+				%li
+					%strong
+						Edit
+						= @site.name
+		.col-xs-2
+			
+
+	= form_for @site, url: site_admin_path( @site ) do |f|
+
+		.row
+			.col-sm-8
+
+				.form-group
+					= f.label :name
+					= f.text_field :name, class: 'form-control', placeholder: @site.name
+						
+
+				.form-group
+					= f.label :domain
+					= f.text_field :domain, class: 'form-control'
+
+				
+
+			.col-sm-4
+				.well
+
+					.form-group
+						= f.submit 'Update', class: 'btn btn-primary'
+						.pull-right= link_to 'Cancel', :back, class: 'btn btn-default btn-sm'
+
+
+
+			
+		.col-sm-4
+

@@ -1,26 +1,26 @@
 .container
 	- if @author.present?
 		%h1
-			= pluralize @count, 'Article'
+			= pluralize @articles.total_count, 'Article'
 			by
 			= @author.avatar_tag( width: 36 )
 			= @author
 
 	- if @query.present?
 		%h1
-			= pluralize @count, 'Article'
+			= pluralize @articles.total_count, 'Article'
 			matching
 			= "'#{@query}'"
 
 	- if @tagged.present?
 		%h1
-			= pluralize @count, 'Article'
+			= pluralize @articles.total_count, 'Article'
 			tagged
 			= "'#{@tagged}'"
 
 	- if @category.present?
 		%h1
-			= pluralize @count, 'Article'
+			= pluralize @articles.total_count, 'Article'
 			in
 			= "'#{@category}'"
 

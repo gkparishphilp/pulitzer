@@ -2,9 +2,9 @@ Pulitzer::Engine.routes.draw do
 
 	resources :articles, path: Pulitzer.article_path
 
-	get "#{Pulitzer.article_path}/by/:id", to: 'articles#by_author'
-	get "#{Pulitzer.article_path}/in/:id", to: 'articles#in_category'
-	get "#{Pulitzer.article_path}/tagged/:id", to: 'articles#tagged'
+	get "#{Pulitzer.article_path}/by/:id", to: 'articles#index'
+	get "#{Pulitzer.article_path}/in/:id", to: 'articles#index'
+	get "#{Pulitzer.article_path}/tagged/:id", to: 'articles#index'
 
 	resources :article_admin, path: 'blog_admin' do
 		get :preview, on: :member

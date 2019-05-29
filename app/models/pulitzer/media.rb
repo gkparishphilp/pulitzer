@@ -155,7 +155,7 @@ module Pulitzer
 				self.slug = nil # friendly_id 5.0 only updates slug if slug field is nil
 				[ self.slug_pref, [ self.slug_pref, clean_class ], [ self.slug_pref, clean_class, self.publish_at.strftime( '%m%d%Y') ] ]
 			else
-				[ self.title, [ self.title, clean_class ], self.publish_at.strftime( '%m%d%Y') ] ]
+				[ self.title, [ self.title, clean_class ], [ self.title, clean_class, self.publish_at.strftime( '%m%d%Y') ] ]
 			end
 		end
 
