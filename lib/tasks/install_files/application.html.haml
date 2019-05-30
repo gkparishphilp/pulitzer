@@ -7,7 +7,7 @@
 //[if gt IE 8] <html class="no-js">
 %html{ lang: :en }
 	%head
-		= render 'application/gtm_head'
+		= render 'partials/plugins/gtm_head'
 
 		%title
 			= @page_meta[:title]
@@ -18,7 +18,7 @@
 		%meta{ content: "width=device-width, initial-scale=1, maximum-scale=1", name: "viewport" }
 
 		
-		= render 'application/social_meta', args: {}
+		= render 'partials/pulitzer/social_meta', args: {}
 
 		= stylesheet_link_tag 'application'
 
@@ -32,17 +32,17 @@
 
 		= csrf_meta_tags
 
-	%body
-		= render 'gtm_body'
+	%body{ class: [params[:controller], params[:action] ] }
+		= render 'partials/plugins/gtm_body'
 		%header#header
-			= render 'application/navbar'
+			= render 'partials/ui/header', args: {}
 
 		%section#main
-			= render 'application/flash'
+			= render 'partials/ui/flash'
 			= yield
 
 		%footer#footer
-			= render 'application/footer'
+			= render 'partials/ui/footer'
 
 
 		= javascript_include_tag 'application'

@@ -14,7 +14,7 @@ namespace :pulitzer do
 					'_gtm_head.html.erb' => 'app/views/partials/plugins',
 					'_gtm_body.html.erb' => 'app/views/partials/plugins',
 					'_flash.html.haml' => 'app/views/partials/ui',
-					'_navbar.html.haml' => 'app/views/partials/ui',
+					'_header.html.haml' => 'app/views/partials/ui',
 					'_footer.html.haml' => 'app/views/partials/ui',
 					'storage.yml' => 'config',
 					'route_downcaser.rb' => 'config/initialiers',
