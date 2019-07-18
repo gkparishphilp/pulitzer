@@ -8,6 +8,8 @@ Pulitzer::Engine.routes.draw do
 
 	resources :attachments, only: [:create,:destroy,:index]
 
+	resources 	:auto_link_admin
+
 	resources :category_admin
 
 	resources :content_section_admin
