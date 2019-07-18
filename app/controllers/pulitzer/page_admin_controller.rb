@@ -112,7 +112,7 @@ module Pulitzer
 		def preview
 			authorize( @page )
 
-			if @version = @page.versions.find( params[:v] )
+			if @version = @page.versions.find_by( id: params[:v] )
 				@media = @version.next.reify
 			else
 				@media = @article

@@ -28,10 +28,11 @@
 					- version.object_changes.to_h.each do |field, from_to|
 						- next if from_to[0].blank?
 						= field
-						from
-						= raw from_to[0]
-						to
-						= raw from_to[1]
+						- if not( field == 'content' )
+							from
+							= raw from_to[0]
+							to
+							= raw from_to[1]
 
 				%td
 					= version.created_at.strftime( "%m/%d/%Y @ %H:%M")
