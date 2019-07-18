@@ -111,7 +111,7 @@ module Pulitzer
 
 		def preview
 			authorize( @page )
-			
+
 			if @version = @page.versions.find( params[:v] )
 				@media = @version.next.reify
 			else
@@ -142,7 +142,7 @@ module Pulitzer
 
 		private
 			def page_params
-				params.require( :page ).permit( :title, :subtitle, :avatar_caption, :slug_pref, :description, :content, :status, :availability, :publish_at, :show_title, :is_sticky, :is_commentable, :user_id, :tags, :tags_csv, :layout, :template, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
+				params.require( :page ).permit( :title, :subtitle, :avatar_caption, :slug_pref, :description, :content, :status, :availability, :publish_at, :show_title, :is_sticky, :is_commentable, :user_id, :tags, :tags_csv, :layout, :template, :avatar_attachment, :cover_attachment, :meta_description, { embedded_attachments: [], other_attachments: [] } )
 			end
 
 			def get_page

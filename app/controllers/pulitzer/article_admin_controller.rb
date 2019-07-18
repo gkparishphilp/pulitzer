@@ -75,7 +75,7 @@ module Pulitzer
 
 		def preview
 			authorize( @article )
-			
+
 
 			if @version = @article.versions.find_by( id: params[:v] )
 				@media = @version.next.reify
@@ -117,7 +117,7 @@ module Pulitzer
 
 		private
 			def article_params
-				params.require( :article ).permit( :title, :subtitle, :avatar_caption, :slug_pref, :description, :content, :category_id, :status, :publish_at, :show_title, :is_commentable, :is_sticky, :user_id, :tags, :tags_csv, :redirect_url, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } )
+				params.require( :article ).permit( :title, :subtitle, :avatar_caption, :slug_pref, :description, :content, :category_id, :status, :publish_at, :show_title, :is_commentable, :is_sticky, :user_id, :tags, :tags_csv, :redirect_url, :avatar_attachment, :cover_attachment, :meta_description, { embedded_attachments: [], other_attachments: [] } )
 			end
 
 			def get_article

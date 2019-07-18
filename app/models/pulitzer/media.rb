@@ -106,7 +106,7 @@ module Pulitzer
 			return {
 				page_title: title,
 				title: self.title,
-				description: self.sanitized_description,
+				description: self.meta_description,
 				image: self.avatar,
 				url: self.url,
 				twitter_format: 'summary_large_image',

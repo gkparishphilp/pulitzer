@@ -29,6 +29,10 @@
 					= f.text_field :subtitle, class: 'form-control'
 
 				.form-group
+					= f.label :meta_description, 'Meta Description'
+					= f.text_area :meta_description, class: 'form-control'
+
+				.form-group
 					.input-group
 						= f.label :slug_pref, 'URL for this page:'
 						= f.text_field :slug_pref, class: 'form-control', placeholder: @page.slug
@@ -105,12 +109,12 @@
 					%a.btn.btn-success.pull-right{ href: '#new_section', data: { toggle: :modal, target: '#new_section' }, style: 'margin-top:1em;' }
 						%i.fa-fa-plus
 						Add
-			
+
 			- @page.content_sections.each do |section|
 				= render 'pulitzer/content_sections/form', section: section
 
 
-			
+
 		.col-sm-4
 
 
@@ -118,4 +122,3 @@
 .row
 	.col-sm-10.col-sm-offset-1
 		= render 'pulitzer/version_admin/object_versions', object: @page, preview_path: preview_page_admin_path( @page )
-						
