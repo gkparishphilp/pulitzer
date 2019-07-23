@@ -51,13 +51,13 @@
 							%td
 								.title{ style: 'font-size:120%;' }
 									= link_to "/#{redirect.slug}", edit_redirect_admin_path( redirect.id )
-								
+
 
 							%td
 								= redirect.redirect_url
 							%td
 								= redirect.created_at.to_s( :slashed_time )
-					
+
 							%td
 								.btn-group
 									%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
@@ -68,12 +68,14 @@
 											%a{ href: edit_redirect_admin_path( redirect.id ) }
 												%i.fa.fa-pencil
 												Edit
-										
+
 										%li.divider
 										%li
 											%a{ href: redirect_admin_path( redirect.id ), data: { method: 'delete', confirm: 'Are you sure?' } }
 												%i.fa.fa-trash-o
 												Delete!
+		.col-xs-6
+			= raw paginate @redirects
 
 
 

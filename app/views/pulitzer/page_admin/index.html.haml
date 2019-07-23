@@ -85,6 +85,8 @@
 											%a{ href: page_admin_path( page ), data: { method: 'delete', confirm: 'Are you sure?' } }
 												%i.fa.fa-trash-o
 												Delete!
+		.col-xs-6
+			= raw paginate @pages
 
 - if Pulitzer::Page.trash.present?
 	.pull-right{ style: 'margin-right:2em;' }

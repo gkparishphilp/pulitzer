@@ -10,7 +10,7 @@
 					%strong
 						Version Admin
 		.col-xs-2
-			
+
 
 	.row
 		.col-xs-6
@@ -25,20 +25,20 @@
 			%table.table.table-striped.table-hover{ style: 'margin-top: 1em' }
 				%thead
 					%th
-						
-					%th
-						
+
 					%th
 
 					%th
-						
+
+					%th
+
 					%th
 				%tbody
 					- @versions.each do |version|
 						%tr
 							%td
 								= User.where( id: version.whodunnit ).last
-								
+
 							%td
 								= version.event
 							%td
@@ -51,7 +51,7 @@
 
 							%td
 								= version.created_at.to_s( :slashed_time )
-					
+
 							%td
 								.btn-group
 									%button.btn.btn-mini.btn-default.dropdown-toggle{ data: { toggle: :dropdown } }
@@ -62,10 +62,11 @@
 											%a{ href: revert_version_admin_path( version.id ), data: { method: :put } }
 												%i.fa.fa-pencil
 												Revert
-										
+
 										%li.divider
 										%li
 											%a{ href: version_admin_path( version.id ), data: { method: 'delete', confirm: 'Are you sure?' } }
 												%i.fa.fa-trash-o
 												Delete!
-
+		.col-xs-6
+			= raw paginate @versions

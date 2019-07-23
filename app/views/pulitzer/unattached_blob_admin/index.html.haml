@@ -57,5 +57,7 @@
 							%td
 								= blob.created_at.to_s( :slashed_time )
 							%td
+		.col-xs-6
+			= raw paginate @blobs
 
 = render 'new_modal'
