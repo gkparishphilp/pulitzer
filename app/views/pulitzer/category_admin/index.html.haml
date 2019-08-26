@@ -41,7 +41,8 @@
 							%td
 								= category.slug
 							%td
-								= category.type.gsub( 'Pulitzer::', '' )
+								- unless category.type.blank?
+									= category.type.gsub( 'Pulitzer::', '' )
 							%td
 								= category.parent
 							%td
