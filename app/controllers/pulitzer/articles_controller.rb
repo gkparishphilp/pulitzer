@@ -7,7 +7,7 @@ module Pulitzer
 			@query = params[:q] if params[:q].present?
 			@tagged = params[:tagged]
 			@author = User.friendly.find( params[:by] ) if params[:by].present?
-			@category = Category.friendly.find( params[:category] || params[:cat] ) if ( params[:category] || params[:cat] ).present?
+			@category = ArticleCategory.friendly.find( params[:category] || params[:cat] ) if ( params[:category] || params[:cat] ).present?
 
 			@title = @category.try(:name)
 			@title ||= "Blog"

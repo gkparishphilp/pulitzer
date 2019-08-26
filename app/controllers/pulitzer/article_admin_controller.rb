@@ -9,7 +9,7 @@ module Pulitzer
 			@article.status = 'draft'
 
 			if params[:article][:category_name].present?
-				@article.category = Category.where( name: params[:article][:category_name] ).first_or_create( status: 'active' )
+				@article.category = ArticleCategory.where( name: params[:article][:category_name] ).first_or_create( status: 'active' )
 			end
 
 			authorize( @article )
@@ -98,7 +98,7 @@ module Pulitzer
 
 
 			if params[:article][:category_name].present?
-				@article.category = Category.where( name: params[:article][:category_name] ).first_or_create( status: 'active' )
+				@article.category = ArticleCategory.where( name: params[:article][:category_name] ).first_or_create( status: 'active' )
 			end
 
 			authorize( @article )
