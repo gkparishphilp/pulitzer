@@ -10,7 +10,7 @@ module ActiveStorage
 
 		# Prettifies public URLS
 		def url(key, expires_in:, disposition:, filename:, content_type:)
-			if expires_in.to_f == 300 && disposition.to_s == 'inline'
+			if expires_in.to_f == 300 && ['attachment','inline'].include?(disposition.to_s)
 				"#{Pulitzer.asset_host}/#{key}"
 			else
 				super( key, expires_in: expires_in, disposition: disposition, filename: filename, content_type: content_type )
