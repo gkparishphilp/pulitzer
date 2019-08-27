@@ -71,7 +71,7 @@ module Pulitzer
 					size = "#{size.split('x').first}x#{(size.split('x').first.to_f / blob.metadata['width'] * blob.metadata['height']).round(2)}" if size.last == 'x' && blob.metadata['width']
 					size = "#{(size.split('x').last.to_f / blob.metadata['height'] * blob.metadata['width']).round(2)}x#{size.split('x').last}" if size.first == 'x' && blob.metadata['width']
 					puts "size #{size}"
-					src = "#{attachment.variant(resize: size).processed.service_url}\#resolution-#{size}" if size && size != 'auto'
+					src = "#{attachment.variant(resize: size).processed.service_url}\#resolution-#{size}" if size && size != 'auto' && attachment.variable?
 					src ||= attachment.service_url
 				end
 
