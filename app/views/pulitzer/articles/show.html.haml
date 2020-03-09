@@ -6,7 +6,7 @@
 			
 			%span.info-item
 				by
-				%a{href: articles_path( by: @media.user_id )}
+				%a{href: pulitzer.articles_path( by: @media.user_id )}
 					= @media.user.avatar_tag( width: 20 )
 					= @media.user
 			%span.info-item
@@ -15,7 +15,7 @@
 				%span.info-item
 					Tagged:
 					- @media.tags.each do |tag|
-						%a.post-tag{ href: articles_path( tagged: tag.name ) }
+						%a.post-tag{ href: pulitzer.articles_path( tagged: tag.name ) }
 							%span.label.label-info
 								= tag.name
 		- if @media.avatar.present?

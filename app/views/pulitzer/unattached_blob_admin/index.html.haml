@@ -32,6 +32,8 @@
 					%th
 						&nbsp;
 					%th
+						File
+					%th
 						Url
 					%th
 						Created At
@@ -49,6 +51,9 @@
 										= attachment_picture_tag(blob, xs: '100%x', class: 'img img-responsive', style: 'max-width: 50px;')
 									- else
 										= blob.filename
+							%td
+								%a{ href: edit_unattached_blob_admin_path( blob.id ) }
+									= blob.filename
 							%td
 								%a.btn{ 'data-clipboard-text' => blob.service_url, style: 'padding:0;border:none;' }
 									= blob.service_url

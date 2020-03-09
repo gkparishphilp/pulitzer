@@ -2,7 +2,7 @@ module Pulitzer
 
 	class Media < ApplicationRecord
 
-		include Pulitzer::Concerns::URLConcern
+		include Pulitzer::Concerns::UrlConcern
 		#include Pulitzer::Concerns::ExpiresCache
 		include Pulitzer::MediaSearchable if (Pulitzer::MediaSearchable rescue nil)
 
@@ -178,7 +178,7 @@ module Pulitzer
 		private
 
 			def allow_blank_title?
-				self.slug_pref.present? || self.is_a?( 'Pulitzer::Redirect' )
+				self.slug_pref.present? || self.is_a?( Pulitzer::Redirect )
 			end
 
 			def set_avatar
