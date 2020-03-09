@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails", ">= 5.2.0"
+  #s.add_dependency "rails", ">= 5.2.0"
 
   s.add_dependency "acts-as-taggable-array-on"
   s.add_dependency "awesome_nested_set", '~> 3.1'
@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency "pundit"
   # TODO s.add_dependency 'paper_trail', '~> 3.0.1'
   s.add_dependency 'route_downcaser'
-  s.add_dependency 'sass-rails', '~> 5.0'
+  #s.add_dependency 'sass-rails', '~> 5.0'
   s.add_dependency 'sitemap_generator'
 
 
