@@ -54,7 +54,9 @@
 
 
 							%td
-								= redirect.redirect_url
+								%a.btn{ 'data-clipboard-text' => "#{redirect.redirect_url}", style: 'padding:0;border:none;' }
+									= redirect.redirect_url
+									%i.fa.fa-clipboard
 							%td
 								= redirect.created_at.to_s( :slashed_time )
 
