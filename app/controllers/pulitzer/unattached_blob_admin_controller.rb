@@ -45,9 +45,16 @@ module Pulitzer
 		end
 
 		def index
+
+			@sort_by = 'created_at'
+			@sort_by = params[:sort_by] if params[:sort_by].present? && %w(filename created_at).include?(params[:sort_by])
+
+			@sort_dir = params[:sort_dir] == 'asc' ? 'asc' : 'desc'
+
 			@blobs = Pulitzer::UnattachedBlob.all
 			@blobs = @blobs.where( " filename ILIKE :q OR (metadata) ILIKE :q OR array_to_string(tags,',') ILIKE :q", q: "%#{params[:q].downcase}%" ) if params[:q].present?
-			@blobs = @blobs.order(id: :desc).page(params[:page]).per(10)
+			@blobs = @blobs.order( @sort_by => @sort_dir )
+			@blobs = @blobs.page( params[:page] ).per( 10 )
 
 			authorize( @blobs )
 		end
