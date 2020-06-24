@@ -115,12 +115,12 @@ module Pulitzer
 			if @version = @page.versions.find_by( id: params[:v] )
 				@media = @version.next.reify
 			else
-				@media = @article
+				@media = @page
 			end
 
 			# copied from pulitzer_render
-			set_page_meta( @media.page_meta )
-			render @media.template, layout: @media.layout
+			set_page_meta( @page.page_meta )
+			render @page.template, layout: @page.layout
 		end
 
 
