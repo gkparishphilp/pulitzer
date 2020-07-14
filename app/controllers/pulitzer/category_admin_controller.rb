@@ -46,9 +46,7 @@ module Pulitzer
 				@categories = eval "@categories.#{params[:status]}"
 			end
 
-			if params[:q].present?
-				@categories = @categories.where( "array[:q] && keywords", q: params[:q].downcase )
-			end
+			@categories = @categories.where( "name ilike :q", q: "%#{params[:q].downcase}%" ) if params[:q].present?
 
 			@categories = @categories.page( params[:page] )
 		end
