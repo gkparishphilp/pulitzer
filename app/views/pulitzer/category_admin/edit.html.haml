@@ -52,7 +52,7 @@
 					= f.number_field :seq, class: 'form-control'
 				.form-group
 					= f.label :type
-					= f.text_field :type, class: 'form-control'
+					= f.collection_select :type, Pulitzer.category_types.collect(&:reverse), :first, :first, { include_blank: '-- None --' }, class: 'form-control'
 				.form-group
 					= f.label :status
 					= f.collection_select :status, Pulitzer::Category.statuses, :first, :first, {}, class: 'form-control'

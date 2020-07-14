@@ -9,8 +9,13 @@
 					New Category
 			= form_for Pulitzer::Category.new, url: pulitzer.category_admin_index_path do |f|
 				.modal-body
-					= f.label :name
-					= f.text_field :name, class: 'form-control'
+					.form-group
+						= f.label :name
+						= f.text_field :name, class: 'form-control'
+					.form-group
+						= f.label :type
+						= f.collection_select :type, Pulitzer.category_types.collect(&:reverse), :first, :first, { include_blank: '-- None --' }, class: 'form-control'
+
 				.modal-footer
 					%button.btn.btn-default{ type: :button, 'data-dismiss' => 'modal' }
 						Close

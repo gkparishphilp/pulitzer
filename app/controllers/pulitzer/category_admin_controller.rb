@@ -70,7 +70,7 @@ module Pulitzer
 
 		private
 			def category_params
-				params.require( :category ).permit( :name, :display, :slug, :parent_id, :description, :status, :seq, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } ) # todo
+				params.require( :category ).permit( :name, :type, :display, :slug, :parent_id, :description, :status, :seq, :avatar_attachment, :cover_attachment, { embedded_attachments: [], other_attachments: [] } ) # todo
 			end
 
 			def get_category

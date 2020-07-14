@@ -22,6 +22,8 @@ module Pulitzer
 
 		mattr_accessor :article_avatars
 
+		mattr_accessor :category_types
+
 		mattr_accessor :asset_host
 
 		mattr_accessor :contact_email_to
@@ -49,6 +51,8 @@ module Pulitzer
 		self.article_avatars = []
 
 		self.asset_host = ENV['ASSET_HOST']
+
+		self.category_types = [ ['ArticleCategory', 'Article Category'] ]
 
 		self.default_layouts = {}
 		self.default_protocol = 'http'
