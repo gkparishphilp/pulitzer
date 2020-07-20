@@ -14,7 +14,7 @@
 						= f.text_field :name, class: 'form-control'
 					.form-group
 						= f.label :type
-						= f.collection_select :type, Pulitzer.category_types.collect(&:reverse), :first, :first, { include_blank: '-- None --' }, class: 'form-control'
+						= f.collection_select :type, Pulitzer.category_types.collect(&:reverse), :second, :first, { include_blank: '-- None --' }, class: 'form-control'
 
 				.modal-footer
 					%button.btn.btn-default{ type: :button, 'data-dismiss' => 'modal' }
