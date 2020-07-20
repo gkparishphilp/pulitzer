@@ -55,6 +55,9 @@
 								= image_tag @article.avatar, class: 'img-responsive'
 								%a.btn.btn-default{ 'data-clipboard-text' => @article.avatar }
 									%i.fa.fa-clipboard
+							- if @article.avatar_attachment.attached?
+								%a.btn.btn-default{ href: pulitzer.purge_article_admin_path( @article.id, attribute: :avatar_attachment ), data: { method: :delete } }
+									%i.fa.fa-trash
 
 					.col-xs-4
 
@@ -65,6 +68,9 @@
 								= image_tag @article.cover_image, class: 'img-responsive'
 								%a.btn.btn-default{ 'data-clipboard-text' => @article.cover_image }
 									%i.fa.fa-clipboard
+							- if @article.cover_attachment.attached?
+								%a.btn.btn-default{ href: pulitzer.purge_article_admin_path( @article.id, attribute: :cover_attachment ), data: { method: :delete } }
+									%i.fa.fa-trash
 
 				.form-group
 					= f.label :avatar_caption, 'Caption'

@@ -4,6 +4,7 @@ Pulitzer::Engine.routes.draw do
 	resources :article_admin, path: 'blog_admin' do
 		get :preview, on: :member
 		delete :empty_trash, on: :collection
+		delete 'purge/:attribute' => 'article_admin#purge', on: :member, as: :purge
 	end
 
 	resources :attachments, only: [:create,:destroy,:index]

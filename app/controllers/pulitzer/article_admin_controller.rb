@@ -72,6 +72,28 @@ module Pulitzer
 			@articles = @articles.page( params[:page] )
 		end
 
+		def purge
+			authorize( @article )
+
+			attribute = 'avatar_attachment'
+			attribute = 'cover_attachment' if params[:attribute] == 'cover_attachment'
+
+			@article.try(attribute).purge
+
+			if @article.try(attribute).attached?
+				set_flash 'Could not remove file', :error
+			else
+				@article.avatar = nil
+				@article.cover_image = nil
+				@article.avatar = @article.avatar_attachment.service_url if @article.avatar_attachment.attached?
+				@article.cover_image = @article.cover_attachment.service_url if @article.cover_attachment.attached?
+				@article.save
+				set_flash "File removed"
+			end
+
+			redirect_back( fallback_location: '/admin' )
+		end
+
 
 		def preview
 			authorize( @article )
