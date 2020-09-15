@@ -9,6 +9,12 @@ module Pulitzer
 
 		belongs_to :parent, :class_name => "Pulitzer::Category", optional: true
 
+		has_one_attached :avatar_attachment
+		has_one_attached :cover_attachment
+
+		has_many_attached :embedded_attachments
+		has_many_attached :other_attachments
+
 		include FriendlyId
 		friendly_id :name, use: :slugged
 
