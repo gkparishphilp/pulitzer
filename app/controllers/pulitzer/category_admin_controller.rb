@@ -6,6 +6,8 @@ module Pulitzer
 		def create
 			@category = Category.new( category_params )
 			@category.user_id = current_user.id
+			@category.avatar = @category.avatar_attachment.service_url if @category.avatar_attachment.attached?
+			@category.cover_image = @category.cover_attachment.service_url if @category.cover_attachment.attached?
 
 			authorize( @category )
 
@@ -53,6 +55,8 @@ module Pulitzer
 
 		def update
 			@category.attributes = category_params
+			@category.avatar = @category.avatar_attachment.service_url if @category.avatar_attachment.attached?
+			@category.cover_image = @category.cover_attachment.service_url if @category.cover_attachment.attached?
 
 			authorize( @category )
 
