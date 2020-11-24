@@ -24,7 +24,7 @@
 						%a.btn{ 'data-clipboard-text' => @blob.service_url, style: 'padding:0;border:none;' }
 							= @blob.service_url
 							%i.fa.fa-clipboard
-				- if main_app.respond_to? :unattached_blob_url
+				-#  if main_app.respond_to? :unattached_blob_url
 					.form-group
 						.form-control
 							%a.btn{ 'data-clipboard-text' => main_app.url_for( @blob ), style: 'padding:0;border:none;' }
