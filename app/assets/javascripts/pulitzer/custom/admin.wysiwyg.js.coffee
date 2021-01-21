@@ -40,6 +40,7 @@ init_wysiwyg = (container)->
 			config = ($this.data('wysiwyg') || {})
 			config.toolbar_sticky = config.toolbar_sticky || false
 			config.char_counter_count = config.char_counter_count || false
+			config.paste_plain = true if config.plain_paste == undefined
 
 			toolbar_preset = config.toolbar_preset || 'default'
 
@@ -58,7 +59,7 @@ init_wysiwyg = (container)->
 				linkList: false,
 				linkMultipleStyles: false,
 				toolbarInline: false,
-				pastePlain: true,
+				pastePlain: config.paste_plain,
 				charCounterCount: config.char_counter_count,
 				placeholderText: $this.attr('placeholder'),
 				height: $this.data('height'),
@@ -72,7 +73,7 @@ init_wysiwyg = (container)->
 				toolbarButtonsMD: wysiwyg_toolbar_buttons_md,
 				toolbarButtonsSM: wysiwyg_toolbar_buttons_sm,
 				toolbarButtonsXS: wysiwyg_toolbar_buttons_xs,
-				zIndex: ($this.data('wysiwyg') || {}).z_index,
+				zIndex: config.z_index,
 				codeBeautifierOptions: {
 					end_with_newline: true,
 					indent_inner_html: true,
@@ -97,6 +98,9 @@ init_wysiwyg = (container)->
 			$this = $(this)
 			toolbar_preset = config.toolbar_preset || 'default'
 
+			config = ($this.data('wysiwyg') || {})
+			config.paste_plain = true if config.plain_paste == undefined
+
 			wysiwyg_toolbar_buttons = config.toolbar_buttons || default_wysiwyg_toolbar_button_presets[toolbar_preset] || default_wysiwyg_toolbar_button_presets['default']
 			wysiwyg_toolbar_buttons_md = config.toolbar_buttons_md || default_wysiwyg_toolbar_button_presets[toolbar_preset+"_md"] || wysiwyg_toolbar_buttons
 			wysiwyg_toolbar_buttons_sm = config.toolbar_buttons_sm || default_wysiwyg_toolbar_button_presets[toolbar_preset+"_sm"] || wysiwyg_toolbar_buttons_md
@@ -108,7 +112,7 @@ init_wysiwyg = (container)->
 				linkList: false,
 				linkMultipleStyles: false,
 				toolbarInline: true,
-				pastePlain: true,
+				pastePlain: config.paste_plain,
 				charCounterCount: config.char_counter_count || false,
 				toolbarContainer: config.toolbar_container || null,
 				toolbarVisibleWithoutSelection: config.toolbar_visible_without_selection || false,

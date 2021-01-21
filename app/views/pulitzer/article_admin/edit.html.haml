@@ -80,7 +80,7 @@
 					= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: false, toolbar_preset: 'admin_default', object_class: @article.class.base_class.name, object_id: @article.id }.to_json }
 
 				.form-group
-					= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @article.class.base_class.name, object_id: @article.id }.to_json }
+					= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { paste_plain: false, height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @article.class.base_class.name, object_id: @article.id }.to_json }
 
 
 			.col-xs-4
