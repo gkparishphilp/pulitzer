@@ -12,7 +12,7 @@
 						#{@blob.filename}
 		.col-xs-2
 
-	= form_for @blob, url: pulitzer.unattached_blob_admin_path(@blob.id) do |f|
+	= form_for @blob, url: pulitzer.unattached_blob_admin_path(@blob.id), as: 'blob' do |f|
 		.row
 			.col-sm-12.col-md-6.col-md-offset-3
 				- if @blob.image?
@@ -70,10 +70,11 @@
 							.form-group
 								%label Image Description (img alt attribute)
 								= text_field_tag 'metadata[alt]', @blob.metadata['alt'], class: 'form-control'
-						.col-xs-12
-							.form-group
-								%label Tags
-								= text_field_tag 'tags_csv', (@blob.tags || []).join(','), class: 'form-control'
+						- if @blob.respond_to? :tags_csv
+							.col-xs-12
+								.form-group
+									%label Tags
+									= text_field_tag 'tags_csv', (@blob.tags || []).join(','), class: 'form-control'
 
 			.col-sm-12.text-right
 				.form-group

@@ -8,5 +8,7 @@
 						%i.fa.fa-clipboard
 					%a.btn.btn-danger{ href: pulitzer.attachment_path( attachment, attribute: attribute, object_id: object.id, object_class: object.class.base_class.name ), data: { method: 'delete', confirm: 'Are you sure?' } }
 						%i.fa.fa-trash
+					%a.btn.btn-default{ href: pulitzer.edit_unattached_blob_admin_path( attachment.blob.id ) }
+						%i.fa.fa-edit
 - else
 	%p.text-center - None -
