@@ -40,8 +40,7 @@ init_wysiwyg = (container)->
 			config = ($this.data('wysiwyg') || {})
 			config.toolbar_sticky = config.toolbar_sticky || false
 			config.char_counter_count = config.char_counter_count || false
-			config.paste_plain = true if config.plain_paste == undefined
-
+			config.paste_plain = true if config.paste_plain == undefined
 			toolbar_preset = config.toolbar_preset || 'default'
 
 			config.image_upload_params = (config.image_upload_params || { attribute: (config.attachment_attribute || 'embedded_attachments'), object_class: config.object_class, object_id: config.object_id })
@@ -99,7 +98,7 @@ init_wysiwyg = (container)->
 			toolbar_preset = config.toolbar_preset || 'default'
 
 			config = ($this.data('wysiwyg') || {})
-			config.paste_plain = true if config.plain_paste == undefined
+			config.paste_plain = true if config.paste_plain == undefined
 
 			wysiwyg_toolbar_buttons = config.toolbar_buttons || default_wysiwyg_toolbar_button_presets[toolbar_preset] || default_wysiwyg_toolbar_button_presets['default']
 			wysiwyg_toolbar_buttons_md = config.toolbar_buttons_md || default_wysiwyg_toolbar_button_presets[toolbar_preset+"_md"] || wysiwyg_toolbar_buttons
