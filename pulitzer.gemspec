@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'coffee-rails', '~> 4.2.2'
   s.add_dependency "devise"
   s.add_dependency "fog-aws"
-  s.add_dependency "friendly_id", '~> 5.1.0'
+  s.add_dependency "friendly_id", '>= 5.1.0'
   s.add_dependency "haml"
   s.add_dependency 'jquery-rails'
   s.add_dependency 'jquery-ui-rails'
