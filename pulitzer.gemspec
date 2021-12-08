@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency "pundit"
   # TODO s.add_dependency 'paper_trail', '~> 3.0.1'
   s.add_dependency 'route_downcaser'
-  s.add_dependency 'sass-rails', '~> 5.0'
+  s.add_dependency 'sass-rails', '>= 5.0'
   s.add_dependency 'sitemap_generator'
 
 
