@@ -1,6 +1,6 @@
-
-class AutoLinkAdminController < ApplicationAdminController
-	before_action :get_link, except: [ :create, :empty_trash, :index ]
+module Pulitzer
+	class AutoLinkAdminController < ApplicationAdminController
+		before_action :get_link, except: [ :create, :empty_trash, :index ]
 
 		def create
 			@link = AutoLink.new( link_params )
@@ -65,4 +65,5 @@ class AutoLinkAdminController < ApplicationAdminController
 			def get_link
 				@link = AutoLink.find( params[:id] )
 			end
+	end
 end
