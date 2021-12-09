@@ -1,5 +1,5 @@
 
-require 'codemirror-rails'
+# require 'codemirror-rails'
 require 'core_extensions/active_storage/blob_extensions'
 require 'awesome_nested_set'
 require 'haml'
