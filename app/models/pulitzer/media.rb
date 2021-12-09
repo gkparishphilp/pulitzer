@@ -127,6 +127,17 @@ module Pulitzer
 			}
 		end
 
+		def parent_slug=( slug )
+			parent_media = Pulitzer::Media.find_by( slug: slug )
+			if parent_media
+				self.parent = parent_media
+			end
+		end
+
+		def parent_slug
+			self.parent.try(:slug)
+		end
+
 		# def new_embedded_attachments=( attachments )
 		# 	self.embedded_attachments.attach( attachments )
 		# end
