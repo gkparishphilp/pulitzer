@@ -31,7 +31,7 @@ module Pulitzer
 							@media = Media.friendly.find( page_id )
 
 							if not( @media.redirect_url.blank? )
-								redirect_to @media.redirect_url, status: :moved_permanently
+								pulitzer_redirect( @media )
 								return false
 							elsif not(@media.publish_at_before_now?) || not(@media.active?)
 								raise ActionController::RoutingError.new( 'Not Found' )
@@ -56,6 +56,10 @@ module Pulitzer
 				end
 
 				return false
+			end
+
+			def pulitzer_redirect( media )
+				redirect_to media.redirect_url, status: :moved_permanently
 			end
 
 			def pulitzer_render( media )

@@ -4,7 +4,7 @@ module Pulitzer
 
 		def create
 			@redirect = Redirect.new( redirect_params )
-			
+
 			@redirect.user ||= current_user
 			@redirect.status = 'active'
 
@@ -77,7 +77,7 @@ module Pulitzer
 
 		private
 			def redirect_params
-				params.require( :redirect ).permit( :title, :slug_pref, :redirect_url )
+				params.require( :redirect ).permit( :title, :slug_pref, :redirect_url, :tags, :tags_csv )
 			end
 
 			def get_redirect
