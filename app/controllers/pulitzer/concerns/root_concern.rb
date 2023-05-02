@@ -33,7 +33,7 @@ module Pulitzer
 							if not( @media.redirect_url.blank? )
 								pulitzer_redirect( @media )
 								return false
-							elsif not(@media.publish_at_before_now?) || not(@media.active?)
+							elsif not(@media.publish_at_before_now?) || not( @media.active? )
 								raise ActionController::RoutingError.new( 'Not Found' )
 							elsif @media.authorized_users?
 								authorize( @media )
