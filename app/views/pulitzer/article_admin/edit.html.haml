@@ -92,6 +92,9 @@
 						= f.label :publish_at
 						= f.text_field :publish_at, value: current_user.to_local_tz( @article.publish_at ), class: 'form-control datetimepicker'
 					.form-group
+						= f.label :parent_slug
+						= f.text_field :parent_slug, class: 'form-control'
+					.form-group
 						= f.label :category_id
 						= f.collection_select :category_id, Pulitzer::ArticleCategory.active.order( :name ), :id, :name, { include_blank: '-- None -- ' }, class: 'form-control'
 					.form-group
@@ -99,6 +102,9 @@
 					.form-group
 						= f.label :status
 						= f.collection_select :status, Pulitzer::Article.statuses, :first, :first, {}, class: 'form-control'
+					.form-group 
+						= f.label 	:redirect_url 
+						= f.text_field 	:redirect_url, class: 'form-control'
 					.form-group
 						= f.label :availability
 						= f.collection_select :availability, Pulitzer::Article.availabilities, :first, :first, {}, class: 'form-control'
