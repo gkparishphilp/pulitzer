@@ -48,8 +48,12 @@ module Pulitzer
 
 			@redirects = Redirect.order( "#{sort_by} #{sort_dir}" )
 
+			if params[:status].present? && params[:status] != 'all'
+				@redirects = eval "@redirects.#{params[:status]}"
+			end
+
 			if params[:q].present?
-				@redirects = @redirects.where( "array[:q] && keywords", q: params[:q].downcase )
+				@redirects = @redirects.where( "slug like :q OR redirect_url ilike :q", q: "%#{params[:q]}%" )
 			end
 
 			@redirects = @redirects.page( params[:page] )
