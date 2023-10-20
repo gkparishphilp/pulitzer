@@ -3,8 +3,8 @@
 		- object.try(attribute).each do |attachment|
 			.col-xs-4
 				.well
-					= image_tag attachment.service_url, class: 'img img-responsive center-block'
-					%a.btn.btn-default{ 'data-clipboard-text' => attachment.service_url }
+					= image_tag attachment.url, class: 'img img-responsive center-block'
+					%a.btn.btn-default{ 'data-clipboard-text' => attachment.url }
 						%i.fa.fa-clipboard
 					%a.btn.btn-danger{ href: pulitzer.attachment_path( attachment, attribute: attribute, object_id: object.id, object_class: object.class.base_class.name ), data: { method: 'delete', confirm: 'Are you sure?' } }
 						%i.fa.fa-trash

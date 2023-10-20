@@ -46,7 +46,7 @@ module Pulitzer
 			sort_by = params[:sort_by] || 'created_at'
 			sort_dir = params[:sort_dir] || 'desc'
 
-			@redirects = Redirect.order( "#{sort_by} #{sort_dir}" )
+			@redirects = Redirect.order( Arel.sql("#{sort_by} #{sort_dir}") )
 
 			if params[:status].present? && params[:status] != 'all'
 				@redirects = eval "@redirects.#{params[:status]}"

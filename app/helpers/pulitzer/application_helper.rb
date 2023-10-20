@@ -3,7 +3,7 @@ module Pulitzer
 
 		def attachment_resolutions(attachment, options={})
 			attached = ( attachment.attached? rescue false )
-			attached = true if attachment.is_a?( ActiveStorage::Blob ) && attachment.service_url.present?
+			attached = true if attachment.is_a?( ActiveStorage::Blob ) && attachment.url.present?
 			blob = attachment if attachment.is_a?( ActiveStorage::Blob )
 			blob ||= attachment.blob if attached
 
@@ -71,8 +71,8 @@ module Pulitzer
 					size = "#{size.split('x').first}x#{(size.split('x').first.to_f / blob.metadata['width'] * blob.metadata['height']).round(2)}" if size.last == 'x' && blob.metadata['width']
 					size = "#{(size.split('x').last.to_f / blob.metadata['height'] * blob.metadata['width']).round(2)}x#{size.split('x').last}" if size.first == 'x' && blob.metadata['width']
 					puts "size #{size}"
-					src = "#{attachment.variant(resize: size).processed.service_url}\#resolution-#{size}" if size && size != 'auto' && attachment.variable?
-					src ||= attachment.service_url
+					src = "#{attachment.variant(resize: size).processed.url}\#resolution-#{size}" if size && size != 'auto' && attachment.variable?
+					src ||= attachment.url
 				end
 
 				resolutions << {
@@ -137,7 +137,7 @@ EOS
 			#	"#{media} #{resolution[:breakpoint_max] || 9999999}w"
 			#end.join(',')
 
-			default_image = attachment.service_url if attachment.is_a?( ActiveStorage::Blob ) || ( attachment.respond_to?(:attached?) && attachment.attached? )
+			default_image = attachment.url if attachment.is_a?( ActiveStorage::Blob ) || ( attachment.respond_to?(:attached?) && attachment.attached? )
 			default_image ||= options[:fallback]
 			default_image ||= smallest_resolution[:src]
 

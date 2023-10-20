@@ -24,13 +24,13 @@ module Pulitzer
 
 			respond_to do |format|
 				format.json {
-					render :json => { link: @blob.service_url, message: @message }
+					render :json => { link: @blob.url, message: @message }
 				}
 				format.html {
 					set_flash @message, :info, @blob
 					if params[:redirect_to]
 						url = Addressable::URI.parse(params[:redirect_to] || request.referer)
-						url.query_values = url.query_values.merge( storage_blob_link: @blob.service_url )
+						url.query_values = url.query_values.merge( storage_blob_link: @blob.url )
 						redirect_to url.to_s
 					else
 						redirect_to edit_unattached_blob_admin_path(@blob.id)

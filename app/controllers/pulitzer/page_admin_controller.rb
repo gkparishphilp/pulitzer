@@ -93,7 +93,7 @@ module Pulitzer
 			sort_by = params[:sort_by] || 'publish_at'
 			sort_dir = params[:sort_dir] || 'desc'
 
-			@pages = Page.order( "#{sort_by} #{sort_dir}" )
+			@pages = Page.order( Arel.sql("#{sort_by} #{sort_dir}") )
 
 			@pages = @pages.where( redirect_url: nil ) unless params[:redirects]
 

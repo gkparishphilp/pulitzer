@@ -10,7 +10,7 @@ module Pulitzer
 			respond_to do |format|
 				format.json {
 					@model.reload
-					render :json => { link: @model.try( params[:attribute] ).last.service_url }
+					render :json => { link: @model.try( params[:attribute] ).last.url }
 				}
 				format.html {
 					redirect_back fallback_location: '/'

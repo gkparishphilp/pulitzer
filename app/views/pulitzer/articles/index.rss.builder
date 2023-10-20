@@ -42,7 +42,7 @@ if (request.user_agent || '').include?('Feedly/')
 						xml.cdata!(result.user.full_name)
 					end
 					# xml.author result.user.full_name
-					xml.pubDate result.created_at.to_s(:rfc822)
+					xml.pubDate result.created_at.to_fs(:rfc822)
 					xml.link result.url
 					xml.guid result.url, isPermaLink: false
 					xml.category do
@@ -103,7 +103,7 @@ else
 						xml.cdata!(result.user.full_name)
 					end
 					# xml.author result.user.full_name
-					xml.pubDate result.created_at.to_s(:rfc822)
+					xml.pubDate result.created_at.to_fs(:rfc822)
 					xml.link result.url
 					xml.guid result.url, isPermaLink: false
 					xml.category do

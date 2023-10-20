@@ -59,7 +59,7 @@ module Pulitzer
 			sort_by = params[:sort_by] || 'publish_at'
 			sort_dir = params[:sort_dir] || 'desc'
 
-			@articles = Article.order( "#{sort_by} #{sort_dir}" )
+			@articles = Article.order( Arel.sql("#{sort_by} #{sort_dir}") )
 
 			if params[:status].present? && params[:status] != 'all'
 				@articles = eval "@articles.#{params[:status]}"
@@ -85,8 +85,8 @@ module Pulitzer
 			else
 				@article.avatar = nil
 				@article.cover_image = nil
-				@article.avatar = @article.avatar_attachment.service_url if @article.avatar_attachment.attached?
-				@article.cover_image = @article.cover_attachment.service_url if @article.cover_attachment.attached?
+				@article.avatar = @article.avatar_attachment.url if @article.avatar_attachment.attached?
+				@article.cover_image = @article.cover_attachment.url if @article.cover_attachment.attached?
 				@article.save
 				set_flash "File removed"
 			end

@@ -55,7 +55,7 @@
 									%i.fa.fa-clipboard
 
 							%td
-								= blob.created_at.to_s( :slashed_time )
+								= blob.created_at.to_fs( :slashed_time )
 							%td
 		.col-xs-6
 			= raw paginate @blobs
