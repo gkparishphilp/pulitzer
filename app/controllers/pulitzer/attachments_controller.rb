@@ -3,14 +3,16 @@ module Pulitzer
 		before_action :get_model
 
 		def create
-			authorize( @model.try( params[:attribute] ).new, attachments: active_storate_params[:attachments] )
-			@model.try( params[:attribute] ).attach( active_storate_params[:attachments] )
+			attachments = active_storate_params[:attachments]
+			model_attribute = @model.try( params[:attribute] )
+			authorize( model_attribute, attachments: attachments )
+			model_attribute.attach( attachments )
 
 			set_flash "Attachment Added"
 			respond_to do |format|
 				format.json {
 					@model.reload
-					render :json => { link: @model.try( params[:attribute] ).last.url }
+					render :json => { link: model_attribute.last.try(:url) }
 				}
 				format.html {
 					redirect_back fallback_location: '/'
