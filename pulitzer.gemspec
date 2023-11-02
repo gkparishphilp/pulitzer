@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
   s.add_dependency "acts-as-taggable-array-on"
   s.add_dependency "awesome_nested_set", '~> 3.1'
   s.add_dependency "carrierwave"
-  s.add_dependency "codemirror-rails"
   s.add_dependency 'coffee-rails', '~> 4.2.2'
   s.add_dependency "devise"
   s.add_dependency "fog-aws"
