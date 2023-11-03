@@ -1,8 +1,8 @@
 
-#= require codemirror
-#= require codemirror/modes/xml
-# require codemirror/addons/runmode/runmode
-# require codemirror/addons/runmode/colorize
+#= require ./../plugins/codemirror/lib/codemirror
+#= require ./../plugins/codemirror/mode/xml/xml
+#= require ./../plugins/codemirror/addon/runmode/runmode
+#= require ./../plugins/codemirror/addon/runmode/colorize
 #= require ./../plugins/froala/js/froala_editor
 #= require ./../plugins/froala/js/plugins/align
 #= require ./../plugins/froala/js/plugins/char_counter
