@@ -1,5 +1,7 @@
 module Pulitzer
 	class RedirectAdminController < ApplicationAdminController
+		include Pulitzer::Concerns::RedirectAdminConcern
+
 		before_action :get_redirect, except: [ :create, :index ]
 
 		def create
@@ -46,17 +48,8 @@ module Pulitzer
 			sort_by = params[:sort_by] || 'created_at'
 			sort_dir = params[:sort_dir] || 'desc'
 
-			@redirects = Redirect.order( Arel.sql("#{sort_by} #{sort_dir}") )
+			@redirects = redirect_search( params[:q], sort_by: sort_by, sort_dir: sort_dir, status: params[:status], page: params[:page] )
 
-			if params[:status].present? && params[:status] != 'all'
-				@redirects = eval "@redirects.#{params[:status]}"
-			end
-
-			if params[:q].present?
-				@redirects = @redirects.where( "slug like :q OR redirect_url ilike :q", q: "%#{params[:q]}%" )
-			end
-
-			@redirects = @redirects.page( params[:page] )
 		end
 
 

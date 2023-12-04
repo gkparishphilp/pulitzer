@@ -26,8 +26,7 @@ module Pulitzer
 
 				@articles = Article.order( Arel.sql("#{sort_by} #{sort_dir}") )
 
-				
-				@articles = eval "@articles.#{options[:status]}" if options[:status].present? && options[:status] != 'all'
+				@articles = @articles.where( status: options[:status] ) if options[:status].present? && options[:status] != 'all'
 				@articles = @articles.where( "array[:q] && keywords", q: term.downcase ) if term.present?
 
 				@articles = @articles.page( options[:page] )
