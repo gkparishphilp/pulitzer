@@ -1,5 +1,7 @@
 module Pulitzer
 	class ArticleAdminController < ApplicationAdminController
+		include Pulitzer::Concerns::ArticleAdminConcern
+
 		before_action :get_article, except: [ :create, :empty_trash, :index ]
 
 		def create
@@ -59,17 +61,8 @@ module Pulitzer
 			sort_by = params[:sort_by] || 'publish_at'
 			sort_dir = params[:sort_dir] || 'desc'
 
-			@articles = Article.order( "#{sort_by} #{sort_dir}" )
+			@articles = article_search( params[:q], sort_by: sort_by, sort_dir: sort_dir, status: params[:status], page: params[:page] )
 
-			if params[:status].present? && params[:status] != 'all'
-				@articles = eval "@articles.#{params[:status]}"
-			end
-
-			if params[:q].present?
-				@articles = @articles.where( "array[:q] && keywords", q: params[:q].downcase )
-			end
-
-			@articles = @articles.page( params[:page] )
 		end
 
 		def purge
@@ -85,8 +78,8 @@ module Pulitzer
 			else
 				@article.avatar = nil
 				@article.cover_image = nil
-				@article.avatar = @article.avatar_attachment.service_url if @article.avatar_attachment.attached?
-				@article.cover_image = @article.cover_attachment.service_url if @article.cover_attachment.attached?
+				@article.avatar = @article.avatar_attachment.url if @article.avatar_attachment.attached?
+				@article.cover_image = @article.cover_attachment.url if @article.cover_attachment.attached?
 				@article.save
 				set_flash "File removed"
 			end

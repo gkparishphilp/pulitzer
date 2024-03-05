@@ -1,7 +1,7 @@
 module Pulitzer
 	module Concerns
 
-		module URLConcern
+		module UrlConcern
 			extend ActiveSupport::Concern
 
 			included do

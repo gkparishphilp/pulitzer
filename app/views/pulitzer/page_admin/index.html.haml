@@ -55,7 +55,7 @@
 									%i.fa.fa-clipboard
 
 							%td
-								= page.publish_at.to_s( :slashed_time )
+								= page.publish_at.to_fs( :slashed_time )
 							%td
 								= page.category.try( :name )
 							%td

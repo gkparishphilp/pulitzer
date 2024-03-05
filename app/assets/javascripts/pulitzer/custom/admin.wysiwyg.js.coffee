@@ -1,11 +1,8 @@
 
-#= require codemirror
-#= require codemirror/modes/xml
-#= require codemirror/addons/runmode/runmode
-#= require codemirror/addons/runmode/colorize
-# codemirror/mode/xml
-# codemirror/addon/runmode/runmode
-# codemirror/addon/runmode/colorize
+#= require ./../plugins/codemirror/lib/codemirror
+#= require ./../plugins/codemirror/mode/xml/xml
+#= require ./../plugins/codemirror/addon/runmode/runmode
+#= require ./../plugins/codemirror/addon/runmode/colorize
 #= require ./../plugins/froala/js/froala_editor
 #= require ./../plugins/froala/js/plugins/align
 #= require ./../plugins/froala/js/plugins/char_counter
@@ -67,6 +64,7 @@ init_wysiwyg = (container)->
 				height: $this.data('height'),
 				toolbarSticky: config.toolbar_sticky,
 				toolbarStickyOffset: config.toolbar_sticky_offset || $('header>nav').outerHeight(),
+				imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif', 'svg+xml', 'webp'],
 				imageUploadParam: (config.image_upload_param || 'attachments'),
 				imageUploadParams: config.image_upload_params,
 				imageUploadURL: (config.image_upload_url || '/attachments'),
@@ -125,6 +123,7 @@ init_wysiwyg = (container)->
 				height: $this.data('height'),
 				placeholderText: $this.attr('placeholder'),
 				#toolbarSticky: false,
+				imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif', 'svg+xml', 'webp'],
 				imageUploadParam: (config.image_upload_param || 'attachments'),
 				imageUploadParams: config.image_upload_params,
 				imageUploadURL: (config.image_upload_url || '/attachments'),

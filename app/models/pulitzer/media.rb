@@ -2,7 +2,7 @@ module Pulitzer
 
 	class Media < ApplicationRecord
 
-		include Pulitzer::Concerns::URLConcern
+		include Pulitzer::Concerns::UrlConcern
 		#include Pulitzer::Concerns::ExpiresCache
 		include Pulitzer::MediaSearchable if (Pulitzer::MediaSearchable rescue nil)
 
@@ -193,8 +193,8 @@ module Pulitzer
 			end
 
 			def set_avatar
-				self.avatar = self.avatar_attachment.service_url if self.avatar_attachment.attached?
-				self.cover_image = self.cover_attachment.service_url if self.cover_attachment.attached?
+				self.avatar = self.avatar_attachment.url if self.avatar_attachment.attached?
+				self.cover_image = self.cover_attachment.url if self.cover_attachment.attached?
 			end
 
 			def set_cached_counts

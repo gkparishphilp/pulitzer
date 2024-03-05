@@ -68,7 +68,7 @@
 									= article.path
 									%i.fa.fa-clipboard
 							%td
-								= article.publish_at.to_s( :slashed_time )
+								= article.publish_at.to_fs( :slashed_time )
 							%td
 								= article.try( :cached_word_count ) || 'N/A'
 							%td

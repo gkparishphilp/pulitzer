@@ -1,6 +1,8 @@
 
 module Pulitzer
 	class PageAdminController < ApplicationAdminController
+		include Pulitzer::Concerns::PageAdminConcern
+
 		before_action :get_page, except: [ :create, :empty_trash, :index ]
 
 
@@ -93,19 +95,8 @@ module Pulitzer
 			sort_by = params[:sort_by] || 'publish_at'
 			sort_dir = params[:sort_dir] || 'desc'
 
-			@pages = Page.order( "#{sort_by} #{sort_dir}" )
+			@pages = page_search( params[:q], sort_by: sort_by, sort_dir: sort_dir, status: params[:status], page: params[:page], redirects: params[:redirects] )
 
-			@pages = @pages.where( redirect_url: nil ) unless params[:redirects]
-
-			if params[:status].present? && params[:status] != 'all'
-				@pages = eval "@pages.#{params[:status]}"
-			end
-
-			if params[:q].present?
-				@pages = @pages.where( "array[:q] && keywords", q: params[:q].downcase )
-			end
-
-			@pages = @pages.page( params[:page] )
 		end
 
 

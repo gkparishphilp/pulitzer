@@ -7,7 +7,7 @@ Pulitzer::Engine.routes.draw do
 		delete 'purge/:attribute' => 'article_admin#purge', on: :member, as: :purge
 	end
 
-	resources :attachments, only: [:create,:destroy,:index]
+	resources :attachments, only: [:create,:destroy,:update,:index]
 
 	resources 	:auto_link_admin
 

@@ -15,8 +15,8 @@
 				= f.label :background_attachment, "Background Image"
 				= f.file_field :background_attachment
 				- if section.background_attachment.attached?
-					%a{ href: section.background_attachment.service_url, target: '_new' }
-						= image_tag section.background_attachment.service_url, class: 'img-responsive'
+					%a{ href: section.background_attachment.url, target: '_new' }
+						= image_tag section.background_attachment.url, class: 'img-responsive'
 			.col-sm-2
 				.form-group
 					= f.label :seq

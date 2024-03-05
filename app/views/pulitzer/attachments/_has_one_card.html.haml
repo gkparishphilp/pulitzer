@@ -3,6 +3,6 @@
 	= f.label attribute, (args[:label] || "#{attribute.to_s.humanize.gsub(/\s*attachment/i,'')} Image")
 	= f.file_field attribute
 	- if object.try(attribute).attached?
-		= image_tag object.try(attribute).service_url, class: 'img-responsive'
-		%a.btn.btn-default{ 'data-clipboard-text' => object.try(attribute).service_url }
+		= image_tag object.try(attribute).url, class: 'img-responsive'
+		%a.btn.btn-default{ 'data-clipboard-text' => object.try(attribute).url }
 			%i.fa.fa-clipboard

@@ -1,5 +1,5 @@
 - if section.background_attachment.attached?
-	%section.pulitzer_content_section.pulitzer_content_section_bg[section]{ class: section.section_classes, style: "background-image: url('#{section.background_attachment.service_url}');#{section.section_style}" }
+	%section.pulitzer_content_section.pulitzer_content_section_bg[section]{ class: section.section_classes, style: "background-image: url('#{section.background_attachment.url}');#{section.section_style}" }
 		- if section.header.present?
 			= "<#{section.header_tag} class='#{section.header_classes}' style='#{section.header_style}'>"
 			= raw section.header

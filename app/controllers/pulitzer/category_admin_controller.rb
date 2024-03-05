@@ -6,8 +6,8 @@ module Pulitzer
 		def create
 			@category = Category.new( category_params )
 			@category.user_id = current_user.id
-			@category.avatar = @category.avatar_attachment.service_url if @category.avatar_attachment.attached?
-			@category.cover_image = @category.cover_attachment.service_url if @category.cover_attachment.attached?
+			@category.avatar = @category.avatar_attachment.url if @category.avatar_attachment.attached?
+			@category.cover_image = @category.cover_attachment.url if @category.cover_attachment.attached?
 
 			authorize( @category )
 
@@ -42,7 +42,7 @@ module Pulitzer
 			sort_by = params[:sort_by] || 'created_at'
 			sort_dir = params[:sort_dir] || 'asc'
 
-			@categories = Category.order( "#{sort_by} #{sort_dir}" )
+			@categories = Category.order( Arel.sql("#{sort_by} #{sort_dir}") )
 
 			if params[:status].present? && params[:status] != 'all'
 				@categories = eval "@categories.#{params[:status]}"
@@ -55,8 +55,8 @@ module Pulitzer
 
 		def update
 			@category.attributes = category_params
-			@category.avatar = @category.avatar_attachment.service_url if @category.avatar_attachment.attached?
-			@category.cover_image = @category.cover_attachment.service_url if @category.cover_attachment.attached?
+			@category.avatar = @category.avatar_attachment.url if @category.avatar_attachment.attached?
+			@category.cover_image = @category.cover_attachment.url if @category.cover_attachment.attached?
 
 			authorize( @category )
 
