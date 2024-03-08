@@ -37,8 +37,8 @@ module Pulitzer
 					flash[code] += "<p>#{msg}</p>"
 				end
 				objs.each do |obj|
-					obj.errors.each do |error|
-						flash[code] += "<p>#{error.to_s}: #{obj.errors[error].join(';')}</p>"
+					obj.errors.messages.each do |attribute,message|
+						flash[code] += "<p>#{attribute.to_s.titleize}: #{message.join(';')}</p>"
 					end
 				end
 			end
