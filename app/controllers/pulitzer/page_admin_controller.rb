@@ -25,7 +25,7 @@ module Pulitzer
 			@new_page.status = 'draft'
 
 			@page.content_sections.each do |section|
-				s = @new_page.content_sections.new( section.attributes.except( :id, :created_at, :updated_at ) )
+				s = @new_page.content_sections.push(section.clone)
 			end
 
 			if @new_page.save
