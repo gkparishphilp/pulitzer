@@ -13,7 +13,7 @@ module Pulitzer
 
 		private
 			def add_content_section
-				section = self.content_sections.create( name: "#{self.title}-main")
+				section = self.content_sections.create( name: "#{self.title}-main") if self.content_sections.blank?
 			end
 
 	end
