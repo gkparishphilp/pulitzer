@@ -16,6 +16,8 @@ module Pulitzer
 	mattr_accessor :app_name
 	mattr_accessor :app_time_zone
 
+	mattr_accessor :admin_permit_additions
+
 	mattr_accessor :article_path
 
 	mattr_accessor :article_avatars
@@ -42,6 +44,8 @@ module Pulitzer
 	self.app_host = ENV['APP_DOMAIN'] || 'localhost:3000'
 	self.app_name = 'SwellApp'
 	self.app_time_zone = "Pacific Time (US & Canada)"
+
+	self.admin_permit_additions = {}
 
 	self.article_path = 'articles'
 	self.article_avatars = []

@@ -118,6 +118,8 @@
 						= f.check_box :is_commentable, {}, 'true', 'false'
 						Allow Comments?
 
+					= render 'pulitzer/article_admin/additional_sidebar_settings', f: f
+
 					.form-group
 						= label_tag 'Version Notes'
 						= text_area_tag :version_notes, '', class: 'form-control'
