@@ -123,6 +123,8 @@ EOS
 			lazy = options.delete(:lazy)
 			lazy = 'lazy' if lazy && ( !!lazy == lazy )
 
+			set_img_dims = options.delete(:img_dims) # set dimension attributes on img tag
+
 			resolutions = attachment_resolutions(attachment, options)
 			smallest_resolution = resolutions.sort_by{ |resolution| resolution[:width].to_f * resolution[:height].to_f }.first
 
@@ -140,6 +142,11 @@ EOS
 			default_image = attachment.url if attachment.is_a?( ActiveStorage::Blob ) || ( attachment.respond_to?(:attached?) && attachment.attached? )
 			default_image ||= options[:fallback]
 			default_image ||= smallest_resolution[:src]
+
+			if set_img_dims && attachment.metadata['width'].present? && attachment.metadata['height'].present?
+				options['width'] = attachment.metadata['width']
+				options['height'] = attachment.metadata['height']
+			end
 
 			if lazy
 				options['data-srcset'] = srcset
