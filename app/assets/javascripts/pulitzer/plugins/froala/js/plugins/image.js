@@ -242,9 +242,12 @@
         }
 
         // Set width if it has width.
-        if ($img.attr('width')) {
+        // @CUSTOMIZATION
+        // WAS: if ($img.attr('width')) {
+        // IS: if ($img.attr('width') && editor.opts.disableSetWidthIfItHasWidth != true ) {
+        if ($img.attr('width') && editor.opts.disableSetWidthIfItHasWidth != true ) {
           $img.css('width', $img.width());
-          $img.removeAttr('width');
+          $img.removeAttr('width'); 
         }
 
         // Do not allow text near image.

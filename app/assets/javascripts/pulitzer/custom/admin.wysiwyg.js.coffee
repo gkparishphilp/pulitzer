@@ -69,6 +69,8 @@ init_wysiwyg = (container)->
 				imageUploadParams: config.image_upload_params,
 				imageUploadURL: (config.image_upload_url || '/attachments'),
 				imageUploadMethod: config.image_upload_method,
+				imageOutputSize: config.image_output_size,
+				disableSetWidthIfItHasWidth: config.disable_set_width_if_it_has_width,
 				toolbarButtons: wysiwyg_toolbar_buttons,
 				toolbarButtonsMD: wysiwyg_toolbar_buttons_md,
 				toolbarButtonsSM: wysiwyg_toolbar_buttons_sm,
