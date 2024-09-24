@@ -50,7 +50,7 @@ module Pulitzer
 		def self.media_tag_cloud( args = {} )
 			args[:limit] ||= 7
 			media_relation = self.limit(nil)
-			return Pulitzer::Media.unscoped.limit( args[:limit] ).tags_cloud{ merge( media_relation ) }.to_a
+			return Pulitzer::Media.unscoped.tags_cloud{ merge( media_relation ) }.to_a.sort_by(&:second)[-args[:limit]..-1]
 		end
 
 		# def self.other_attachments_with_tags( tags = [] )
