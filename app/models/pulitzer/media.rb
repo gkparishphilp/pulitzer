@@ -15,7 +15,7 @@ module Pulitzer
 		enum availability: { 'anyone' => 1, 'logged_in_users' => 2, 'just_me' => 3, 'authorized_users' => 100 }
 
 		before_create	:set_template_and_layout
-		before_save		:set_publish_at, :set_keywords_and_tags, :set_cached_counts, :set_avatar
+		before_save		:set_publish_at, :set_cached_counts, :set_avatar
 
 		validates		:title, presence: true, unless: :allow_blank_title?
 
