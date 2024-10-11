@@ -61,12 +61,12 @@ module Pulitzer
 			sort_by = params[:sort_by] || 'publish_at'
 			sort_dir = params[:sort_dir] || 'desc'
 
+			params[:status] ||= [ 'draft', 'active']
+
 			@articles = article_search( params[:q], sort_by: sort_by, sort_dir: sort_dir, status: params[:status], page: params[:page] )
 
 			if params[:status].present? && params[:status] != 'all'
 				@articles = eval "@articles.#{params[:status]}"
-			else
-				@articles = @articles.where( status: [ :draft, :active )
 			end
 
 			if params[:q].present?
