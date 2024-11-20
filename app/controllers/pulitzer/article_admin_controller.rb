@@ -66,7 +66,7 @@ module Pulitzer
 			@articles = article_search( params[:q], sort_by: sort_by, sort_dir: sort_dir, status: params[:status], page: params[:page] )
 
 			if params[:status].present? && params[:status] != 'all'
-				@articles = eval "@articles.#{params[:status]}"
+				@articles = @articles.where( status: params[:status] )
 			end
 
 			if params[:q].present?
