@@ -46,7 +46,7 @@
 							%td
 								%a{ href: edit_unattached_blob_admin_path( blob.id ) }
 									- if blob.image?
-										= attachment_picture_tag(blob, xs: '100%x', class: 'img img-responsive', style: 'max-width: 50px;')
+										%img.img-responsive{ src: blob.url, style: 'max-width: 50px;' }
 									- else
 										= blob.filename
 							%td
