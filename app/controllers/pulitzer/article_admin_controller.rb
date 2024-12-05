@@ -65,11 +65,11 @@ module Pulitzer
 
 			@articles = article_search( params[:q], sort_by: sort_by, sort_dir: sort_dir, status: params[:status], page: params[:page] )
 
-			if params[:status].present? && params[:status] != 'all'
+			if params[:status].present? && params[:status] != 'all' && @articles.respond_to?(:where)
 				@articles = @articles.where( status: params[:status] )
 			end
 
-			if params[:q].present?
+			if params[:q].present? && @articles.respond_to?(:where)
 				@articles = @articles.where( "array[:q] && keywords", q: params[:q].downcase )
 			end
 
