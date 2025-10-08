@@ -97,7 +97,9 @@ module Pulitzer
 		end
 
 		def page_meta
-			if self.title.present?
+			if self.meta_title.present?
+				title = "#{self.meta_title} | #{Pulitzer.app_name}"
+			elsif self.title.present?
 				title = "#{self.title} | #{Pulitzer.app_name}"
 			else
 				title = Pulitzer.app_name
