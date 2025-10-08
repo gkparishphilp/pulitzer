@@ -107,7 +107,7 @@ module Pulitzer
 
 			return {
 				page_title: title,
-				title: self.title,
+				title: title,
 				description: self.meta_description,
 				image: self.avatar,
 				url: self.url,
