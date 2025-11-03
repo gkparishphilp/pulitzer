@@ -46,7 +46,7 @@
 								%i.fa.fa-clipboard
 
 					= f.label :redirect_url, 'Redirect to:'
-					= f.text_field :redirect_url, class: 'form-control'
+					= f.text_field :redirect_url, class: 'form-control', placeholder: '/example-path OR full url eg: https://www.qualialife.com/example-page'
 
 
 				.row
@@ -108,7 +108,7 @@
 						= f.collection_select :status, Pulitzer::Article.statuses, :first, :first, {}, class: 'form-control'
 					.form-group 
 						= f.label 	:redirect_url 
-						= f.text_field 	:redirect_url, class: 'form-control'
+						= f.text_field 	:redirect_url, class: 'form-control', placeholder: '/example-path OR full url eg: https://www.qualialife.com/example-page'
 					.form-group
 						= f.label :availability
 						= f.collection_select :availability, Pulitzer::Article.availabilities, :first, :first, {}, class: 'form-control'

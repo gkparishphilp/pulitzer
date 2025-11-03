@@ -21,12 +21,12 @@
 
 				.form-group
 					= f.label :slug_pref, 'Path:'
-					= f.text_field :slug_pref, class: 'form-control', placeholder: @redirect.slug
+					= f.text_field :slug_pref, class: 'form-control', value: @redirect.slug, placeholder: '/example-path OR example-path'
 
 
 				.form-group
 					= f.label :redirect_url, 'Redirect To:'
-					= f.text_field :redirect_url, class: 'form-control'
+					= f.text_field :redirect_url, class: 'form-control', placeholder: '/example-path OR full url eg: https://www.qualialife.com/example-page'
 
 				.form-group
 					= f.label :tags_csv, 'Tags:'
