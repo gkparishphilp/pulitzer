@@ -11,10 +11,10 @@
 				.modal-body
 
 					= f.label :slug_pref, 'Path'
-					= f.text_field :slug_pref, class: 'form-control'
+					= f.text_field :slug_pref, class: 'form-control', placeholder: '/example-path OR example-path'
 
 					= f.label :redirect_url, 'Redirect To'
-					= f.text_field :redirect_url, class: 'form-control'
+					= f.text_field :redirect_url, class: 'form-control', placeholder: '/example-path OR full url eg: https://www.qualialife.com/example-page'
 				.modal-footer
 					%button.btn.btn-default{ type: :button, 'data-dismiss' => 'modal' }
 						Close

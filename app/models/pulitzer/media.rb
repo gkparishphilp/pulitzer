@@ -1,4 +1,6 @@
 module Pulitzer
+	require 'net/http'
+	require 'uri'
 
 	class Media < ApplicationRecord
 
@@ -18,6 +20,10 @@ module Pulitzer
 		before_save		:set_publish_at, :set_cached_counts, :set_avatar
 
 		validates		:title, presence: true, unless: :allow_blank_title?
+		validate 		:validate_redirect_url_format
+		validate 		:validate_redirect_url_not_same_as_slug
+		validate 		:validate_redirect_url_redirect_chain
+		validate 		:validate_redirect_url_not_matching_other_slugs
 
 		attr_accessor	:slug_pref, :category_name
 
@@ -187,6 +193,107 @@ module Pulitzer
 			self.sanitized_content.gsub(URI.regexp(['http', 'https']), '').scan(/[\w-]+/).size
 		end
 
+		# Validations
+
+		def validate_redirect_url_format
+			return unless respond_to?( :redirect_url )
+			return if redirect_url.blank?
+
+			# Allow path-style redirects (start with '/')
+			# Allow host-style redirects that start with 'www.'
+			if redirect_url.start_with?( '/' ) || redirect_url.start_with?( 'www.' )
+				return
+			end
+
+			# Validate full URL format
+			begin
+				uri = URI.parse( redirect_url )
+				unless uri.scheme && %w[http https www].include?( uri.scheme )
+					errors.add( :redirect_url, "Must start with http, https, www. or be a path beginning with '/'" )
+				end
+			rescue URI::InvalidURIError
+				errors.add( :redirect_url, "Must start with http, https, www. or be a path beginning with '/'" )
+			end
+		end
+
+		def validate_redirect_url_not_same_as_slug
+			return unless (respond_to?( :redirect_url ) && respond_to?( :slug ))
+			return if redirect_url.blank?
+
+			redirect_slug = redirect_url.to_s
+			if redirect_slug == slug.to_s || redirect_slug == "/#{slug}"
+				errors.add( :redirect_url, "Cannot be the same as the slug: #{slug}" )
+			end
+		end
+
+		def validate_redirect_url_redirect_chain
+			return unless respond_to?( :redirect_url )
+			return if redirect_url.blank?
+
+			# Build an absolute URL to follow redirects
+			if redirect_url.start_with?( '/' )
+				full_url = "#{Pulitzer.default_protocol}://#{Pulitzer.app_host}#{redirect_url}"
+			elsif redirect_url.start_with?( 'www.' )
+				full_url = "#{Pulitzer.default_protocol}://#{redirect_url}"
+			else
+				full_url = redirect_url
+			end
+
+			# Localhost adjustment for development/testing: localhost:3001 -> localhost:3000
+			if full_url.include?('localhost:3001')
+				full_url = full_url.gsub('localhost:3001', 'localhost:3000')
+			end
+
+			max_redirects = 2
+			result = count_redirects( full_url )
+			print "Redirect check for #{full_url}: #{result.inspect}"
+			if result.nil?
+				errors.add( :redirect_url, "Could not be validated (network error or invalid URL)" )
+			else
+				redirects, final_code = result
+				if final_code.nil?
+					errors.add( :redirect_url, "Could not determine final HTTP status" )
+				elsif !(200..399).include?( final_code )
+					errors.add( :redirect_url, "Returned HTTP status #{final_code}; It Must be 2xx or 3xx" )
+				elsif redirects > max_redirects
+					errors.add( :redirect_url, "Redirects too many times (#{redirects} redirects); It must be #{max_redirects} or fewer" )
+				end
+			end
+		end
+
+		# This validation ensures that the redirect_url path does not match another record's slug
+		# Which can cause infinite redirect loops
+		def validate_redirect_url_not_matching_other_slugs
+			return unless respond_to?( :redirect_url )
+			return if redirect_url.blank?
+
+			# Extract path from redirect_url (handles both path-style and full URLs)
+			path = if redirect_url.start_with?( '/' )
+				redirect_url
+			else
+				begin
+					URI.parse( redirect_url ).path
+				rescue URI::InvalidURIError
+					nil
+				end
+			end
+
+			return if path.blank?
+
+			segments = path.split('/').reject{ |s| s.blank? }
+			return if segments.empty?
+
+			redirect_url_slug = segments.last
+
+			# If redirect_url equals it's own slug, that's already handled elsewhere
+			if respond_to?( :slug ) && redirect_url_slug == slug.to_s
+				return
+			end
+
+			if Pulitzer::Media.where.not(id: id).exists?( slug: redirect_url_slug )
+				errors.add( :redirect_url, "Cannot point to an existing media slug ('#{redirect_url_slug}')" )
+			end
+		end
 
 		private
 
@@ -240,8 +347,41 @@ module Pulitzer
 				self.template ||= "#{self.class.name.underscore.pluralize}/show"
 			end
 
-
-
+			def count_redirects( url )
+				uri = URI.parse( url )
+				redirects = 0
+				visited = []
+				while redirects <= 20
+					break unless uri.is_a?( URI::HTTP )
+					http = Net::HTTP.new( uri.host, uri.port )
+					http.use_ssl = ( uri.scheme == 'https' )
+					http.open_timeout = 5
+					http.read_timeout = 5
+					req = Net::HTTP::Head.new( uri.request_uri )
+					response = http.request( req )
+					case response
+					when Net::HTTPRedirection
+						location = response['location']
+						return nil if location.blank?
+						uri = URI.join( uri, location )
+						redirects += 1
+						# Detect loops
+						return nil if visited.include?( uri.to_s )
+						visited << uri.to_s
+						next
+					when Net::HTTPSuccess
+						# Final successful response
+						return [ redirects, response.code.to_i ]
+					else
+						# Final non-success, non-redirect status (e.g., 4xx, 5xx)
+						return [ redirects, response.code.to_i ]
+					end
+				end
+				# If we exit loop without explicit final response, return current redirects with nil status
+				[ redirects, nil ]
+				rescue StandardError
+					nil
+			end
 
 	end
 
