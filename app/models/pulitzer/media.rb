@@ -281,7 +281,7 @@ module Pulitzer
 			return if path.blank?
 
 			segments = path.split('/').reject{ |s| s.blank? }
-			return if segments.empty?
+			return if segments.empty? || segments.length > 1 # Only validate single-segment paths
 
 			redirect_url_slug = segments.last
 
