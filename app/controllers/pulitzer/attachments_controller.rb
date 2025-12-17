@@ -3,14 +3,38 @@ module Pulitzer
 		before_action :get_model
 
 		def create
+
 			attachments = active_storate_params[:attachments]
 			model_attribute = @model.try( params[:attribute] )
-			authorize( model_attribute, attachments: attachments )
-			model_attribute.attach( attachments )
 
-			attachment = model_attribute.sort_by{|a| a.sequence }.last
-			attachment.sequence = model_attribute.collect(&:sequence).max + 1
+			sequence = params[:sequence].presence || (model_attribute.maximum(:sequence) + 1)
+
+			authorize( model_attribute, attachments: attachments )
+
+			model_attribute.attach( attachments ) #rescue nil
+
+			attachment = model_attribute.reorder(id: :asc).last
+
+			attachment.sequence = sequence
 			attachment.save
+
+			if params[:replace] && attachment.sequence.present?
+
+				# Detach any attachments that are being replaced.
+				model_attribute.where( sequence: attachment.sequence ).where.not( id: attachment.id ).each do |attachment|
+					attachment.purge #rescue nil
+				end
+			else
+
+				# Increment all items at or above the sequence of the added item
+				model_attribute.where.not( id: attachment.id ).where( sequence: attachment.sequence..Float::INFINITY ).update_all('sequence = sequence + 1')
+			end
+
+			# Just in case iterate over the sequenced items and set their
+			# sequence in order (remove repeated sequences, and any gaps)
+			model_attribute.where.not(sequence: nil).order(sequence: :asc, id: :asc).each_with_index do |model,model_index|
+				model.update( sequence: (model_index + 1) )
+			end
 
 			set_flash "Attachment Added"
 			respond_to do |format|
@@ -28,7 +52,11 @@ module Pulitzer
 		def destroy
 			@attachment = @model.try( params[:attribute] ).find_by_id(params[:id])
 			authorize( @attachment )
-			@attachment.purge
+			@attachment.purge #rescue nil
+
+			@model.try( params[:attribute] ).where.not(sequence: nil).order(sequence: :asc).each_with_index do |model,model_index|
+				model.update( sequence: (model_index + 1) )
+			end
 
 			set_flash "Attachment Removed"
 
@@ -41,17 +69,21 @@ module Pulitzer
 
 			attributes = params.permit([:sequence])
 
-			if attributes[:sequence] == 'next'
-				@model.try( params[:attribute] ).where( sequence: (@attachment.sequence + 1) ).update_all('sequence = sequence - 1')
-				attributes[:sequence] = @attachment.sequence + 1
-			elsif attributes[:sequence] == 'previous'
-				@model.try( params[:attribute] ).where( sequence: (@attachment.sequence - 1) ).update_all('sequence = sequence + 1')
-				attributes[:sequence] = @attachment.sequence - 1
-			else
-				
-			end
+			sequence_param = attributes[:sequence]
+
+			attributes[:sequence] = @attachment.sequence + 1 if sequence_param == 'next'
+			attributes[:sequence] = @attachment.sequence - 1 if sequence_param == 'previous'
 
 			@attachment.update( attributes )
+
+			# Move the rest of the elements away from the new position
+			@model.try( params[:attribute] ).where.not( id: @attachment.id ).where( sequence: (-Float::INFINITY)..@attachment.sequence ).update_all('sequence = sequence - 1') if sequence_param == 'next'
+			@model.try( params[:attribute] ).where.not( id: @attachment.id ).where( sequence: @attachment.sequence..Float::INFINITY ).update_all('sequence = sequence + 1') unless sequence_param == 'next'
+
+			# For all sequenced items, put them in order, removing gaps and 
+			@model.try( params[:attribute] ).where.not(sequence: nil).order(sequence: :asc).each_with_index do |model,model_index|
+				model.update( sequence: (model_index + 1) )
+			end
 
 			set_flash "Attachment Updated"
 
