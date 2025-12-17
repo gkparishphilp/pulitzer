@@ -7,7 +7,7 @@ module Pulitzer
 			attachments = active_storate_params[:attachments]
 			model_attribute = @model.try( params[:attribute] )
 
-			sequence = params[:sequence].presence || (model_attribute.maximum(:sequence) + 1)
+			sequence = params[:sequence].presence || (model_attribute.maximum(:sequence).to_i + 1)
 
 			authorize( model_attribute, attachments: attachments )
 
@@ -38,6 +38,8 @@ module Pulitzer
 
 			set_flash "Attachment Added"
 			respond_to do |format|
+				format.js {
+				}
 				format.json {
 					@model.reload
 					render :json => { link: model_attribute.last.try(:url) }
@@ -60,7 +62,14 @@ module Pulitzer
 
 			set_flash "Attachment Removed"
 
-			redirect_back fallback_location: '/'
+			respond_to do |format|
+				format.js {
+				}
+				format.html {
+					redirect_back fallback_location: '/'
+				}
+			end
+			
 		end
 
 		def update
@@ -87,7 +96,14 @@ module Pulitzer
 
 			set_flash "Attachment Updated"
 
-			redirect_back fallback_location: '/'
+
+			respond_to do |format|
+				format.js {
+				}
+				format.html {
+					redirect_back fallback_location: '/'
+				}
+			end
 		end
 
 

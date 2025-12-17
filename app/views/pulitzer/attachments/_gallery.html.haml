@@ -1,14 +1,15 @@
-- if object.try(attribute).present?
-	.row
-		- object.try(attribute).each do |attachment|
-			.col-xs-4
-				.well
-					= image_tag attachment.url, class: 'img img-responsive center-block'
-					%a.btn.btn-default{ 'data-clipboard-text' => attachment.url }
-						%i.fa.fa-clipboard
-					%a.btn.btn-danger{ href: pulitzer.attachment_path( attachment, attribute: attribute, object_id: object.id, object_class: object.class.base_class.name ), data: { method: 'delete', confirm: 'Are you sure?' } }
-						%i.fa.fa-trash
-					%a.btn.btn-default{ href: pulitzer.edit_unattached_blob_admin_path( attachment.blob.id ) }
-						%i.fa.fa-edit
-- else
-	%p.text-center - None -
+%div{ id: "#{object.class.name.underscore.gsub(/\//,'__')}__#{object.id}__#{attribute}__gallery" }
+	- if object.try(attribute).present?
+		.row{ id: "#{object.class.name.underscore}_#{object.id}_#{attribute}" }
+			- object.try(attribute).each do |attachment|
+				.col-xs-4
+					.well
+						= image_tag attachment.url, class: 'img img-responsive center-block'
+						%a.btn.btn-default{ 'data-clipboard-text' => attachment.url }
+							%i.fa.fa-clipboard
+						%a.btn.btn-danger{ href: pulitzer.attachment_path( attachment, attribute: attribute, object_id: object.id, object_class: object.class.base_class.name ), data: { method: 'delete', confirm: 'Are you sure?' } }
+							%i.fa.fa-trash
+						%a.btn.btn-default{ href: pulitzer.edit_unattached_blob_admin_path( attachment.blob.id ) }
+							%i.fa.fa-edit
+	- else
+		%p.text-center - None -
