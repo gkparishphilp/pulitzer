@@ -4,6 +4,10 @@
  * Copyright 2014-2016 Froala Labs
  */
 
+// Global variable to detect if paste is from google doc
+// This variable is needed for certain actions during multiple paste cleaning functions
+var is_gdocs = false;
+
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -8264,14 +8268,17 @@ $.FE.MODULES.data=function(a){function b(a){return a}function c(a){if(!a)return 
     function _plainPasteClean (html) {
       var $div = $('<div>').html(html);
 
-      $div.find('p, div, h1, h2, h3, h4, h5, h6, pre, blockquote').each (function (i, el) {
-        $(el).replaceWith('<' + (editor.html.defaultTag() || 'DIV') + '>' + $(el).html() + '</' + (editor.html.defaultTag() || 'DIV') + '>');
-      });
+      if (!is_gdocs) {
+        $div.find('p, div, h1, h2, h3, h4, h5, h6, pre, blockquote').each (function (i, el) {
+          $(el).replaceWith('<' + (editor.html.defaultTag() || 'DIV') + '>' + $(el).html() + '</' + (editor.html.defaultTag() || 'DIV') + '>');
+        });
 
-      // Remove with the content.
-      $($div.find('*').not('p, div, h1, h2, h3, h4, h5, h6, pre, blockquote, ul, ol, li, table, tbody, thead, tr, td, br, img').get().reverse()).each (function () {
-        $(this).replaceWith($(this).html());
-      });
+        // Remove with the content.
+        $($div.find('*').not('p, div, h1, h2, h3, h4, h5, h6, pre, blockquote, ul, ol, li, table, tbody, thead, tr, td, br, img').get().reverse()).each (function () {
+          $(this).replaceWith($(this).html());
+        });
+      }
+      is_gdocs = false;
 
       // Remove comments.
       var cleanComments = function (node) {
@@ -8317,7 +8324,6 @@ $.FE.MODULES.data=function(a){function b(a){return a}function c(a){if(!a)return 
       }
 
       // Google Docs paste.
-      var is_gdocs = false;
       if (clipboard_html.indexOf('id="docs-internal-guid') >= 0) {
         clipboard_html = clipboard_html.replace(/^.* id="docs-internal-guid[^>]*>(.*)<\/b>.*$/, '$1');
         is_gdocs = true;
@@ -8340,7 +8346,9 @@ $.FE.MODULES.data=function(a){function b(a){return a}function c(a){if(!a)return 
       // Paste.
       else {
         editor.opts.htmlAllowComments = false;
-        clipboard_html = editor.clean.html(clipboard_html, editor.opts.pasteDeniedTags, editor.opts.pasteDeniedAttrs);
+        if (!is_gdocs) {
+          clipboard_html = editor.clean.html(clipboard_html, editor.opts.pasteDeniedTags, editor.opts.pasteDeniedAttrs);
+        }
         editor.opts.htmlAllowComments = true;
         clipboard_html = _removeEmptyTags(clipboard_html);
 
