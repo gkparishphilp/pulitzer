@@ -67,7 +67,7 @@ init_wysiwyg = (container)->
 				imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif', 'svg+xml', 'webp'],
 				imageUploadParam: (config.image_upload_param || 'attachments'),
 				imageUploadParams: config.image_upload_params,
-				imageUploadURL: (config.image_upload_url || '/attachments'),
+				imageUploadURL: (config.image_upload_url || '/attachments.json'),
 				imageUploadMethod: config.image_upload_method,
 				imageOutputSize: config.image_output_size,
 				disableSetWidthIfItHasWidth: config.disable_set_width_if_it_has_width,
@@ -128,7 +128,7 @@ init_wysiwyg = (container)->
 				imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif', 'svg+xml', 'webp'],
 				imageUploadParam: (config.image_upload_param || 'attachments'),
 				imageUploadParams: config.image_upload_params,
-				imageUploadURL: (config.image_upload_url || '/attachments'),
+				imageUploadURL: (config.image_upload_url || '/attachments.json'),
 				codeBeautifierOptions: {
 					end_with_newline: true,
 					indent_inner_html: true,
