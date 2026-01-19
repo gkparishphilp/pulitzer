@@ -84,6 +84,12 @@
 					= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: false, toolbar_preset: 'admin_default', object_class: @article.class.base_class.name, object_id: @article.id }.to_json }
 
 				.form-group
+					= f.label :content, 'Content'
+					.checkbox
+						%label
+							= check_box_tag :disable_google_doc_paste_formatting, '1', false
+							Disable preserving google doc paste formatting
+							%i.fa.fa-question-circle{ title: 'When checked, any formatting / styling from a google doc paste will not be preserved. NOTE: This checkbox affects all editors on this page.', data: { toggle: 'tooltip' } }
 					= f.text_area :content, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: true, toolbar_preset: 'admin_default', object_class: @article.class.base_class.name, object_id: @article.id }.to_json }
 
 
