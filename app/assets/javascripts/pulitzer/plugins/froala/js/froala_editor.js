@@ -8,6 +8,10 @@
 // This variable is needed for certain actions during multiple paste cleaning functions
 var is_gdocs = false;
 
+ // Checkbox value to determine if google doc paste formatting should be disabled
+var disableGdocPasteFormattingCheckbox;
+var disableGdocPasteFormatting = false;
+
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -8268,7 +8272,7 @@ $.FE.MODULES.data=function(a){function b(a){return a}function c(a){if(!a)return 
     function _plainPasteClean (html) {
       var $div = $('<div>').html(html);
 
-      if (!is_gdocs) {
+      if (!is_gdocs || disableGdocPasteFormatting) {
         $div.find('p, div, h1, h2, h3, h4, h5, h6, pre, blockquote').each (function (i, el) {
           $(el).replaceWith('<' + (editor.html.defaultTag() || 'DIV') + '>' + $(el).html() + '</' + (editor.html.defaultTag() || 'DIV') + '>');
         });
@@ -8346,7 +8350,12 @@ $.FE.MODULES.data=function(a){function b(a){return a}function c(a){if(!a)return 
       // Paste.
       else {
         editor.opts.htmlAllowComments = false;
-        if (!is_gdocs) {
+
+        // Check if disableGdocPasteFormatting checkbox is checked at paste time
+        disableGdocPasteFormattingCheckbox = document.getElementById('disable_google_doc_paste_formatting');
+        disableGdocPasteFormatting = disableGdocPasteFormattingCheckbox && disableGdocPasteFormattingCheckbox.checked;
+
+        if (!is_gdocs || disableGdocPasteFormatting) {
           clipboard_html = editor.clean.html(clipboard_html, editor.opts.pasteDeniedTags, editor.opts.pasteDeniedAttrs);
         }
         editor.opts.htmlAllowComments = true;
@@ -8384,7 +8393,7 @@ $.FE.MODULES.data=function(a){function b(a){return a}function c(a){if(!a)return 
         })
 
         // Remove unecessary new_lines.
-        if (!is_gdocs) {
+        if (!is_gdocs || disableGdocPasteFormatting) {
           $tmp.find('br').each (function () {
             if (this.previousSibling && editor.node.isBlock(this.previousSibling)) {
               $(this).remove();
