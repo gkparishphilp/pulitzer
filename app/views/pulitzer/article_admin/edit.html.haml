@@ -80,8 +80,13 @@
 					= f.label :avatar_caption, 'Caption'
 					= f.text_area :avatar_caption, class: 'form-control wysiwyg', data: { wysiwyg: { toolbar_sticky: false, toolbar_preset: 'admin_lite' }.to_json }
 				.form-group
-					= f.label :description, 'Summary'
+					= f.label :description, 'Short Description'
 					= f.text_area :description, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 100, toolbar_sticky: false, toolbar_preset: 'admin_default', object_class: @article.class.base_class.name, object_id: @article.id }.to_json }
+
+
+				.form-group
+					= f.label :summary, 'Summary'
+					= f.text_area :summary, class: 'form-control wysiwyg', data: { wysiwyg: { height_min: 200, toolbar_sticky: false, toolbar_preset: 'admin_default', object_class: @article.class.base_class.name, object_id: @article.id }.to_json }
 
 				.form-group
 					= f.label :content, 'Content'

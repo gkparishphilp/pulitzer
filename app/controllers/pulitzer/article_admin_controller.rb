@@ -144,7 +144,7 @@ module Pulitzer
 
 		private
 			def article_params
-				params.require( :article ).permit( [ :title, :subtitle, :meta_title, :avatar_caption, :slug_pref, :description, :content, :category_id, :status, :parent_slug, :publish_at, :show_title, :is_commentable, :is_sticky, :user_id, :reviewed_by_id, :tags, :tags_csv, :redirect_url, :avatar_attachment, :cover_attachment, :meta_description, ] + ( Pulitzer.admin_permit_additions[:article_admin] || [] ) + [{ embedded_attachments: [], other_attachments: [] }] )
+				params.require( :article ).permit( [ :title, :subtitle, :meta_title, :avatar_caption, :slug_pref, :description, :summary, :content, :category_id, :status, :parent_slug, :publish_at, :show_title, :is_commentable, :is_sticky, :user_id, :reviewed_by_id, :tags, :tags_csv, :redirect_url, :avatar_attachment, :cover_attachment, :meta_description, ] + ( Pulitzer.admin_permit_additions[:article_admin] || [] ) + [{ embedded_attachments: [], other_attachments: [] }] )
 			end
 
 			def get_article
